@@ -15,8 +15,8 @@ var fs = require('fs-extra');
 // we also want to check if config files exist
 var fileExists = require('file-exists');
 
-// ---------------------------------------------------------- //
-// ---------------------------------------------------------- //
+
+//==================================================================================================
 
 // lets start parsing our arguments
 var primaryArgument = (process.argv[ 2 ] || "");
@@ -183,6 +183,8 @@ switch (primaryArgument){
 
     break;
 
+
+    //==================================================================================================
     case "-help":
         util.puts( "StarrySky... The ultra-simple way to watch your Meteor apps for QA issues." );
         util.puts( "Useage:" );
@@ -190,8 +192,9 @@ switch (primaryArgument){
         util.puts( "  -run [tiny | unit | acceptance | end-to-end | all]" );
     break;
 
-    // If we could not figure out what the command-line argument was,
-    // then something is incorrect. Exit out.
+
+    //==================================================================================================
+    // If we can't figure out what the command-line argument was, then something is incorrect. Exit out.
     default:
 
         util.puts( "Didn't understand that command.  Try again?" );
