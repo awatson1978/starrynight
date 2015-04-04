@@ -1,0 +1,44 @@
+{
+  "src_folders" : ["tests/nightwatch/walkthroughs"],
+  "output_folder" : "tests/.reports/nightwatch-acceptance",
+  "custom_commands_path" : [
+    "tests/nightwatch/commands",
+    "tests/nightwatch/commands/components",
+    "tests/nightwatch/commands/methods"
+  ],
+  "custom_assertions_path" : "tests/nightwatch/assertions",
+  "globals_path" : "tests/nightwatch/globals.json",
+
+  "selenium" : {
+    "start_process" : true,
+    "server_path" : ".meteor/local/build/programs/server/assets/packages/clinical_nightwatch/selenium/selenium-server-standalone-2.44.0.jar",
+    "log_path" : "tests/nightwatch/logs",
+    "host" : "127.0.0.1",
+    "port" : 4444,
+    "cli_args": {
+      "webdriver.chrome.driver": "selenium/chromedriver"
+    }
+  },
+
+  "test_settings" : {
+    "default" : {
+      "launch_url" : "http://localhost:5000",
+      "selenium_host" : "127.0.0.1",
+      "selenium_port" : 4444,
+      "pathname": "/wd/hub",
+      "silent" : true,
+      "disable_colors": false,
+      "firefox_profile" : false,
+      "ie_driver" : "",
+      "screenshots" : {
+        "enabled" : false,
+        "path" : ""
+      },
+      "desiredCapabilities" : {
+        "browserName" : "firefox",
+        "javascriptEnabled" : true,
+        "acceptSslCerts" : true
+      }
+    }
+  }
+}

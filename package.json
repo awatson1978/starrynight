@@ -1,0 +1,32 @@
+{
+  "name": "starrysky",
+  "description": "A node executable for launching nightwatch from Meteor atmosphere packages.",
+  "version": "0.0.1",
+  "author": "Abigail Watson (awatson1978@gmail.com)",
+  "dependencies": {
+    "nightwatch": "0.6.0",
+    "selenium-server": "2.45.0",
+    "fs-extra": "0.18.0",
+    "file-exists": "0.1.1"
+  },
+  "engines": {
+    "node": ">= 0.4.0"
+  },
+  "bin": {
+    "starrysky": "bin/starrysky.bin.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/awatson1978/nocturn.git"
+  },
+  "bugs": {
+    "url": "https://github.com/awatson1978/nocturn/issues"
+  },
+  "homepage": "https://github.com/awatson1978/nocturn",
+  "keywords": [
+    "nightwatch",
+    "atmosphere",
+    "meteor"
+  ],
+  "license": "MIT"
+}
