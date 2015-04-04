@@ -8,11 +8,11 @@ A node executable for launching nightwatch from Meteor atmosphere packages.
 
 StarrySky is actually a spinoff/fork of the Velocity project, with something like 90% of it ripped out.  Long story short, there were some disagreements about architecture, community needs, what should be in the velocity repositories, etc. and this is a different architectural vision of how to bring multiple testing frameworks together.
 
-- Compared to Velocity, StarrySky is lean, simple, and focused, and doesn't have the bloat of mirrors, file monitors, and the like.  
+- Compared to Velocity, StarrySky is lean, simple, and focused, and doesn't have the bloat of mirrors, file monitors, html reporters, and the like.  
 
-- StarrySky takes the assumption that developers will be using 3rd party SaaS solutions for those needs (GitHub, Travis, BrowserStack, etc) whereas Velocity is trying to be itself a SaaS testing solution.  
+- StarrySky takes the assumption that developers will be using 3rd party SaaS solutions for most of those needs (GitHub, Travis, BrowserStack, etc) whereas Velocity is trying to be itself a SaaS testing solution.  
 
-- Velocity is very much trying to bring best practices from the broader testing world to Meteor; whereas StarrySky is trying to embrace the existing testing tools (TinyTest, and by extention mUnit) and get Selnium into the mix as simply as possible, so people can get their apps onto 3rd party SaaS platforms as quickly as possible.  
+- Velocity is very much trying to bring best practices from the broader testing world to Meteor; whereas StarrySky is trying to embrace the existing testing tools (TinyTest, and by extention mUnit) and add Selnium into the mix as simply as possible.
 
 
 ===============================
@@ -29,6 +29,28 @@ npm install starrysky -g
 -help
 -initialize [acceptance | all]
 -run [tiny | unit | acceptance | all]
+````
+
+===============================
+#### Examples  
+
+
+````
+# add acceptance tests to your application (using the nightwatch framework)
+$ starrysky -initialize acceptance
+
+# run acceptance tests
+$ starrysky -run acceptance
+
+# run unit tests on packages in your app
+$ starrysky -run tiny
+
+# run unit tests on packages in your app using munit
+$ starrysky -run unit
+
+# run all the tests
+$ starrysky -run all
+
 ````
 
 
