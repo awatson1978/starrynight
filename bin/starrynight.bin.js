@@ -47,12 +47,12 @@ var isReadyToRun = true;
 // most of StarySky uses a two argument syntax
 var primaryArgument = (process.argv[ 2 ] || "");
 var secondaryArgument = (process.argv[ 3 ] || "");
+var thirdArgument = (process.argv[ 4 ] || "");
 
 // otherwise we'll want to pass in all of the arguments
-var options = minimist(process.argv.slice(2));
-//console.log(options);
-// var extendedArguments = process.argv.splice(0,2);
-// console.log('Extended Arguments are: ', extendedArguments);
+var options = minimist(process.argv);
+console.log(options);
+
 
 
 // Check to see if the use has supplied a filter.
@@ -236,26 +236,26 @@ switch (primaryArgument){
 
         //------------------------------------------------------------------------------------------
         case "tiny":
-          console.log("Running unit tests on packages.  Check http://localhost:3000");
+          console.log("Running tiny tests on packages.  Check http://localhost:3000");
           childProcess.exec("meteor test-packages", function(err, stdout, stderr) {
             console.log(stdout);
           });
         break;
 
-        //------------------------------------------------------------------------------------------
-        case "all":
-          console.log("Running all tests...");
-          childProcess.exec("ls -la", function(err, stdout, stderr) {
-            console.log(stdout);
-          });
-        break;
+        // //------------------------------------------------------------------------------------------
+        // case "all":
+        //   console.log("Running all tests...");
+        //   childProcess.exec("ls -la", function(err, stdout, stderr) {
+        //     console.log(stdout);
+        //   });
+        // break;
 
         //------------------------------------------------------------------------------------------
         default:
-          console.log("Running all tests...");
-          childProcess.exec("ls -la", function(err, stdout, stderr) {
-            console.log(stdout);
-          });
+          // console.log("Running all tests...");
+          // childProcess.exec("ls -la", function(err, stdout, stderr) {
+          //   console.log(stdout);
+          // });
         break;
       }
 
@@ -265,7 +265,7 @@ switch (primaryArgument){
 
     //==================================================================================================
     case "-clone":
-      console.log("Running all tests...");
+      console.log("Cloning repository...");
 
 
       var url = urlParser(secondaryArgument);
@@ -275,7 +275,7 @@ switch (primaryArgument){
       console.log('repo', url.path.substring(url.path.lastIndexOf("/") + 1));
 
 
-      githubDownload(secondaryArgument, './.temp')
+      githubDownload(secondaryArgument, thirdArgument)
         .on('dir', function(dir) {
           console.log(dir)
         })
@@ -296,6 +296,76 @@ switch (primaryArgument){
 
       //TODO: copy ./.temp/components/* to ./components
       //TODO; rm ./.temp
+    break;
+
+    //==================================================================================================
+    // -pattern is similar to -clone, but assumes that the target url implements a standard boilerplate
+    // it then goes into the boilerplate, and copies files into appropriate locations
+    // and avoids copying over package and repo specific files
+    // in other words, it's a 'smart clone'
+
+    case "-pattern":
+      console.log("Cloning repository pattern into directories...");
+
+      if(secondaryArgument){
+        var url = urlParser(secondaryArgument);
+        console.log('url', url);
+        console.log('url.path', url.path);
+        console.log('user', url.path.match(/\/(.*)\//).pop());
+        console.log('repo', url.path.substring(url.path.lastIndexOf("/") + 1));
+
+        //TODO:  check if we're in the root of an application?  That might be a good thing to do.
+
+        // download the repository to a temp directory
+        githubDownload(secondaryArgument, './.temp')
+          .on('dir', function(dir) {
+            console.log(dir)
+          })
+          .on('file', function(file) {
+            console.log(file)
+          })
+          .on('zip', function(zipUrl) { //only emitted if Github API limit is reached and the zip file is downloaded
+            console.log(zipUrl)
+          })
+          .on('error', function(err) {
+            console.error(err)
+          })
+          .on('end', function() {
+            childProcess.execFile('tree', function(err, stdout, sderr) {
+              console.log(stdout)
+            })
+          });
+
+          // copy the components directory from our temp dir to the app dir
+          // this assumes the standard server-client boilerplate
+          fs.copy('./.temp/components', './client/app/components', function (error) {
+            if (error){
+              return console.error(error)
+            }
+            console.log('Components copied from repository into app!')
+          });
+          fs.copy('./.temp/tests/nightwatch/commands/components', './tests/nightwatch/commands/components', function (error) {
+            if (error){
+              return console.error(error)
+            }
+            console.log('Component acceptance tests copied from repository into app!')
+          });
+
+
+
+          //clean things up by removing our temp directory
+          fs.remove('./.temp', function (err) {
+            if (err) return console.error(err)
+
+            console.log('success!')
+          });
+
+      }else{
+        console.log('-pattern needs a github URl to clone from that implements the server-client boilerplate pattern.');
+      }
+
+
+
     break;
 
 
