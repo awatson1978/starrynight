@@ -179,7 +179,7 @@ switch (primaryArgument){
         case "acceptance":
           console.log("Launching StarryNight.  Analyzing meteor environment...");
 
-          if(!fileExists('/usr/local/lib/node_modules/selenium-server/lib/runner/selenium-server-standalone-2.45.0.jar')){
+          if(!fileExists('/usr/local/lib/node_modules/starrysky/node_modules/selenium-server/lib/runner/selenium-server-standalone-2.45.0.jar')){
             console.log("Can't find selenium-server!  Try running 'npm install selenium-server-standalone-jar -g'");
             return;
           }else{
