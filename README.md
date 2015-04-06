@@ -1,39 +1,47 @@
-starrysky
+StarryNight
 =======================
 
 A node executable for launching nightwatch from Meteor atmosphere packages.  
 
 ===============================
-#### Why StarrySky?  
+#### What is StarryNight?  
 
-StarrySky is actually a spinoff/fork of the Velocity project, with something like 90% of it ripped out.  Long story short, there were some disagreements about architecture, community needs, what should be in the velocity repositories, etc. and this is a different architectural vision of how to bring multiple testing frameworks together.
+StarryNight is a command line tool for use in scaffolding and testing Meteor applications. It's similar to tools like 'rails generate', 'spacejam', 'abee', and 'mrt'. It's a direct result of 2 years of working on the Meteor Cookbook.
 
-- Compared to Velocity, StarrySky is lean, simple, and focused, and doesn't have the bloat of mirrors, file monitors, html reporters, and the like.  
+===============================
+#### Why StarryNight?  
 
-- StarrySky takes the assumption that developers will be using 3rd party SaaS solutions for most of those needs (GitHub, Travis, BrowserStack, etc) whereas Velocity is trying to be itself a SaaS testing solution.  
-
-- Velocity is very much trying to bring best practices from the broader testing world to Meteor; whereas StarrySky is trying to embrace the existing testing tools (TinyTest, and by extention mUnit) and add Selnium into the mix as simply as possible.
-
+- lean, simple, and focused  
+- doesn't have the bloat of mirrors, file monitors, html reporters, and the like  
+- not focused on reactive user interfaces  
+- has best-practice scaffolding for getting people started  
+- embraces the existing testing tools used by MDG  
+- assumes developers will be using 3rd party SaaS solutions  
+- isn't trying to be a SaaS platform  
+- single tool, not a collection of a dozen packages  
+- easy to integrate new testing frameworks  
+- easy to integrate new code snippets and boilerplates  
 
 ===============================
 #### Installation  
 
 ````
-npm install starrysky -g
-```
+npm install starrynight -g
+````
 
 ===============================
 #### Usage  
 
 ````
 -help
--initialize [acceptance | all]
--run [tiny | unit | acceptance | all]
+-scaffold [project-homepage | mobile-app | backend]
+-clone [url]
+-generate-tests [acceptance | all]
+-run-tests [tiny | unit | acceptance | all]
 ````
 
 ===============================
 #### Examples  
-
 
 ````
 # add acceptance tests to your application (using the nightwatch framework)
@@ -41,30 +49,19 @@ $ starrysky -initialize acceptance
 
 # run acceptance tests
 $ starrysky -run acceptance
-
-# run unit tests on packages in your app
-$ starrysky -run tiny
-
-# run unit tests on packages in your app using munit
-$ starrysky -run unit
-
-# run all the tests
-$ starrysky -run all
-
 ````
-
 
 ===============================
 #### Contributing  
 
-StarrySky needs a few basic things to integrate new frameworks.
+StarryNight needs a few basic things to integrate new frameworks.
 
 1.  We need to know how to install the framework.
 2.  We need to know how to launch the framework.
 3.  We need a set of sample tests to get people started.
 4.  We need to configure the framework to use the sample tests.
 
-This is significantly more lightweight than what's required to integrate frameworks with Velocity.  If you can do the above and submit a pull request, it will probably get into StarrySky.  
+This is significantly more lightweight than what's required to integrate frameworks with Velocity.  If you can do the above and submit a pull request, it will probably get into StarryNight.  
 
 
 ===============================

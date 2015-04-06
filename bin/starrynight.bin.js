@@ -77,6 +77,14 @@ switch (primaryArgument){
             console.log('Tests copied over!')
           });
           break;
+        case "nightwatch-helloworld":
+          fs.copy('/usr/local/lib/node_modules/starrynight/sample-tests/nightwatch', './tests/nightwatch', function (error) {
+            if (error){
+              return console.error(error)
+            }
+            console.log('Tests copied over!')
+          });
+          break;
         default:
           // we're going to copy over all of the contents in the sample-tests directory
           fs.copy('/usr/local/lib/node_modules/starrynight/sample-tests', './tests', function (error) {
@@ -116,11 +124,11 @@ switch (primaryArgument){
 
         //------------------------------------------------------------------------------------------
         case "acceptance":
-          console.log("Running acceptance tests.  This will take a few moments as we download things...");
+          console.log("Launching StarryNight.  Analyzing meteor environment...");
 
-          if(!fileExists('.meteor/local/build/programs/server/assets/packages/clinical_nightwatch/selenium/selenium-server-standalone-2.44.0.jar')){
-            console.log("Can't find selenium-server!  Try running 'meteor add clinical:nightwatch'");
-            isReadyToRun = false;
+          if(!fileExists('/usr/local/lib/node_modules/selenium-server/lib/runner/selenium-server-standalone-2.45.0.jar')){
+            console.log("Can't find selenium-server!  Try running 'npm install selenium-server-standalone-jar -g'");
+            return;
           }else{
             console.log("Detected a selenium binary...");
           }
@@ -128,56 +136,41 @@ switch (primaryArgument){
           request("http://localhost:3000", function (error, httpResponse) {
              if (httpResponse) {
                console.log("Detected a meteor instance...");
-              //console.log("Installing selenium server...");
-              //childProcess.exec("npm install selenium-server -g", function(error, result){
-                //if(result){
 
-                  console.log("Installing nightwatch...");
-                  childProcess.exec("npm install nightwatch@0.6.0 -g", function(error, result){
-                    if(error){
-                      console.log("[StarryNight] ERROR in executing installation: ", error);
-                    }
-
-                    console.log(result);
-
+                console.log("Launching nightwatch bridge...");
+                var nightwatch = childProcess.spawn('nightwatch', ['-c', '/usr/local/lib/node_modules/starrynight/configs/nightwatch/config.json'], function(error, result){
+                  if(error){
+                    console.log("[StarryNight] ERROR spawning nightwatch: ", error);
+                  }
+                  if(result){
+                    console.log("result", result);
+                  }
+                });
 
 
-                    console.log("Launching nightwatch bridge...");
-                    var nightwatch = childProcess.spawn('nightwatch', ['-c', '/usr/local/lib/node_modules/starrynight/configs/nightwatch/config.json'], function(error, result){
-                      if(error){
-                        console.log("[StarryNight] ERROR spawning nightwatch: ", error);
-                      }
-                      if(result){
-                        console.log("result", result);
-                      }
-                    });
+                var frameworkExitCode = 0;
+                nightwatch.stdout.on('data', function(data){
 
+                  // data is in hex, lets convert it
+                  // it also has a line break at the end; lets get rid of that
+                  console.log(("" + data).slice(0, -1));
 
-                    var frameworkExitCode = 0;
-                    nightwatch.stdout.on('data', function(data){
+                  // without this, travis CI won't report that there are failed tests
+                  if(("" + data).indexOf("✖") > -1){
+                    frameworkExitCode = 1;
+                  }
+                });
+                nightwatch.on('close', function(nightwatchExitCode){
+                  if(nightwatchExitCode === 0){
+                    console.log('Finished!  Nightwatch ran all the tests!');
+                      process.exit(nightwatchExitCode);
+                  }
+                  if(nightwatchExitCode !== 0){
+                    console.log('Nightwatch exited with a code of ' + nightwatchExitCode);
+                    process.exit(nightwatchExitCode);
+                  }
+                });
 
-                      // data is in hex, lets convert it
-                      // it also has a line break at the end; lets get rid of that
-                      console.log(("" + data).slice(0, -1));
-
-                      // without this, travis CI won't report that there are failed tests
-                      if(("" + data).indexOf("✖") > -1){
-                        frameworkExitCode = 1;
-                      }
-                    });
-                    nightwatch.on('close', function(nightwatchExitCode){
-                      if(nightwatchExitCode === 0){
-                        console.log('Finished!  Nightwatch ran all the tests!');
-                          process.exit(nightwatchExitCode);
-                      }
-                      if(nightwatchExitCode !== 0){
-                        console.log('Nightwatch exited with a code of ' + nightwatchExitCode);
-                        process.exit(nightwatchExitCode);
-                      }
-                    });
-                  });
-                //}
-              //});
              }
              if(error){
                console.log("No app is running on http://localhost:3000.  Try launching an app with 'meteor run'.");
