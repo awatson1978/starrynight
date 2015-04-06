@@ -1,0 +1,1 @@
+Add weblog boilerplate.

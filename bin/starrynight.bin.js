@@ -35,13 +35,13 @@ var request = require('request');
 var Fiber = require('fibers');
 var Future = require('fibers/future');
 
-//==================================================================================================
+//****************************************************************************************************************
 // VARIABLES
 
 var isReadyToRun = true;
 
 
-//==================================================================================================
+//****************************************************************************************************************
 // PROCESSING COMMAND LINE ARGUMENTS
 
 // most of StarySky uses a two argument syntax
@@ -50,7 +50,7 @@ var secondaryArgument = (process.argv[ 3 ] || "");
 
 // otherwise we'll want to pass in all of the arguments
 var options = minimist(process.argv.slice(2));
-console.log(options);
+//console.log(options);
 // var extendedArguments = process.argv.splice(0,2);
 // console.log('Extended Arguments are: ', extendedArguments);
 
@@ -58,13 +58,66 @@ console.log(options);
 // Check to see if the use has supplied a filter.
 switch (primaryArgument){
 
-    //==============================================================================================
+    //============================================================================================================
     case "":
-        console.log( "Welcome to StarryNight.  Use -help for more info." );
+        console.log("");
+        console.log( "Welcome to the StarryNight." );
+        console.log( "Use -help for more info." );
+    break;
+
+    //============================================================================================================
+    case "-scaffold":
+      //console.log('StarryNight is initializing some default tests in your app...');
+
+      switch (secondaryArgument) {
+        //--------------------------------------------------------------------------------------------------------
+        case "project-homepage":
+          fs.copy('/usr/local/lib/node_modules/starrynight/scaffolds/boilerplates/project-homepage', './', function (error) {
+            if (error){
+              return console.error(error)
+            }
+            var nightwatch = childProcess.spawn('meteor', ['add', 'less', 'awatson1978:fonts-helveticas'], function(error, result){
+              if(error){
+                console.log("[StarryNight] Error adding meteor packages. ", error);
+              }
+              if(result){
+                console.log('Packages installed.')
+              }
+            });
+            console.log('Scaffold copied into place.')
+          });
+          break;
+        //--------------------------------------------------------------------------------------------------------
+        case "mobile-app":
+          fs.copy('/usr/local/lib/node_modules/starrynight/scaffolds/boilerplates/mobile-app', './', function (error) {
+            if (error){
+              return console.error(error)
+            }
+            console.log('Scaffold copied over!')
+          });
+          break;
+        //--------------------------------------------------------------------------------------------------------
+        case "rest-api":
+          fs.copy('/usr/local/lib/node_modules/starrynight/scaffolds/boilerplates/rest-api', './', function (error) {
+            if (error){
+              return console.error(error)
+            }
+            console.log('Scaffold copied over!')
+          });
+          break;
+        //--------------------------------------------------------------------------------------------------------
+        default:
+          console.log('No scaffold template specified.  Please specify:')
+          console.log('> project-homepage');
+          console.log('> mobile-app');
+          console.log('> rest-api');
+          break;
+        break;
+      }
     break;
 
 
-    //==============================================================================================
+    //============================================================================================================
     case "-initialize":
       console.log('StarryNight is initializing some default tests in your app...');
 
@@ -101,7 +154,7 @@ switch (primaryArgument){
 
 
     //==============================================================================================
-    case "-run":
+    case "-run-tests":
       switch (secondaryArgument) {
 
         //------------------------------------------------------------------------------------------
@@ -212,31 +265,37 @@ switch (primaryArgument){
 
     //==================================================================================================
     case "-clone":
-          console.log("Running all tests...");
+      console.log("Running all tests...");
 
 
-          var url = urlParser(secondaryArgument);
-          console.log('url', url);
-          console.log('url.path', url.path);
+      var url = urlParser(secondaryArgument);
+      console.log('url', url);
+      console.log('url.path', url.path);
+      console.log('user', url.path.match(/\/(.*)\//).pop());
+      console.log('repo', url.path.substring(url.path.lastIndexOf("/") + 1));
 
-          githubDownload({user: 'awatson1978', repo: 'clinical-checklists', ref: 'master'}, process.cwd())
-            .on('dir', function(dir) {
-              console.log(dir)
-            })
-            .on('file', function(file) {
-              console.log(file)
-            })
-            .on('zip', function(zipUrl) { //only emitted if Github API limit is reached and the zip file is downloaded
-              console.log(zipUrl)
-            })
-            .on('error', function(err) {
-              console.error(err)
-            })
-            .on('end', function() {
-              exec('tree', function(err, stdout, sderr) {
-                console.log(stdout)
-              })
-            });
+
+      githubDownload(secondaryArgument, './.temp')
+        .on('dir', function(dir) {
+          console.log(dir)
+        })
+        .on('file', function(file) {
+          console.log(file)
+        })
+        .on('zip', function(zipUrl) { //only emitted if Github API limit is reached and the zip file is downloaded
+          console.log(zipUrl)
+        })
+        .on('error', function(err) {
+          console.error(err)
+        })
+        .on('end', function() {
+          childProcess.execFile('tree', function(err, stdout, sderr) {
+            console.log(stdout)
+          })
+        });
+
+      //TODO: copy ./.temp/components/* to ./components
+      //TODO; rm ./.temp
     break;
 
 
