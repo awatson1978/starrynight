@@ -36,7 +36,10 @@ npm install starrynight -g
 -help
 -scaffold [project-homepage | mobile-app | backend]
 -clone [url]
--generate-tests [acceptance | all]
+-pattern [url]
+-rename [originalTerm newTerm directoryRoot]
+-refactor [originalTerm newTerm directoryRoot]
+-dryrun [acceptance | all]
 -run-tests [tiny | unit | acceptance | all]
 ````
 

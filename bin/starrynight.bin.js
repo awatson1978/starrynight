@@ -31,6 +31,13 @@ var urlParser = require('node-parse-url');
 // request allows us to query external websites
 var request = require('request');
 
+// find-files allows us to -rename
+var finder = require('find-files');
+
+// replace allows us to refactor contents of file
+var replace = require('replace');
+
+
 // fibers and futures allow us to make remote async calls
 var Fiber = require('fibers');
 var Future = require('fibers/future');
@@ -48,6 +55,8 @@ var isReadyToRun = true;
 var primaryArgument = (process.argv[ 2 ] || "");
 var secondaryArgument = (process.argv[ 3 ] || "");
 var thirdArgument = (process.argv[ 4 ] || "");
+var fourthArgument = (process.argv[ 5 ] || "");
+var fifthArgument = (process.argv[ 5 ] || "");
 
 // otherwise we'll want to pass in all of the arguments
 var options = minimist(process.argv);
@@ -130,7 +139,7 @@ switch (primaryArgument){
 
 
     //============================================================================================================
-    case "-initialize":
+    case "-dryrun":
       console.log('StarryNight is initializing some default tests in your app...');
 
       switch (secondaryArgument) {
@@ -389,6 +398,63 @@ switch (primaryArgument){
 
     break;
 
+    //==================================================================================================
+    case "-rename":
+      // starrynight -refactor Page Panel app/components
+      // starrynight -refactor originalTerm newTerm directoryRoot
+      // starrynight -refactor secondaryArgument thirdArgument fourthArgument
+
+      if(!fourthArgument){
+        fourthArgument = ".";
+      }
+      console.log("------------------------------------------");
+      console.log("Searching files.... ");
+      finder(secondaryArgument, {root: fourthArgument, ignoreDirs: [".meteor", ".git", ".temp"]}, function(results){
+        //console.log('results', results);\
+
+        console.log("");
+        console.log("------------------------------------------");
+        console.log("Renamed files...");
+        console.log("");
+        results.forEach(function(result){
+          // console.log('result.filepath', result.filepath);
+
+          // many component directories will have subfiles with the same name
+          // we need to run the replace twice - to replace the directory name
+          // and then to replace the file name.
+
+          var newresult = result.filepath.replace(secondaryArgument, thirdArgument);
+          var finalPath = newresult.replace(secondaryArgument, thirdArgument);
+
+          fs.move(result.filepath, finalPath);
+
+          console.log(finalPath);
+
+        });
+      });
+
+      console.log('Done renaming files!');
+    break;
+
+    //==================================================================================================
+    case "-refactor":
+      // starrynight -refactor foo bar app/components
+      // starrynight -refactor originalTerm newTerm directoryRoot
+      // starrynight -refactor secondaryArgument thirdArgument fourthArgument
+
+      if(!fourthArgument){
+        fourthArgument = ".";
+      }
+
+      replace({
+        regex: secondaryArgument,
+        replacement: thirdArgument,
+        paths: ['.'],
+        recursive: true
+      });
+
+      console.log('Done refactoring!');
+    break;
 
     //==================================================================================================
     case "-help":
