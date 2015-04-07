@@ -129,9 +129,9 @@ switch (primaryArgument){
         default:
           console.log('No scaffold template specified.  Please specify:')
           console.log('> project-homepage');
-          console.log('> mobile-app');
-          console.log('> rest-api');
           console.log('> client-server');
+          console.log('> rest-api');
+          //console.log('> mobile-app');
           break;
         break;
       }
@@ -139,62 +139,33 @@ switch (primaryArgument){
 
 
     //============================================================================================================
-    case "-dryrun":
+    case "-sample":
       console.log('StarryNight is initializing some default tests in your app...');
-
-      switch (secondaryArgument) {
-        case "end-to-end":
-          fs.copy('/usr/local/lib/node_modules/starrynight/sample-tests/meteor-e2e', './tests/meteor-e2e', function (error) {
-            if (error){
-              console.log('Is meteor-e2e installed?');
-              return console.error(error)
-            }
-            console.log('Tests copied over!')
-          });
-          break;
-        case "nightwatch":
-          fs.copy('/usr/local/lib/node_modules/starrynight/sample-tests/nightwatch', './tests/nightwatch', function (error) {
-            if (error){
-              return console.error(error)
-            }
-            console.log('Tests copied over!')
-          });
-          break;
-        case "nightwatch-helloworld":
-          fs.copy('/usr/local/lib/node_modules/starrynight/sample-tests/nightwatch', './tests/nightwatch', function (error) {
-            if (error){
-              return console.error(error)
-            }
-            console.log('Tests copied over!')
-          });
-          break;
-        default:
-          // we're going to copy over all of the contents in the sample-tests directory
-          fs.copy('/usr/local/lib/node_modules/starrynight/sample-tests', './tests', function (error) {
-            if (error){
-              return console.error(error)
-            }
-            console.log('Tests copied over!')
-          });
-          break;
-        break;
-      }
+      parseInitializeTestFilesArguments();
     break;
 
-
+    //============================================================================================================
+    case "-initialize":
+      console.log('StarryNight is initializing some default tests in your app...');
+      parseInitializeTestFilesArguments();
+    break;
 
     //==============================================================================================
     case "-run-tests":
       switch (secondaryArgument) {
 
         //------------------------------------------------------------------------------------------
-        case "":
-          console.log("Please specify a test type.");
-        break;
+        // case "":
+        //   console.log("Please specify a test type.");
+        // break;
 
         //------------------------------------------------------------------------------------------
         case "end-to-end":
           console.log("Running end-to-end tests...");
+          console.log("NOTICE:  This is very experimental integration of the meteor-e2e package!  ");
+          console.log("NOTICE:  See the following repo for more details about setting it up:");
+          console.log("NOTICE:  https://github.com/awatson1978/e2e");
+
           childProcess.exec("selenium", function(err, stdout, stderr) {
             console.log(stdout);
 
@@ -282,10 +253,10 @@ switch (primaryArgument){
 
         //------------------------------------------------------------------------------------------
         default:
-          // console.log("Running all tests...");
-          // childProcess.exec("ls -la", function(err, stdout, stderr) {
-          //   console.log(stdout);
-          // });
+          console.log('No testing framework specified.  Please select:')
+          console.log('> tiny');
+          console.log('> end-to-end');
+          console.log('> acceptance');
         break;
       }
 
@@ -477,4 +448,55 @@ switch (primaryArgument){
 
     break;
 
+}
+
+
+
+
+
+ function parseInitializeTestFilesArguments(){
+  switch (secondaryArgument) {
+    case "all":
+      // we're going to copy over all of the contents in the sample-tests directory
+      fs.copy('/usr/local/lib/node_modules/starrynight/sample-tests', './tests', function (error) {
+        if (error){
+          return console.error(error)
+        }
+        console.log('Tests copied over!')
+      });
+      break;
+    case "end-to-end":
+      fs.copy('/usr/local/lib/node_modules/starrynight/sample-tests/meteor-e2e', './tests/meteor-e2e', function (error) {
+        if (error){
+          console.log('Is meteor-e2e installed?');
+          return console.error(error)
+        }
+        console.log('Tests copied over!')
+      });
+      break;
+    case "nightwatch":
+      fs.copy('/usr/local/lib/node_modules/starrynight/sample-tests/nightwatch', './tests/nightwatch', function (error) {
+        if (error){
+          return console.error(error)
+        }
+        console.log('Tests copied over!')
+      });
+      break;
+    case "nightwatch-helloworld":
+      fs.copy('/usr/local/lib/node_modules/starrynight/sample-tests/nightwatch', './tests/nightwatch', function (error) {
+        if (error){
+          return console.error(error)
+        }
+        console.log('Tests copied over!')
+      });
+      break;
+    default:
+      // we're going to copy over all of the contents in the sample-tests directory
+      console.log('No sample tests specified to copy over.  Please specify:')
+      console.log('> all');
+      console.log('> end-to-end');
+      console.log('> nightwatch');
+      console.log('> nightwatch-helloworld');
+    break;
+  }
 }
