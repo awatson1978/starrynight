@@ -4,6 +4,11 @@
 
 // This tool is basically about copying files to places they need to be and launching other utilities.
 
+var DEBUG = false;
+if(process.env.DEBUG){
+  DEBUG = true;
+}
+
 //==================================================================================================
 // REQUIRED IMPORTS
 
@@ -42,6 +47,15 @@ var replace = require('replace');
 var Fiber = require('fibers');
 var Future = require('fibers/future');
 
+
+//==================================================================================================
+// FILE LINKING
+
+
+
+
+
+
 //****************************************************************************************************************
 // VARIABLES
 
@@ -61,9 +75,7 @@ var fifthArgument = (process.argv[ 5 ] || "");
 // otherwise we'll want to pass in all of the arguments
 var options = minimist(process.argv);
 
-if(process.env.DEBUG){
-  console.log(options);
-}
+DEBUG && console.log(options);
 
 
 
@@ -87,7 +99,7 @@ switch (primaryArgument){
             if (error){
               return console.error(error)
             }
-            var nightwatch = childProcess.spawn('meteor', ['add', 'less', 'awatson1978:fonts-helveticas'], function(error, result){
+            childProcess.spawn('meteor', ['add', 'less', 'awatson1978:fonts-helveticas'], function(error, result){
               if(error){
                 console.log("[StarryNight] Error adding meteor packages. ", error);
               }
@@ -110,6 +122,24 @@ switch (primaryArgument){
         //--------------------------------------------------------------------------------------------------------
         case "rest-api":
           fs.copy('/usr/local/lib/node_modules/starrynight/scaffolds/boilerplates/rest-api', './', function (error) {
+            if (error){
+              return console.error(error)
+            }
+            console.log('Scaffold copied over!')
+          });
+          break;
+        //--------------------------------------------------------------------------------------------------------
+        case "iron-router":
+
+          childProcess.spawn('meteor', ['add', 'iron:router'], function(error, result){
+            if(error){
+              console.log("[StarryNight] Error adding meteor packages. ", error);
+            }
+            if(result){
+              console.log('iron:router installed.')
+            }
+          });
+          fs.copy('/usr/local/lib/node_modules/starrynight/scaffolds/boilerplates/iron-router', './', function (error) {
             if (error){
               return console.error(error)
             }
@@ -152,116 +182,18 @@ switch (primaryArgument){
 
     //==============================================================================================
     case "-run-tests":
-      switch (secondaryArgument) {
-
-        //------------------------------------------------------------------------------------------
-        // case "":
-        //   console.log("Please specify a test type.");
-        // break;
-
-        //------------------------------------------------------------------------------------------
-        case "end-to-end":
-          console.log("Running end-to-end tests...");
-          console.log("NOTICE:  This is very experimental integration of the meteor-e2e package!  ");
-          console.log("NOTICE:  See the following repo for more details about setting it up:");
-          console.log("NOTICE:  https://github.com/awatson1978/e2e");
-
-          childProcess.exec("selenium", function(err, stdout, stderr) {
-            console.log(stdout);
-
-            childProcess.exec('SOURCE_TESTS_DIR="tests/meteor-e2e" meteor-e2e --local --browsers=firefox', function(err, stdout, stderr) {
-              console.log(stdout);
-            });
-
-          });
-        break;
-
-        //------------------------------------------------------------------------------------------
-        case "acceptance":
-          console.log("Launching StarryNight.  Analyzing meteor environment...");
-
-          if(!fileExists('/usr/local/lib/node_modules/starrysky/node_modules/selenium-server/lib/runner/selenium-server-standalone-2.45.0.jar')){
-            console.log("Can't find selenium-server!  Try running 'npm install selenium-server-standalone-jar -g'");
-            return;
-          }else{
-            console.log("Detected a selenium binary...");
-          }
-
-          request("http://localhost:3000", function (error, httpResponse) {
-             if (httpResponse) {
-               console.log("Detected a meteor instance...");
-
-                console.log("Launching nightwatch bridge...");
-                var nightwatch = childProcess.spawn('nightwatch', ['-c', '/usr/local/lib/node_modules/starrynight/configs/nightwatch/config.json'], function(error, result){
-                  if(error){
-                    console.log("[StarryNight] ERROR spawning nightwatch: ", error);
-                  }
-                  if(result){
-                    console.log("result", result);
-                  }
-                });
-
-
-                var frameworkExitCode = 0;
-                nightwatch.stdout.on('data', function(data){
-
-                  // data is in hex, lets convert it
-                  // it also has a line break at the end; lets get rid of that
-                  console.log(("" + data).slice(0, -1));
-
-                  // without this, travis CI won't report that there are failed tests
-                  if(("" + data).indexOf("✖") > -1){
-                    frameworkExitCode = 1;
-                  }
-                });
-                nightwatch.on('close', function(nightwatchExitCode){
-                  if(nightwatchExitCode === 0){
-                    console.log('Finished!  Nightwatch ran all the tests!');
-                      process.exit(nightwatchExitCode);
-                  }
-                  if(nightwatchExitCode !== 0){
-                    console.log('Nightwatch exited with a code of ' + nightwatchExitCode);
-                    process.exit(nightwatchExitCode);
-                  }
-                });
-
-             }
-             if(error){
-               console.log("No app is running on http://localhost:3000.  Try launching an app with 'meteor run'.");
-             }
-          });
-
-
-
-        break;
-
-        //------------------------------------------------------------------------------------------
-        case "tiny":
-          console.log("Running tiny tests on packages.  Check http://localhost:3000");
-          childProcess.exec("meteor test-packages", function(err, stdout, stderr) {
-            console.log(stdout);
-          });
-        break;
-
-        // //------------------------------------------------------------------------------------------
-        // case "all":
-        //   console.log("Running all tests...");
-        //   childProcess.exec("ls -la", function(err, stdout, stderr) {
-        //     console.log(stdout);
-        //   });
-        // break;
-
-        //------------------------------------------------------------------------------------------
-        default:
-          console.log('No testing framework specified.  Please select:')
-          console.log('> tiny');
-          console.log('> end-to-end');
-          console.log('> acceptance');
-        break;
-      }
-
+      parseRunTestArguments();
     break;
 
+    //==============================================================================================
+    case "-survey":
+      parseRunTestArguments();
+    break;
+
+    //==============================================================================================
+    case "-nightwatch":
+      parseRunTestArguments();
+    break;
 
 
     //==================================================================================================
@@ -309,11 +241,11 @@ switch (primaryArgument){
       console.log("Cloning repository pattern into directories...");
 
       if(secondaryArgument){
-        var url = urlParser(secondaryArgument);
-        console.log('url', url);
-        console.log('url.path', url.path);
-        console.log('user', url.path.match(/\/(.*)\//).pop());
-        console.log('repo', url.path.substring(url.path.lastIndexOf("/") + 1));
+        // var url = urlParser(secondaryArgument);
+        // console.log('url', url);
+        // console.log('url.path', url.path);
+        // console.log('user', url.path.match(/\/(.*)\//).pop());
+        // console.log('repo', url.path.substring(url.path.lastIndexOf("/") + 1));
 
         //TODO:  check if we're in the root of an application?  That might be a good thing to do.
 
@@ -333,33 +265,36 @@ switch (primaryArgument){
           })
           .on('end', function() {
             childProcess.execFile('tree', function(err, stdout, sderr) {
-              console.log(stdout)
-            })
+              DEBUG && console.log(stdout)
+            });
+
+            // copy the components directory from our temp dir to the app dir
+            // this assumes the standard server-client boilerplate
+            fs.copy('./.temp/components', './client/app/components', function (error) {
+              if (error){
+                return console.error(error)
+              }
+              console.log('Components copied from repository into app!')
+
+              // temp directory created; lets move components into their final place
+              fs.copy('./.temp/tests/nightwatch/commands/components', './tests/nightwatch/commands/components', function (error) {
+                if (error){
+                  return console.error(error)
+                }
+                console.log('Component acceptance tests copied from repository into app!')
+
+                //clean things up by removing our temp directory
+                fs.remove('./.temp', function (err) {
+                  if (err) return console.error(err)
+
+                  console.log('success!')
+                });
+              });
+            });
           });
 
-          // copy the components directory from our temp dir to the app dir
-          // this assumes the standard server-client boilerplate
-          fs.copy('./.temp/components', './client/app/components', function (error) {
-            if (error){
-              return console.error(error)
-            }
-            console.log('Components copied from repository into app!')
-          });
-          fs.copy('./.temp/tests/nightwatch/commands/components', './tests/nightwatch/commands/components', function (error) {
-            if (error){
-              return console.error(error)
-            }
-            console.log('Component acceptance tests copied from repository into app!')
-          });
 
 
-
-          //clean things up by removing our temp directory
-          fs.remove('./.temp', function (err) {
-            if (err) return console.error(err)
-
-            console.log('success!')
-          });
 
       }else{
         console.log('-pattern needs a github URl to clone from that implements the server-client boilerplate pattern.');
@@ -397,7 +332,9 @@ switch (primaryArgument){
           var newresult = result.filepath.replace(secondaryArgument, thirdArgument);
           var finalPath = newresult.replace(secondaryArgument, thirdArgument);
 
-          fs.move(result.filepath, finalPath);
+          fs.move(result.filepath, finalPath, function(error, result){
+            console.log('error', error);
+          });
 
           console.log(finalPath);
 
@@ -421,6 +358,7 @@ switch (primaryArgument){
         regex: secondaryArgument,
         replacement: thirdArgument,
         paths: ['.'],
+        excludes: [".meteor", ".git"],
         recursive: true
       });
 
@@ -431,7 +369,12 @@ switch (primaryArgument){
     case "-help":
         console.log( "StarryNight... The ultra-simple way to watch your Meteor apps for QA issues." );
         console.log( "Useage:" );
-        console.log( "  -initialize" );
+        console.log( "  -sample" );
+        console.log( "  -scaffold [project-homepage | client-server | rest-api]" );
+        console.log( "  -sample [acceptance | all]]" );
+        console.log( "  -pattern <url>" );
+        console.log( "  -rename <originalTerm> <newTerm> <directoryRoot>" );
+        console.log( "  -refactor <originalTerm> <newTerm> <directoryRoot>" );
         console.log( "  -run-tests [tiny | unit | acceptance | end-to-end | all]" );
         //console.log( "  -clone [url]" );
     break;
@@ -441,7 +384,7 @@ switch (primaryArgument){
     // If we can't figure out what the command-line argument was, then something is incorrect. Exit out.
     default:
 
-        console.log( "Didn't understand that command.  Try again?" );
+        console.log( "Didn't understand that command.  Use -help for information." );
 
         // Exit out of the process (as a failure).
         process.exit( 1 );
@@ -474,29 +417,171 @@ switch (primaryArgument){
         console.log('Tests copied over!')
       });
       break;
-    case "nightwatch":
-      fs.copy('/usr/local/lib/node_modules/starrynight/sample-tests/nightwatch', './tests/nightwatch', function (error) {
-        if (error){
-          return console.error(error)
-        }
-        console.log('Tests copied over!')
-      });
+    case "acceptance":
+      switch (thirdArgument) {
+        case "project-homepage":
+            fs.copy('/usr/local/lib/node_modules/starrynight/sample-tests/nightwatch-project-homepage', './tests/nightwatch', function (error) {
+              if (error){
+                return console.error(error)
+              }
+              console.log('ProjectHomepage tests copied over!')
+            });
+          break;
+        case "itunes":
+            fs.copy('/usr/local/lib/node_modules/starrynight/sample-tests/nightwatch-itunes', './tests/nightwatch', function (error) {
+              if (error){
+                return console.error(error)
+              }
+              console.log('iTunes tests copied over!')
+            });
+          break;
+        default:
+          fs.copy('/usr/local/lib/node_modules/starrynight/sample-tests/nightwatch', './tests/nightwatch', function (error) {
+            if (error){
+              return console.error(error)
+            }
+            console.log('Basic testing framework copied over!')
+          });
+          break;
+      }
       break;
-    case "nightwatch-helloworld":
-      fs.copy('/usr/local/lib/node_modules/starrynight/sample-tests/nightwatch', './tests/nightwatch', function (error) {
-        if (error){
-          return console.error(error)
-        }
-        console.log('Tests copied over!')
-      });
-      break;
+    // case "acceptance-helloworld":
+    //   fs.copy('/usr/local/lib/node_modules/starrynight/sample-tests/nightwatch-helloworld', './tests/nightwatch', function (error) {
+    //     if (error){
+    //       return console.error(error)
+    //     }
+    //     console.log('Tests copied over!')
+    //   });
+    //   break;
     default:
       // we're going to copy over all of the contents in the sample-tests directory
       console.log('No sample tests specified to copy over.  Please specify:')
       console.log('> all');
       console.log('> end-to-end');
-      console.log('> nightwatch');
-      console.log('> nightwatch-helloworld');
+      console.log('> acceptance');
+      console.log('> acceptance project-homepage');
+    break;
+  }
+}
+
+
+
+
+
+
+function parseRunTestArguments(){
+  switch (secondaryArgument) {
+
+    //------------------------------------------------------------------------------------------
+    // case "":
+    //   console.log("Please specify a test type.");
+    // break;
+
+    //------------------------------------------------------------------------------------------
+    case "end-to-end":
+      console.log("Running end-to-end tests...");
+      console.log("NOTICE:  This is very experimental integration of the meteor-e2e package!  ");
+      console.log("NOTICE:  See the following repo for more details about setting it up:");
+      console.log("NOTICE:  https://github.com/awatson1978/e2e");
+
+      childProcess.exec("selenium", function(err, stdout, stderr) {
+        console.log(stdout);
+
+        childProcess.exec('SOURCE_TESTS_DIR="tests/meteor-e2e" meteor-e2e --local --browsers=firefox', function(err, stdout, stderr) {
+          console.log(stdout);
+        });
+
+      });
+    break;
+
+    //------------------------------------------------------------------------------------------
+    case "acceptance":
+      console.log("Launching StarryNight.  Analyzing meteor environment...");
+
+      if(!fileExists('/usr/local/lib/node_modules/starrynight/node_modules/selenium-server-standalone-jar/jar/selenium-server-standalone-2.45.0.jar')){
+        console.log("Can't find selenium-server!  Try running 'npm install selenium-server-standalone-jar -g'");
+        return;
+      }else{
+        console.log("Detected a selenium binary...");
+      }
+
+      request("http://localhost:3000", function (error, httpResponse) {
+         if (httpResponse) {
+           console.log("Detected a meteor instance...");
+
+            console.log("Launching nightwatch bridge...");
+            var nightwatch = childProcess.spawn('nightwatch', ['-c', '/usr/local/lib/node_modules/starrynight/configs/nightwatch/config.json'], function(error, result){
+              if(error){
+                console.log("[StarryNight] ERROR spawning nightwatch: ", error);
+              }
+              if(result){
+                console.log("result", result);
+              }
+            });
+
+
+            var frameworkExitCode = 0;
+            nightwatch.stdout.on('data', function(data){
+
+              // data is in hex, lets convert it
+              // it also has a line break at the end; lets get rid of that
+              console.log(("" + data).slice(0, -1));
+
+              // without this, travis CI won't report that there are failed tests
+              if(("" + data).indexOf("✖") > -1){
+                frameworkExitCode = 1;
+              }
+            });
+            nightwatch.on('close', function(nightwatchExitCode){
+              if(nightwatchExitCode === 0){
+                console.log('Finished!  Nightwatch ran all the tests!');
+                  process.exit(nightwatchExitCode);
+              }
+              if(nightwatchExitCode !== 0){
+                console.log('Nightwatch exited with a code of ' + nightwatchExitCode);
+                process.exit(nightwatchExitCode);
+              }
+            });
+
+         }
+         if(error){
+           console.log("No app is running on http://localhost:3000.  Try launching an app with 'meteor run'.");
+         }
+      });
+
+
+
+    break;
+
+    //------------------------------------------------------------------------------------------
+    case "tiny":
+      console.log("Running tiny tests on packages.  Check http://localhost:3000");
+      childProcess.exec("meteor test-packages", function(err, stdout, stderr) {
+        console.log(stdout);
+      });
+    break;
+
+    //------------------------------------------------------------------------------------------
+    case "audit-permission":
+      console.log("Running tiny tests on packages.  Check http://localhost:3000");
+      childProcess.exec("chmod -R 755 .meteor", function(err, stdout, stderr) {
+        console.log(stdout);
+      });
+    break;
+    // //------------------------------------------------------------------------------------------
+    // case "all":
+    //   console.log("Running all tests...");
+    //   childProcess.exec("ls -la", function(err, stdout, stderr) {
+    //     console.log(stdout);
+    //   });
+    // break;
+
+    //------------------------------------------------------------------------------------------
+    default:
+      console.log('No testing framework specified.  Please select:')
+      console.log('> tiny');
+      console.log('> end-to-end');
+      console.log('> acceptance');
     break;
   }
 }

@@ -8,27 +8,26 @@ module.exports = {
       .resizeWindow(1024, 768)
 
       //============================================================================================
-      .sectionBreak("A. Demo User SignIn")
+      .sectionBreak("A. MainPage")
 
-      .url("http://localhost:3000/entrySignIn")
-      .waitForPage("#entrySignIn")
-      .saveScreenshot("tests/nightwatch/screenshots/iTunesConnect/A-signInPage.png")
-      .reviewSignInPage()
+      .url("http://localhost:3000")
+      .waitForPage("#mainPage")
+      .saveScreenshot("tests/nightwatch/screenshots/iTunesConnect/A-mainPage.png")
 
       //============================================================================================
       .sectionBreak("B. Marketing, Support, and Privacy")
 
       .url("http://localhost:3000/marketing")
       .waitForPage("#marketingPage")
-      .saveScreenshot("tests/nightwatch/screenshots/iTunesConnect/A-marketingPage.png")
+      .saveScreenshot("tests/nightwatch/screenshots/iTunesConnect/B-marketingPage.png")
 
       .url("http://localhost:3000/support")
       .waitForPage("#supportPage")
-      .saveScreenshot("tests/nightwatch/screenshots/iTunesConnect/A-supportPage.png")
+      .saveScreenshot("tests/nightwatch/screenshots/iTunesConnect/B-supportPage.png")
 
       .url("http://localhost:3000/privacy")
       .waitForPage("#privacyPage")
-      .saveScreenshot("tests/nightwatch/screenshots/iTunesConnect/A-privacyPage.png")
+      .saveScreenshot("tests/nightwatch/screenshots/iTunesConnect/B-privacyPage.png")
 
       .end();
   }
