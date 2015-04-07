@@ -6,7 +6,7 @@ var excludedPairs = [
 ];
 
 var providersToRun = function () {
-  var _ = require('underscore');
+  //var _ = require('underscore');
   var allProviders = require('./oauth_providers').filter(function (provider) {
     return ! excludedPairs.some(function (pair) {
       return pair[0] === browser.name && pair[1] === provider.name;
@@ -16,7 +16,12 @@ var providersToRun = function () {
   if (process.env.TEST_OAUTH_PROVIDERS) {
     var providerList = process.env.TEST_OAUTH_PROVIDERS.split(',');
     return allProviders.filter(function (provider) {
-      return _.contains(providerList, provider.name);
+      //return _.contains(providerList, provider.name);
+      if(providerList.indexOf(provider.name) > -1){
+        return true;
+      }else{
+        return false;
+      }
     });
   } else {
     return allProviders;

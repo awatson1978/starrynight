@@ -43,7 +43,7 @@ npm install starrynight -g
 ===============================
 #### Examples  
 
-````
+````sh
 # add acceptance tests to your application (using the nightwatch framework)
 $ starrysky -initialize acceptance
 

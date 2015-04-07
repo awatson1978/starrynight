@@ -51,7 +51,10 @@ var thirdArgument = (process.argv[ 4 ] || "");
 
 // otherwise we'll want to pass in all of the arguments
 var options = minimist(process.argv);
-console.log(options);
+
+if(process.env.DEBUG){
+  console.log(options);
+}
 
 
 
@@ -67,7 +70,6 @@ switch (primaryArgument){
 
     //============================================================================================================
     case "-scaffold":
-      //console.log('StarryNight is initializing some default tests in your app...');
 
       switch (secondaryArgument) {
         //--------------------------------------------------------------------------------------------------------
@@ -106,11 +108,21 @@ switch (primaryArgument){
           });
           break;
         //--------------------------------------------------------------------------------------------------------
+        case "client-server":
+          fs.copy('/usr/local/lib/node_modules/starrynight/scaffolds/boilerplates/client-server', './', function (error) {
+            if (error){
+              return console.error(error)
+            }
+            console.log('Scaffold copied over!')
+          });
+          break;
+        //--------------------------------------------------------------------------------------------------------
         default:
           console.log('No scaffold template specified.  Please specify:')
           console.log('> project-homepage');
           console.log('> mobile-app');
           console.log('> rest-api');
+          console.log('> client-server');
           break;
         break;
       }
@@ -122,6 +134,15 @@ switch (primaryArgument){
       console.log('StarryNight is initializing some default tests in your app...');
 
       switch (secondaryArgument) {
+        case "end-to-end":
+          fs.copy('/usr/local/lib/node_modules/starrynight/sample-tests/meteor-e2e', './tests/meteor-e2e', function (error) {
+            if (error){
+              console.log('Is meteor-e2e installed?');
+              return console.error(error)
+            }
+            console.log('Tests copied over!')
+          });
+          break;
         case "nightwatch":
           fs.copy('/usr/local/lib/node_modules/starrynight/sample-tests/nightwatch', './tests/nightwatch', function (error) {
             if (error){
@@ -168,7 +189,7 @@ switch (primaryArgument){
           childProcess.exec("selenium", function(err, stdout, stderr) {
             console.log(stdout);
 
-            childProcess.exec("meteor-e2e --local --browsers=firefox", function(err, stdout, stderr) {
+            childProcess.exec('SOURCE_TESTS_DIR="tests/meteor-e2e" meteor-e2e --local --browsers=firefox', function(err, stdout, stderr) {
               console.log(stdout);
             });
 
@@ -374,7 +395,7 @@ switch (primaryArgument){
         console.log( "StarryNight... The ultra-simple way to watch your Meteor apps for QA issues." );
         console.log( "Useage:" );
         console.log( "  -initialize" );
-        console.log( "  -run [tiny | unit | acceptance | end-to-end | all]" );
+        console.log( "  -run-tests [tiny | unit | acceptance | end-to-end | all]" );
         //console.log( "  -clone [url]" );
     break;
 
