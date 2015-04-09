@@ -1,7 +1,7 @@
 {
   "name": "starrynight",
   "description": "Meteor scaffolding and testing.",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "author": "Abigail Watson (awatson1978@gmail.com)",
   "dependencies": {
     "nightwatch": "0.6.0",
@@ -19,8 +19,9 @@
   "engines": {
     "node": ">= 0.4.0"
   },
+  "preferGlobal": "true",
   "bin": {
-    "starrynight": "bin/starrynight.bin.js"
+    "starrynight": "bin/starrynight"
   },
   "repository": {
     "type": "git",
