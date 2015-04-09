@@ -14,7 +14,7 @@ var CONFIG_PREFIX = "/usr/local";
 if(process.env.CONFIG_PREFIX){
   CONFIG_PREFIX = process.env.CONFIG_PREFIX;
 }
-console.log('CONFIG_PREFIX', CONFIG_PREFIX);
+DEBUG && console.log('CONFIG_PREFIX', CONFIG_PREFIX);
 
 
 
@@ -526,10 +526,20 @@ function parseRunTestArguments(){
            console.log("Detected a meteor instance...");
 
             console.log("Launching nightwatch bridge...");
-            var nightwatch = childProcess.spawn('nightwatch', ['-c', CONFIG_PREFIX + '/lib/node_modules/starrynight/configs/nightwatch/config.json'], function(error, result){
+
+            var configFileLocation;
+            if(process.env.TRAVIS){
+              configFileLocation = CONFIG_PREFIX + '/lib/node_modules/starrynight/configs/nightwatch/travis.json';
+            }else{
+              configFileLocation = CONFIG_PREFIX + '/lib/node_modules/starrynight/configs/nightwatch/config.json';
+            }
+
+            console.log('Config file location: ' + configFileLocation);
+
+            var nightwatch = childProcess.spawn('nightwatch', ['-c', configFileLocation], function(error, result){
               if(error){
                 console.log("[StarryNight] ERROR spawning nightwatch: ", error);
-                process.exit(1);
+                //process.exit(1);
               }
               if(result){
                 console.log("result", result);
