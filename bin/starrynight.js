@@ -527,18 +527,26 @@ function parseRunTestArguments(){
 
             console.log("Launching nightwatch bridge...");
 
+            // we need to launch slightly different commands based on the environment we're in
+            // specifically, whether we're running locally or on a continuous integration server
             var configFileLocation;
+            var nightwatchCommand;
             if(process.env.TRAVIS){
+              // the command paths to run if we're on travis.org
               configFileLocation = CONFIG_PREFIX + '/lib/node_modules/starrynight/configs/nightwatch/travis.json';
+              nightwatchCommand = '/home/travis/.nvm/v0.10.38/lib/node_modules/starrynight/node_modules/nightwatch/bin/nightwatch';
             }else{
+              // the command paths if we're running locally
               configFileLocation = CONFIG_PREFIX + '/lib/node_modules/starrynight/configs/nightwatch/config.json';
+              nightwatchCommand = 'nightwatch';
             }
 
-            console.log('Config file location: ' + configFileLocation);
+            //console.log('Config file location: ' + configFileLocation);
 
             // TODO:  can we specify the server path via the command line, so it doesn't need to be in the json file?
             // different node versions will break this
-            var nightwatch = childProcess.spawn('nightwatch', ['-c', configFileLocation], function(error, result){
+            // alternatively, can we specify node 0.10.38 in particular?
+            var nightwatch = childProcess.spawn(nightwatchCommand, ['-c', configFileLocation], function(error, result){
               if(error){
                 console.log("[StarryNight] ERROR spawning nightwatch: ", error);
                 //process.exit(1);
