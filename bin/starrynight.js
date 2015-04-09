@@ -536,6 +536,8 @@ function parseRunTestArguments(){
 
             console.log('Config file location: ' + configFileLocation);
 
+            // TODO:  can we specify the server path via the command line, so it doesn't need to be in the json file?
+            // different node versions will break this
             var nightwatch = childProcess.spawn('nightwatch', ['-c', configFileLocation], function(error, result){
               if(error){
                 console.log("[StarryNight] ERROR spawning nightwatch: ", error);
