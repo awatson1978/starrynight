@@ -605,7 +605,7 @@ function parseRunTestArguments(npmPrefix){
 
     //------------------------------------------------------------------------------------------
     case "audit-permission":
-      console.log("Running tiny tests on packages.  Check http://localhost:3000");
+      console.log("Fixing permissions in .meteor directory.");
       childProcess.exec("chmod -R 755 .meteor", function(err, stdout, stderr) {
         console.log(stdout);
       });
