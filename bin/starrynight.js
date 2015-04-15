@@ -10,14 +10,6 @@ if(process.env.DEBUG){
   DEBUG = true;
 }
 
-var CONFIG_PREFIX = "/usr/local";
-if(process.env.CONFIG_PREFIX){
-  CONFIG_PREFIX = process.env.CONFIG_PREFIX;
-}
-DEBUG && console.log('CONFIG_PREFIX', CONFIG_PREFIX);
-
-
-
 
 //==================================================================================================
 // REQUIRED IMPORTS
@@ -62,6 +54,9 @@ var path = require('path');
 var Fiber = require('fibers');
 var Future = require('fibers/future');
 
+// so we can get the npm install prefix
+var npm = require('npm');
+
 
 //==================================================================================================
 // FILE LINKING
@@ -93,179 +88,143 @@ var options = minimist(process.argv);
 DEBUG && console.log(options);
 
 
+npm.load(function(error, npm) {
+  if (error) {
+    throw error;
+  }
+  var npmPrefix = npm.config.get('prefix');
+  DEBUG && console.log('npm prefix is', npmPrefix);
 
-// Check to see if the use has supplied a filter.
-switch (primaryArgument){
+  // Check to see if the use has supplied a filter.
+  switch (primaryArgument){
 
-    //============================================================================================================
-    case "":
-        console.log("");
-        console.log( "Welcome to the StarryNight." );
-        console.log( "Use -help for more info." );
-    break;
+      //============================================================================================================
+      case "":
+          console.log("");
+          console.log( "Welcome to the StarryNight." );
+          console.log( "Use -help for more info." );
+      break;
 
-    //============================================================================================================
-    case "-scaffold":
+      //============================================================================================================
+      case "-scaffold":
 
-      switch (secondaryArgument) {
-        //--------------------------------------------------------------------------------------------------------
-        case "project-homepage":
-          fs.copy('/usr/local/lib/node_modules/starrynight/scaffolds/boilerplates/project-homepage', './', function (error) {
-            if (error){
-              return console.error(error)
-            }
-            childProcess.spawn('meteor', ['add', 'less', 'awatson1978:fonts-helveticas'], function(error, result){
+        switch (secondaryArgument) {
+          //--------------------------------------------------------------------------------------------------------
+          case "project-homepage":
+            fs.copy(npmPrefix + '/lib/node_modules/starrynight/scaffolds/boilerplates/project-homepage', './', function (error) {
+              if (error){
+                return console.error(error)
+              }
+              childProcess.spawn('meteor', ['add', 'less', 'awatson1978:fonts-helveticas'], function(error, result){
+                if(error){
+                  console.log("[StarryNight] Error adding meteor packages. ", error);
+                }
+                if(result){
+                  console.log('Packages installed.')
+                }
+              });
+              console.log('Scaffold copied into place.')
+            });
+            break;
+          //--------------------------------------------------------------------------------------------------------
+          case "mobile-app":
+            fs.copy(npmPrefix + '/lib/node_modules/starrynight/scaffolds/boilerplates/mobile-app', './', function (error) {
+              if (error){
+                return console.error(error)
+              }
+              console.log('Scaffold copied over!')
+            });
+            break;
+          //--------------------------------------------------------------------------------------------------------
+          case "rest-api":
+            fs.copy(npmPrefix + '/lib/node_modules/starrynight/scaffolds/boilerplates/rest-api', './', function (error) {
+              if (error){
+                return console.error(error)
+              }
+              console.log('Scaffold copied over!')
+            });
+            break;
+          //--------------------------------------------------------------------------------------------------------
+          case "iron-router":
+
+            childProcess.spawn('meteor', ['add', 'iron:router'], function(error, result){
               if(error){
                 console.log("[StarryNight] Error adding meteor packages. ", error);
               }
               if(result){
-                console.log('Packages installed.')
+                console.log('iron:router installed.')
               }
             });
-            console.log('Scaffold copied into place.')
-          });
+            fs.copy(npmPrefix + '/lib/node_modules/starrynight/scaffolds/boilerplates/iron-router', './', function (error) {
+              if (error){
+                return console.error(error)
+              }
+              console.log('Scaffold copied over!')
+            });
+            break;
+          //--------------------------------------------------------------------------------------------------------
+          case "client-server":
+            fs.copy(npmPrefix + '/lib/node_modules/starrynight/scaffolds/boilerplates/client-server', './', function (error) {
+              if (error){
+                return console.error(error)
+              }
+              console.log('Scaffold copied over!')
+            });
+            break;
+          //--------------------------------------------------------------------------------------------------------
+          default:
+            console.log('No scaffold template specified.  Please specify:')
+            console.log('> project-homepage');
+            console.log('> client-server');
+            console.log('> rest-api');
+            //console.log('> mobile-app');
+            break;
           break;
-        //--------------------------------------------------------------------------------------------------------
-        case "mobile-app":
-          fs.copy('/usr/local/lib/node_modules/starrynight/scaffolds/boilerplates/mobile-app', './', function (error) {
-            if (error){
-              return console.error(error)
-            }
-            console.log('Scaffold copied over!')
-          });
-          break;
-        //--------------------------------------------------------------------------------------------------------
-        case "rest-api":
-          fs.copy('/usr/local/lib/node_modules/starrynight/scaffolds/boilerplates/rest-api', './', function (error) {
-            if (error){
-              return console.error(error)
-            }
-            console.log('Scaffold copied over!')
-          });
-          break;
-        //--------------------------------------------------------------------------------------------------------
-        case "iron-router":
-
-          childProcess.spawn('meteor', ['add', 'iron:router'], function(error, result){
-            if(error){
-              console.log("[StarryNight] Error adding meteor packages. ", error);
-            }
-            if(result){
-              console.log('iron:router installed.')
-            }
-          });
-          fs.copy('/usr/local/lib/node_modules/starrynight/scaffolds/boilerplates/iron-router', './', function (error) {
-            if (error){
-              return console.error(error)
-            }
-            console.log('Scaffold copied over!')
-          });
-          break;
-        //--------------------------------------------------------------------------------------------------------
-        case "client-server":
-          fs.copy('/usr/local/lib/node_modules/starrynight/scaffolds/boilerplates/client-server', './', function (error) {
-            if (error){
-              return console.error(error)
-            }
-            console.log('Scaffold copied over!')
-          });
-          break;
-        //--------------------------------------------------------------------------------------------------------
-        default:
-          console.log('No scaffold template specified.  Please specify:')
-          console.log('> project-homepage');
-          console.log('> client-server');
-          console.log('> rest-api');
-          //console.log('> mobile-app');
-          break;
-        break;
-      }
-    break;
+        }
+      break;
 
 
-    //============================================================================================================
-    case "-sample":
-      console.log('StarryNight is initializing some default tests in your app...');
-      parseInitializeTestFilesArguments();
-    break;
+      //============================================================================================================
+      case "-sample":
+        console.log('StarryNight is initializing some default tests in your app...');
+        parseInitializeTestFilesArguments(npmPrefix);
+      break;
 
-    //============================================================================================================
-    case "-initialize":
-      console.log('StarryNight is initializing some default tests in your app...');
-      parseInitializeTestFilesArguments();
-    break;
+      //============================================================================================================
+      case "-initialize":
+        console.log('StarryNight is initializing some default tests in your app...');
+        parseInitializeTestFilesArguments(npmPrefix);
+      break;
 
-    //==============================================================================================
-    case "-run-tests":
-      parseRunTestArguments();
-    break;
+      //==============================================================================================
+      case "-run-tests":
+        parseRunTestArguments(npmPrefix);
+      break;
 
-    //==============================================================================================
-    case "-survey":
-      parseRunTestArguments();
-    break;
+      //==============================================================================================
+      case "-survey":
+        parseRunTestArguments(npmPrefix);
+      break;
 
-    //==============================================================================================
-    case "-nightwatch":
-      parseRunTestArguments();
-    break;
-
-
-    //==================================================================================================
-    case "-clone":
-      console.log("Cloning repository...");
+      //==============================================================================================
+      case "-nightwatch":
+        parseRunTestArguments(npmPrefix);
+      break;
 
 
-      var url = urlParser(secondaryArgument);
-      console.log('url', url);
-      console.log('url.path', url.path);
-      console.log('user', url.path.match(/\/(.*)\//).pop());
-      console.log('repo', url.path.substring(url.path.lastIndexOf("/") + 1));
+      //==================================================================================================
+      case "-clone":
+        console.log("Cloning repository...");
 
 
-      githubDownload(secondaryArgument, thirdArgument)
-        .on('dir', function(dir) {
-          console.log(dir)
-        })
-        .on('file', function(file) {
-          console.log(file)
-        })
-        .on('zip', function(zipUrl) { //only emitted if Github API limit is reached and the zip file is downloaded
-          console.log(zipUrl)
-        })
-        .on('error', function(err) {
-          console.error(err)
-        })
-        .on('end', function() {
-          childProcess.execFile('tree', function(err, stdout, sderr) {
-            console.log(stdout)
-          })
-        });
+        var url = urlParser(secondaryArgument);
+        console.log('url', url);
+        console.log('url.path', url.path);
+        console.log('user', url.path.match(/\/(.*)\//).pop());
+        console.log('repo', url.path.substring(url.path.lastIndexOf("/") + 1));
 
-      //TODO: copy ./.temp/components/* to ./components
-      //TODO; rm ./.temp
-    break;
 
-    //==================================================================================================
-    // -pattern is similar to -clone, but assumes that the target url implements a standard boilerplate
-    // it then goes into the boilerplate, and copies files into appropriate locations
-    // and avoids copying over package and repo specific files
-    // in other words, it's a 'smart clone'
-
-    case "-pattern":
-      console.log("Cloning repository pattern into directories...");
-
-      if(secondaryArgument){
-        // var url = urlParser(secondaryArgument);
-        // console.log('url', url);
-        // console.log('url.path', url.path);
-        // console.log('user', url.path.match(/\/(.*)\//).pop());
-        // console.log('repo', url.path.substring(url.path.lastIndexOf("/") + 1));
-
-        //TODO:  check if we're in the root of an application?  That might be a good thing to do.
-
-        // download the repository to a temp directory
-        githubDownload(secondaryArgument, './.temp')
+        githubDownload(secondaryArgument, thirdArgument)
           .on('dir', function(dir) {
             console.log(dir)
           })
@@ -280,143 +239,186 @@ switch (primaryArgument){
           })
           .on('end', function() {
             childProcess.execFile('tree', function(err, stdout, sderr) {
-              DEBUG && console.log(stdout)
-            });
+              console.log(stdout)
+            })
+          });
 
-            // copy the components directory from our temp dir to the app dir
-            // this assumes the standard server-client boilerplate
-            fs.copy('./.temp/components', './client/app/components', function (error) {
-              if (error){
-                return console.error(error)
-              }
-              console.log('Components copied from repository into app!')
+        //TODO: copy ./.temp/components/* to ./components
+        //TODO; rm ./.temp
+      break;
 
-              // temp directory created; lets move components into their final place
-              fs.copy('./.temp/tests/nightwatch/commands/components', './tests/nightwatch/commands/components', function (error) {
+      //==================================================================================================
+      // -pattern is similar to -clone, but assumes that the target url implements a standard boilerplate
+      // it then goes into the boilerplate, and copies files into appropriate locations
+      // and avoids copying over package and repo specific files
+      // in other words, it's a 'smart clone'
+
+      case "-pattern":
+        console.log("Cloning repository pattern into directories...");
+
+        if(secondaryArgument){
+          // var url = urlParser(secondaryArgument);
+          // console.log('url', url);
+          // console.log('url.path', url.path);
+          // console.log('user', url.path.match(/\/(.*)\//).pop());
+          // console.log('repo', url.path.substring(url.path.lastIndexOf("/") + 1));
+
+          //TODO:  check if we're in the root of an application?  That might be a good thing to do.
+
+          // download the repository to a temp directory
+          githubDownload(secondaryArgument, './.temp')
+            .on('dir', function(dir) {
+              console.log(dir)
+            })
+            .on('file', function(file) {
+              console.log(file)
+            })
+            .on('zip', function(zipUrl) { //only emitted if Github API limit is reached and the zip file is downloaded
+              console.log(zipUrl)
+            })
+            .on('error', function(err) {
+              console.error(err)
+            })
+            .on('end', function() {
+              childProcess.execFile('tree', function(err, stdout, sderr) {
+                DEBUG && console.log(stdout)
+              });
+
+              // copy the components directory from our temp dir to the app dir
+              // this assumes the standard server-client boilerplate
+              fs.copy('./.temp/components', './client/app/components', function (error) {
                 if (error){
                   return console.error(error)
                 }
-                console.log('Component acceptance tests copied from repository into app!')
+                console.log('Components copied from repository into app!')
 
-                //clean things up by removing our temp directory
-                fs.remove('./.temp', function (err) {
-                  if (err) return console.error(err)
+                // temp directory created; lets move components into their final place
+                fs.copy('./.temp/tests/nightwatch/commands/components', './tests/nightwatch/commands/components', function (error) {
+                  if (error){
+                    return console.error(error)
+                  }
+                  console.log('Component acceptance tests copied from repository into app!')
 
-                  console.log('success!')
+                  //clean things up by removing our temp directory
+                  fs.remove('./.temp', function (err) {
+                    if (err) return console.error(err)
+
+                    console.log('success!')
+                  });
                 });
               });
             });
-          });
 
 
 
 
-      }else{
-        console.log('-pattern needs a github URl to clone from that implements the server-client boilerplate pattern.');
-      }
+        }else{
+          console.log('-pattern needs a github URl to clone from that implements the server-client boilerplate pattern.');
+        }
 
 
 
-    break;
+      break;
 
-    //==================================================================================================
-    case "-rename":
-      // starrynight -refactor Page Panel app/components
-      // starrynight -refactor originalTerm newTerm directoryRoot
-      // starrynight -refactor secondaryArgument thirdArgument fourthArgument
+      //==================================================================================================
+      case "-rename":
+        // starrynight -refactor Page Panel app/components
+        // starrynight -refactor originalTerm newTerm directoryRoot
+        // starrynight -refactor secondaryArgument thirdArgument fourthArgument
 
-      if(!fourthArgument){
-        fourthArgument = ".";
-      }
-      console.log("------------------------------------------");
-      console.log("Searching files.... ");
-      finder(secondaryArgument, {root: fourthArgument, ignoreDirs: [".meteor", ".git", ".temp"]}, function(results){
-        //console.log('results', results);\
-
-        console.log("");
+        if(!fourthArgument){
+          fourthArgument = ".";
+        }
         console.log("------------------------------------------");
-        console.log("Renamed files...");
-        console.log("");
-        results.forEach(function(result){
-          // console.log('result.filepath', result.filepath);
+        console.log("Searching files.... ");
+        finder(secondaryArgument, {root: fourthArgument, ignoreDirs: [".meteor", ".git", ".temp"]}, function(results){
+          //console.log('results', results);\
 
-          // many component directories will have subfiles with the same name
-          // we need to run the replace twice - to replace the directory name
-          // and then to replace the file name.
+          console.log("");
+          console.log("------------------------------------------");
+          console.log("Renamed files...");
+          console.log("");
+          results.forEach(function(result){
+            // console.log('result.filepath', result.filepath);
 
-          var newresult = result.filepath.replace(secondaryArgument, thirdArgument);
-          var finalPath = newresult.replace(secondaryArgument, thirdArgument);
+            // many component directories will have subfiles with the same name
+            // we need to run the replace twice - to replace the directory name
+            // and then to replace the file name.
 
-          fs.move(result.filepath, finalPath, function(error, result){
-            console.log('error', error);
+            var newresult = result.filepath.replace(secondaryArgument, thirdArgument);
+            var finalPath = newresult.replace(secondaryArgument, thirdArgument);
+
+            fs.move(result.filepath, finalPath, function(error, result){
+              console.log('error', error);
+            });
+
+            console.log(finalPath);
+
           });
-
-          console.log(finalPath);
-
         });
-      });
 
-      console.log('Done renaming files!');
-    break;
+        console.log('Done renaming files!');
+      break;
 
-    //==================================================================================================
-    case "-refactor":
-      // starrynight -refactor foo bar app/components
-      // starrynight -refactor originalTerm newTerm directoryRoot
-      // starrynight -refactor secondaryArgument thirdArgument fourthArgument
+      //==================================================================================================
+      case "-refactor":
+        // starrynight -refactor foo bar app/components
+        // starrynight -refactor originalTerm newTerm directoryRoot
+        // starrynight -refactor secondaryArgument thirdArgument fourthArgument
 
-      if(!fourthArgument){
-        fourthArgument = ".";
-      }
+        if(!fourthArgument){
+          fourthArgument = ".";
+        }
 
-      replace({
-        regex: secondaryArgument,
-        replacement: thirdArgument,
-        paths: ['.'],
-        excludes: [".meteor", ".git"],
-        recursive: true
-      });
+        replace({
+          regex: secondaryArgument,
+          replacement: thirdArgument,
+          paths: ['.'],
+          excludes: [".meteor", ".git"],
+          recursive: true
+        });
 
-      console.log('Done refactoring!');
-    break;
+        console.log('Done refactoring!');
+      break;
 
-    //==================================================================================================
-    case "-help":
-        console.log( "StarryNight... The ultra-simple way to watch your Meteor apps for QA issues." );
-        console.log( "Useage:" );
-        console.log( "  -sample" );
-        console.log( "  -scaffold [project-homepage | client-server | rest-api]" );
-        console.log( "  -sample [acceptance | all]]" );
-        console.log( "  -pattern <url>" );
-        console.log( "  -rename <originalTerm> <newTerm> <directoryRoot>" );
-        console.log( "  -refactor <originalTerm> <newTerm> <directoryRoot>" );
-        console.log( "  -run-tests [tiny | unit | acceptance | end-to-end | all]" );
-        //console.log( "  -clone [url]" );
-    break;
-
-
-    //==================================================================================================
-    // If we can't figure out what the command-line argument was, then something is incorrect. Exit out.
-    default:
-
-        console.log( "Didn't understand that command.  Use -help for information." );
-
-        // Exit out of the process (as a failure).
-        process.exit( 1 );
-
-    break;
-
-}
+      //==================================================================================================
+      case "-help":
+          console.log( "StarryNight... The ultra-simple way to watch your Meteor apps for QA issues." );
+          console.log( "Useage:" );
+          console.log( "  -sample" );
+          console.log( "  -scaffold [project-homepage | client-server | rest-api]" );
+          console.log( "  -sample [acceptance | all]]" );
+          console.log( "  -pattern <url>" );
+          console.log( "  -rename <originalTerm> <newTerm> <directoryRoot>" );
+          console.log( "  -refactor <originalTerm> <newTerm> <directoryRoot>" );
+          console.log( "  -run-tests [tiny | unit | acceptance | end-to-end | all]" );
+          //console.log( "  -clone [url]" );
+      break;
 
 
+      //==================================================================================================
+      // If we can't figure out what the command-line argument was, then something is incorrect. Exit out.
+      default:
+
+          console.log( "Didn't understand that command.  Use -help for information." );
+
+          // Exit out of the process (as a failure).
+          process.exit( 1 );
+
+      break;
+
+  }
+});
 
 
 
- function parseInitializeTestFilesArguments(){
+
+
+ function parseInitializeTestFilesArguments(npmPrefix){
   switch (secondaryArgument) {
     case "all":
       // we're going to copy over all of the contents in the sample-tests directory
-      fs.copy('/usr/local/lib/node_modules/starrynight/sample-tests', './tests', function (error) {
+      fs.copy(npmPrefix + '/lib/node_modules/starrynight/sample-tests', './tests', function (error) {
         if (error){
           return console.error(error)
         }
@@ -424,7 +426,7 @@ switch (primaryArgument){
       });
       break;
     case "end-to-end":
-      fs.copy('/usr/local/lib/node_modules/starrynight/sample-tests/meteor-e2e', './tests/meteor-e2e', function (error) {
+      fs.copy(npmPrefix + '/lib/node_modules/starrynight/sample-tests/meteor-e2e', './tests/meteor-e2e', function (error) {
         if (error){
           console.log('Is meteor-e2e installed?');
           return console.error(error)
@@ -435,7 +437,7 @@ switch (primaryArgument){
     case "acceptance":
       switch (thirdArgument) {
         case "project-homepage":
-            fs.copy('/usr/local/lib/node_modules/starrynight/sample-tests/nightwatch-project-homepage', './tests/nightwatch', function (error) {
+            fs.copy(npmPrefix + '/lib/node_modules/starrynight/sample-tests/nightwatch-project-homepage', './tests/nightwatch', function (error) {
               if (error){
                 return console.error(error)
               }
@@ -443,7 +445,7 @@ switch (primaryArgument){
             });
           break;
         case "itunes":
-            fs.copy('/usr/local/lib/node_modules/starrynight/sample-tests/nightwatch-itunes', './tests/nightwatch', function (error) {
+            fs.copy(npmPrefix + '/lib/node_modules/starrynight/sample-tests/nightwatch-itunes', './tests/nightwatch', function (error) {
               if (error){
                 return console.error(error)
               }
@@ -451,7 +453,7 @@ switch (primaryArgument){
             });
           break;
         default:
-          fs.copy('/usr/local/lib/node_modules/starrynight/sample-tests/nightwatch', './tests/nightwatch', function (error) {
+          fs.copy(npmPrefix + '/lib/node_modules/starrynight/sample-tests/nightwatch', './tests/nightwatch', function (error) {
             if (error){
               return console.error(error);
             }
@@ -461,7 +463,7 @@ switch (primaryArgument){
       }
       break;
     // case "acceptance-helloworld":
-    //   fs.copy('/usr/local/lib/node_modules/starrynight/sample-tests/nightwatch-helloworld', './tests/nightwatch', function (error) {
+    //   fs.copy(npmPrefix + '/lib/node_modules/starrynight/sample-tests/nightwatch-helloworld', './tests/nightwatch', function (error) {
     //     if (error){
     //       return console.error(error)
     //     }
@@ -484,7 +486,7 @@ switch (primaryArgument){
 
 
 
-function parseRunTestArguments(){
+function parseRunTestArguments(npmPrefix){
   switch (secondaryArgument) {
 
     //------------------------------------------------------------------------------------------
@@ -513,7 +515,7 @@ function parseRunTestArguments(){
     case "acceptance":
       console.log("Launching StarryNight.  Analyzing meteor environment...");
 
-      // if(!fileExists('/usr/local/lib/node_modules/starrynight/node_modules/selenium-server-standalone-jar/jar/selenium-server-standalone-2.45.0.jar')){
+      // if(!fileExists(npmPrefix + '/lib/node_modules/starrynight/node_modules/selenium-server-standalone-jar/jar/selenium-server-standalone-2.45.0.jar')){
       // if(!fileExists(seleniumJar.path)){
       //   console.log("Can't find selenium-server!  Try running 'npm install selenium-server-standalone-jar -g'");
       //   return;
@@ -533,11 +535,11 @@ function parseRunTestArguments(){
             var nightwatchCommand;
             if(process.env.TRAVIS){
               // the command paths to run if we're on travis.org
-              configFileLocation = CONFIG_PREFIX + '/lib/node_modules/starrynight/configs/nightwatch/travis.json';
+              configFileLocation = npmPrefix + '/lib/node_modules/starrynight/configs/nightwatch/travis.json';
               nightwatchCommand = '/home/travis/.nvm/v0.10.38/lib/node_modules/starrynight/node_modules/nightwatch/bin/nightwatch';
             }else{
               // the command paths if we're running locally
-              configFileLocation = CONFIG_PREFIX + '/lib/node_modules/starrynight/configs/nightwatch/config.json';
+              configFileLocation = npmPrefix + '/lib/node_modules/starrynight/configs/nightwatch/config.json';
               nightwatchCommand = 'nightwatch';
             }
 
