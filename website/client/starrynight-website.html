@@ -57,6 +57,7 @@
           <br>
           <span class="gray">//arguments</span><br>
           -help <br>
+          -audit-permissions<br>
           -scaffold <span class="gray">[project-homepage | client-server | rest-api]</span> <br>
           -sample <span class="gray">[acceptance | all]</span> <br>
           -clone <span class="gray">url</span> <br>
@@ -64,7 +65,6 @@
           -rename <span class="gray">originalTerm newTerm directoryRoot</span> <br>
           -refactor <span class="gray">originalTerm newTerm directoryRoot</span> <br>
           -survey <span class="gray">[tiny | end-to-end | acceptance]</span> <br>
-          -audit-permission<br>
           <!-- -survey <span class="gray">[tiny | unit | acceptance | all]</span> <br> -->
           <!-- -generate <span class="gray">[component | subsystem]</span> <br> -->
           <!-- -audit <span class="gray">[tag | all]</span> <br> -->
@@ -83,6 +83,7 @@
 
           <span class="gray"># you might want to open your editor to follow along</span><br>
           $ atom .<br>
+          $ meteor<br>
           <br>
 
           <span class="gray"># add acceptance tests to your application (using the nightwatch framework)</span><br>
@@ -138,6 +139,10 @@
           <span class="gray"># find-and-replace terms throughout our app</span><br>
           $ starrynight -refactor "AppTitle" "Hello StarryNight"<br>
           $ starrynight -refactor "about" "marketing"<br>
+          <br>
+
+          <span class="gray"># when new files are created, we sometimes want to check file permissions</span><br>
+          $ starrynight -audit-permissions<br>
           <br>
 
           <span class="gray"># run acceptance tests again (they should pass)</span><br>
