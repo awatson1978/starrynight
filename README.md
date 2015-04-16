@@ -40,7 +40,7 @@ npm install starrynight -g
 -rename [originalTerm newTerm directoryRoot]
 -refactor [originalTerm newTerm directoryRoot]
 -dryrun [acceptance | all]
--run-tests [tiny | end-to-end | acceptance]
+-run-tests [tiny | acceptance | end-to-end]
 ````
 
 ===============================
