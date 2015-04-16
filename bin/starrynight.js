@@ -554,13 +554,10 @@ function parseRunTestArguments(npmPrefix){
 
             var frameworkExitCode = 0;
             nightwatch.stdout.on('data', function(data){
-
-              // data is in hex, lets convert it
-              // it also has a line break at the end; lets get rid of that
-              console.log(("" + data).slice(0, -1));
+              console.log(data.toString().trim());
 
               // without this, travis CI won't report that there are failed tests
-              if(("" + data).indexOf("✖") > -1){
+              if(data.toString().indexOf("✖") > -1){
                 frameworkExitCode = 1;
               }
             });
