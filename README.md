@@ -54,9 +54,6 @@ $ starrynight -initialize acceptance
 $ starrynight -run acceptance
 ````
 
-===============================
-#### Contributing a Test Framework
-
 
 ===============================
 #### Contributing a Test Framework
