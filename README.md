@@ -40,7 +40,7 @@ npm install starrynight -g
 -rename [originalTerm newTerm directoryRoot]
 -refactor [originalTerm newTerm directoryRoot]
 -dryrun [acceptance | all]
--run-tests [tiny | unit | acceptance | all]
+-run-tests [tiny | acceptance | end-to-end]
 ````
 
 ===============================
@@ -48,10 +48,10 @@ npm install starrynight -g
 
 ````sh
 # add acceptance tests to your application (using the nightwatch framework)
-$ starrysky -initialize acceptance
+$ starrynight -initialize acceptance
 
 # run acceptance tests
-$ starrysky -run acceptance
+$ starrynight -run acceptance
 ````
 
 ===============================

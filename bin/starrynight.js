@@ -384,14 +384,14 @@ npm.load(function(error, npm) {
       //==================================================================================================
       case "-help":
           console.log( "StarryNight... The ultra-simple way to watch your Meteor apps for QA issues." );
-          console.log( "Useage:" );
+          console.log( "Usage:" );
           console.log( "  -sample" );
           console.log( "  -scaffold [project-homepage | client-server | rest-api]" );
           console.log( "  -sample [acceptance | all]]" );
           console.log( "  -pattern <url>" );
           console.log( "  -rename <originalTerm> <newTerm> <directoryRoot>" );
           console.log( "  -refactor <originalTerm> <newTerm> <directoryRoot>" );
-          console.log( "  -run-tests [tiny | unit | acceptance | end-to-end | all]" );
+          console.log( "  -run-tests [tiny | acceptance | end-to-end]" );
           //console.log( "  -clone [url]" );
       break;
 
