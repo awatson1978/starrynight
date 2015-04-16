@@ -57,6 +57,9 @@ var Future = require('fibers/future');
 // so we can get the npm install prefix
 var npm = require('npm');
 
+// for _.extend()ing the process.env object
+var _ = require('underscore');
+
 
 //==================================================================================================
 // FILE LINKING
@@ -543,12 +546,8 @@ function parseRunTestArguments(npmPrefix){
               nightwatchCommand = 'nightwatch';
             }
 
-            //console.log('Config file location: ' + configFileLocation);
-
-            // TODO:  can we specify the server path via the command line, so it doesn't need to be in the json file?
-            // different node versions will break this
-            // alternatively, can we specify node 0.10.38 in particular?
-            var nightwatch = childProcess.spawn(nightwatchCommand, ['-c', configFileLocation], function(error, result){
+            var nightwatchEnv = _.extend(process.env, {npm_config_prefix: npmPrefix});
+            var nightwatch = childProcess.spawn(nightwatchCommand, ['-c', configFileLocation], {env: nightwatchEnv}, function(error, result){
               if(error){
                 console.log("[StarryNight] ERROR spawning nightwatch: ", error);
                 //process.exit(1);
