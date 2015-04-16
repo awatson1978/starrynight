@@ -539,20 +539,8 @@ function parseRunTestArguments(npmPrefix){
             }
 
             var nightwatchEnv = _.extend(process.env, {npm_config_prefix: npmPrefix});
-            var nightwatch = childProcess.spawn(nightwatchCommand, ['-c', configFileLocation], {env: nightwatchEnv}, function(error, result){
-              if(error){
-                // FIXME: I never see this, even when nightwatchCommand points to a nonexistant file
-                console.log("[StarryNight] ERROR spawning nightwatch: ", error);
-                //process.exit(1);
-              }
-              if(result){
-                // FIXME: Does this do anything? Or does the stdout.on() call (below) win/supersede?
-                console.log("result", result);
-              }
-            });
-
-
             var frameworkExitCode = 0;
+            var nightwatch = childProcess.spawn(nightwatchCommand, ['-c', configFileLocation], {env: nightwatchEnv});
             nightwatch.stdout.on('data', function(data){
               console.log(data.toString().trim());
 
@@ -560,6 +548,13 @@ function parseRunTestArguments(npmPrefix){
               if(data.toString().indexOf("✖") > -1){
                 frameworkExitCode = 1;
               }
+            });
+            nightwatch.stderr.on('data', function(data) {
+              console.error(data.toString());
+            });
+            nightwatch.on('error', function(error){
+              console.error('[StarryNight] ERROR spawning nightwatch. nightwatchCommand was', nightwatchCommand);
+              throw error;
             });
             nightwatch.on('close', function(nightwatchExitCode){
               if(nightwatchExitCode === 0){
