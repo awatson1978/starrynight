@@ -518,14 +518,6 @@ function parseRunTestArguments(npmPrefix){
     case "acceptance":
       console.log("Launching StarryNight.  Analyzing meteor environment...");
 
-      // if(!fileExists(npmPrefix + '/lib/node_modules/starrynight/node_modules/selenium-server-standalone-jar/jar/selenium-server-standalone-2.45.0.jar')){
-      // if(!fileExists(seleniumJar.path)){
-      //   console.log("Can't find selenium-server!  Try running 'npm install selenium-server-standalone-jar -g'");
-      //   return;
-      // }else{
-      //   console.log("Detected a selenium binary...");
-      // }
-
       request("http://localhost:3000", function (error, httpResponse) {
          if (httpResponse) {
            console.log("Detected a meteor instance...");
