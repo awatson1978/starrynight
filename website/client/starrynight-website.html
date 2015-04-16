@@ -19,8 +19,9 @@
       <h2>What is StarryNight?</h2>
       <hr>
       <p>
-        StarryNight is a command line tool for use in scaffolding and testing Meteor applications.  It's similar to tools like 'spacejam', 'rails generate', 'abee', and 'mrt'.  It's a direct result of 2 years of working on the <a href="http://github.com/awatson1978/meteor-cookbook.git">Meteor Cookbook</a>.
+        StarryNight is an application lifecycle managmeent tool for use in scaffolding and testing Meteor applications.  It's similar to tools like 'spacejam', 'yeoman', 'rails generate', 'abee', and 'mrt'.  It's a direct result of 2 years of working on the <a href="http://github.com/awatson1978/meteor-cookbook.git">Meteor Cookbook</a>.
       </p>
+
 
       <h2>Why StarryNight?</h2>
       <hr>
@@ -46,6 +47,9 @@
           npm install starrynight -g
         </code>
       </div>
+      <p>
+        Currently only supports OSX.  That's not to say that you can't get it to work on other platforms, just that there are no guarantees.  In particular, StarryNight sometimes looks in specific directories for config files and to set environment variables, which may be specific to Mac.
+      </p>
 
 
       <h2>Usage</h2>
@@ -69,6 +73,89 @@
           <!-- -generate <span class="gray">[component | subsystem]</span> <br> -->
           <!-- -audit <span class="gray">[tag | all]</span> <br> -->
         </code>
+      </div>
+
+      <h2>Commands</h2>
+      <hr>
+      <div class="horizontally-padded">
+        <p>
+          <b>help</b><br>
+          Prints out some information on commands that can be run and what arguments they take.
+        </p>
+        <p>
+          <b>audit-permissions</b><br>
+          Primarily for any EACCESS errors, or if you find yourself running commands with 'sudo'.  Will modify file permissions on relevant files.
+        </p>
+        <p>
+          <b>scaffold</b><br>
+          Copies parts of the Reference Scaffold into your application.  Will overwrite existing files.  Should be run from the application root, where the .meteor directory is located.
+        </p>
+        <p>
+          <b>sample</b><br>
+          Copies sample test into your /tests directory.
+        </p>
+        <p>
+          <b>clone</b><br>
+          Clones a github url into the current directory.  Not very smart. Does a raw clone, with any ancillary documentation in the github repository, such as the README.md.
+        </p>
+        <p>
+          <b>pattern</b><br>
+          A 'smart-clone' which looks into a github repository for directories in the Reference Scaffold, and patches those files into your app.  Overwrites existing files.
+        </p>
+        <p>
+          <b>rename</b><br>
+          Renames directories and files according to the pattern you specify.  Is not case sensitive.  The optional directory argument will scope the rename operation within the specified subdirectory.  Run in the application parent directory to include tests in the /test directory.
+        </p>
+        <p>
+          <b>find-and-replace</b><br>
+          Basically the same as the rename command, but opens up files and replaces occurrences of the specified pattern in the code itself.
+        </p>
+        <p>
+          <b>refactor</b><br>
+          Runs both a rename and refactor command.
+        </p>
+        <p>
+          <b>survey</b><br>
+          Runs default testing frameworks.  Options currently include tiny, unit, and acceptance; with more on the way.  Alias for run-tests.
+        </p>
+
+        <!-- <hr>
+        <p>
+          <b>generate</b><br>
+          Runs a scaffold command followed by a refactor command.  If a url is specified, runs a pattern command followed by a refactor.
+        </p>
+        <p>
+          <b>run-framework</b><br>
+          Runs a specific testing framework.  General alias for survey and run-tests, but let's you pass in framework specific options and arguments.
+        </p>
+        <p>
+          <b>package-clone</b><br>
+          Clones a package into the /packages directory.  Convenience function so you don't have to swap directories to run the clone command.
+        </p>
+        <p>
+          <b>package-publish</b><br>
+          The default meteor publish command can't run from within the /packages directory, because meteor will detect the parent .meteor directory and bork things.  package-publish will copy the package up two directories into a .temp directory and publish from there, then clean things up.  Allows you to develop a package from with the /packages directory.
+        </p>
+        <p>
+          <b>clean</b><br>
+          Similar to meteor reset, but doesn't dump the database.  Clears the following directories: .meteor/local, .temp, .demeteorizer.
+        </p>
+        <p>
+          <b>extract-ids</b><br>
+          Extracts element ids from the specified file, and generates a nightwatch command file. Best used on a component html file to generate a corresponding component test command that will inspect that component.
+        </p>
+        <p>
+          <b>connect</b><br>
+          There's a few services that people commonly like to connect their applications to, such as google-analytics and uservoice, which only require a single file copied into their app.      This will get those files in place without having to research things.
+        </p>
+        <p>
+          <b>display-env</b><br>
+          Displays the current value of all known Meteor environment variables.
+        </p>
+        <p>
+          <b>install-dev-tools</b><br>
+          Installs common development tools for Meteor, including Atom.io.
+        </p> -->
       </div>
 
 
@@ -151,6 +238,66 @@
 
         </code>
       </div>
+
+
+      <h2>Reference Scaffold</h2>
+      <hr>
+      <p>
+        To get the most out of StarryNight, it's best to understand the structure of the Reference Scaffold, which is a sort of default app that StarryNight uses to structure apps.  Some people will object to the design assumptions that the Reference Scaffold makes, and that's okay.  That's what the refactoring tools in StarryNight are for:  it's assumed that, at some point, you'll stop wanting to follow the scaffold, and begin custom modifying parts of it.  If anybody wants to make changes to the underlying scaffold itself (ie to add angular, famo.us, or react scaffolds), they're free to fork StarryNight and write their own scaffolding utility or submit pull-requests.
+      </p>
+      <div class="code">
+        <code class="monospace">
+          /media<br>
+          /docs<br>
+          /design<br>
+          /data<br>
+          /webapp<br>
+          /webapp/client<br>
+          /webapp/client/mainLayout.html<br>
+          /webapp/client/mainLayout.js<br>
+          /webapp/client/mainLayout.less<br>
+          /webapp/client/app/components<br>
+          /webapp/client/app/components/<br>
+          /webapp/client/app/components<br>
+          /webapp/client/app<br>
+          /webapp/server<br>
+          /webapp/lib<br>
+          /webapp/tests<br>
+          /webapp/tests/nightwatch<br>
+          /webapp/tests/nightwatch/commands<br>
+          /webapp/tests/nightwatch/walkthroughs<br>
+          .travis.yml
+        </code>
+      </div>
+      <p>
+        The Reference Scaffold makes quite a few opinionated assumptions about how to structure an app...  everything from how to integrate analytics to which continuous-integration environment to run.  You're welcome to ignore any part, delete components, or not run the scaffolding commands in the first place.  But if you just want to get an app up-and-running, and are willing to follow some standard conventions, StarryNight will do a whole lot of the heavy-lifting for you.  But you should know what you're getting, and that begins by looking at the default directory structure of what you would get if you ran all the scaffolding components.
+      </p>
+
+
+      <h2>Testing</h2>
+      <hr>
+      <p>
+        Supports package testing via TinyTest framework; and acceptance testing and unit testing via the Nightwatch testing framework.
+      </p>
+
+      <!-- <h2>Continous Integration</h2>
+      <hr>
+      <p>
+        Supports out-of-the-box support for Travis.org.  Support for BrowserStack and SauceLabs is coming soon!
+      </p> -->
+
+
+      <h2>About The Name</h2>
+      <hr>
+      <p>
+        Why 'StarryNight'?  Basically because it started out as a launcher for the Nightwatch testing framework, which was named after a Rembrandt painting.   I was looking for a piece of art that was go along with Meteor, Atmosphere, Nightwatch, and...  StarryNight was an obvious choice.
+      </p>
+
+      <h2>History</h2>
+      <hr>
+      <p>
+        StarryNight was originally a test-runner to run the Nightwatch testing framework.  Somewhere along the way it seemed like a good idea to copy test files into a user's application.  Then it seemed like a good idea to run those tests on a continuous integration server.  And if we could copy some tests files into the app, maybe it would be a good idea to be able to scaffold some application boilerplate into an app as well.  And then it just became a place to add all the tools and scripts that Meteor doesn't include by default.
+      </p>
 
 
       <h2>Get the Code</h2>
