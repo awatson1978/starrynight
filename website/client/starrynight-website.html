@@ -1,0 +1,175 @@
+<head>
+  <title>starrynight-website</title>
+</head>
+
+<body>
+  {{> hello}}
+</body>
+
+<template name="hello">
+  <div class="hidden">{{resized}}</div>
+
+  <div id="transparentPanel" class="container" style="{{getStyle}}"></div>
+
+  <div id="mainPanel" class="padded container helveticas" style="{{getStyle}}">
+    <div id="innerPanel" class="panel panel-default">
+      <h1>StarryNight</h1>
+      <h4>Meteor Testing and Scaffolding Tool</h4>
+
+      <h2>What is StarryNight?</h2>
+      <hr>
+      <p>
+        StarryNight is a command line tool for use in scaffolding and testing Meteor applications.  It's similar to tools like 'spacejam', 'rails generate', 'abee', and 'mrt'.  It's a direct result of 2 years of working on the <a href="http://github.com/awatson1978/meteor-cookbook.git">Meteor Cookbook</a>.
+      </p>
+
+      <h2>Why StarryNight?</h2>
+      <hr>
+      <ul>
+        <li>application life-cycle management</li>
+        <li>has scaffolding/boilerplates for getting people started</li>
+        <li>lean, simple, and focused testing</li>
+        <li>embraces the existing testing tools used by MDG</li>
+        <li>testing without the bloat of mirrors, file monitors, html reporters, and the like</li>
+        <li>isn't trying to be a SaaS testing platform</li>
+        <li>assumes developers will be using 3rd party SaaS solutions</li>
+        <li>single tool, not a collection of a dozen packages</li>
+        <li>continous integration ready</li>
+        <li>easy to integrate new life cycle management tools</li>
+        <li>easy to integrate new code snippets and boilerplates</li>
+        <li>easy to integrate new testing frameworks</li>
+      </ul>
+
+      <h2>Installation</h2>
+      <hr>
+      <div class="code">
+        <code>
+          npm install starrynight -g
+        </code>
+      </div>
+
+
+      <h2>Usage</h2>
+      <hr>
+      <div class="code">
+        <code class="monospace">
+          <span class="gray">//running the utility</span><br>
+          $ starrynight <br>
+          <br>
+          <span class="gray">//arguments</span><br>
+          -help <br>
+          -audit-permissions<br>
+          -scaffold <span class="gray">[project-homepage | client-server | rest-api]</span> <br>
+          -sample <span class="gray">[acceptance | all]</span> <br>
+          -clone <span class="gray">url</span> <br>
+          -pattern <span class="gray">url</span> <br>
+          -rename <span class="gray">originalTerm newTerm directoryRoot</span> <br>
+          -refactor <span class="gray">originalTerm newTerm directoryRoot</span> <br>
+          -survey <span class="gray">[tiny | end-to-end | acceptance]</span> <br>
+          <!-- -survey <span class="gray">[tiny | unit | acceptance | all]</span> <br> -->
+          <!-- -generate <span class="gray">[component | subsystem]</span> <br> -->
+          <!-- -audit <span class="gray">[tag | all]</span> <br> -->
+        </code>
+      </div>
+
+
+      <h2>Examples</h2>
+      <hr>
+      <div class="code">
+        <code class="monospace">
+          <span class="gray"># create a helloworld application</span><br>
+          $ meteor create helloworld<br>
+          $ cd helloworld<br>
+          <br>
+
+          <span class="gray"># you might want to open your editor to follow along</span><br>
+          $ atom .<br>
+          $ meteor<br>
+          <br>
+
+          <span class="gray"># add acceptance tests to your application (using the nightwatch framework)</span><br>
+          $ starrynight -sample acceptance<br>
+          <br>
+
+          <span class="gray"># make sure the acceptance testing framework is running</span><br>
+          $ starrynight -survey acceptance<br>
+          <br>
+
+          <span class="gray"># add a scaffold/boilerplate to your project</span><br>
+          $ starrynight -scaffold project-homepage<br>
+          $ rm helloworld.*<br>
+          <br>
+
+          <span class="gray"># add acceptance tests for the project-homepage scaffold</span><br>
+          $ starrynight -sample acceptance project-homepage<br>
+          <br>
+
+          <span class="gray"># run acceptance tests on the new scaffold</span><br>
+          $ starrynight -survey acceptance<br>
+          <br>
+
+          <span class="gray"># add more scaffolding to your project</span><br>
+          $ starrynight -scaffold iron-router<br>
+          <br>
+
+          <span class="gray"># see if our tests still work</span><br>
+          $ starrynight -survey acceptance<br>
+          <br>
+
+          <span class="gray"># add the itunes connect acceptance tests (mobile first)</span><br>
+          $ starrynight -sample acceptance itunes<br>
+          <br>
+
+          <span class="gray"># our tests should break</span><br>
+          $ starrynight -survey acceptance<br>
+          <br>
+
+          <span class="gray"># add extra page components and routes to our app</span><br>
+          $ starrynight -pattern https://github.com/awatson1978/clinical-static-pages<br>
+          <br>
+
+          <span class="gray"># run acceptance tests (they should break)</span><br>
+          $ starrynight -survey acceptance<br>
+          <br>
+
+          <span class="gray"># rename files throughout your app in one go</span><br>
+          $ starrynight -rename about marketing<br>
+          $ starrynight -rename About Marketing<br>
+          <br>
+
+          <span class="gray"># find-and-replace terms throughout our app</span><br>
+          $ starrynight -refactor "AppTitle" "Hello StarryNight"<br>
+          $ starrynight -refactor "about" "marketing"<br>
+          <br>
+
+          <span class="gray"># when new files are created, we sometimes want to check file permissions</span><br>
+          $ starrynight -audit-permissions<br>
+          <br>
+
+          <span class="gray"># run acceptance tests again (they should pass)</span><br>
+          $ starrynight -survey acceptance<br>
+          <br>
+
+        </code>
+      </div>
+
+
+      <h2>Get the Code</h2>
+      <hr>
+      <p class="large">
+        <a href="http://github.com/awatson1978/starrynight.git"><i class="fa fa-github"></i> http://github.com/awatson1978/starrynight</a>
+      </p>
+
+
+
+      <h2>About The Utility</h2>
+      <hr>
+      <p>
+        Written by <a href="http://www.linkedin.com/in/abigailwatson">Abigail Watson</a><br>
+      </p>
+
+
+    </div>
+  </div>
+
+
+</template>
