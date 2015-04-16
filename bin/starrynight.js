@@ -384,6 +384,15 @@ npm.load(function(error, npm) {
         console.log('Done refactoring!');
       break;
 
+
+      //==================================================================================================
+      case "-audit-permissions":
+        console.log("Fixing permissions in .meteor directory.");
+        childProcess.exec("chmod -R 755 .meteor", function(err, stdout, stderr) {
+          console.log(stdout);
+        });
+      break;
+
       //==================================================================================================
       case "-help":
           console.log( "StarryNight... The ultra-simple way to watch your Meteor apps for QA issues." );
@@ -395,9 +404,9 @@ npm.load(function(error, npm) {
           console.log( "  -rename <originalTerm> <newTerm> <directoryRoot>" );
           console.log( "  -refactor <originalTerm> <newTerm> <directoryRoot>" );
           console.log( "  -run-tests [tiny | acceptance | end-to-end]" );
+          console.log( "  -audit-permissions" );
           //console.log( "  -clone [url]" );
       break;
-
 
       //==================================================================================================
       // If we can't figure out what the command-line argument was, then something is incorrect. Exit out.
@@ -588,13 +597,6 @@ function parseRunTestArguments(npmPrefix){
       });
     break;
 
-    //------------------------------------------------------------------------------------------
-    case "audit-permission":
-      console.log("Fixing permissions in .meteor directory.");
-      childProcess.exec("chmod -R 755 .meteor", function(err, stdout, stderr) {
-        console.log(stdout);
-      });
-    break;
     // //------------------------------------------------------------------------------------------
     // case "all":
     //   console.log("Running all tests...");
