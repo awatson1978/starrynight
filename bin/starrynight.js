@@ -535,7 +535,7 @@ function parseRunTestArguments(npmPrefix){
             }else{
               // the command paths if we're running locally
               configFileLocation = npmPrefix + '/lib/node_modules/starrynight/configs/nightwatch/config.json';
-              nightwatchCommand = 'nightwatch';
+              nightwatchCommand = npmPrefix + '/lib/node_modules/starrynight/node_modules/nightwatch/bin/nightwatch';
             }
 
             var nightwatchEnv = _.extend(process.env, {npm_config_prefix: npmPrefix});
