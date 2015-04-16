@@ -541,10 +541,12 @@ function parseRunTestArguments(npmPrefix){
             var nightwatchEnv = _.extend(process.env, {npm_config_prefix: npmPrefix});
             var nightwatch = childProcess.spawn(nightwatchCommand, ['-c', configFileLocation], {env: nightwatchEnv}, function(error, result){
               if(error){
+                // FIXME: I never see this, even when nightwatchCommand points to a nonexistant file
                 console.log("[StarryNight] ERROR spawning nightwatch: ", error);
                 //process.exit(1);
               }
               if(result){
+                // FIXME: Does this do anything? Or does the stdout.on() call (below) win/supersede?
                 console.log("result", result);
               }
             });
