@@ -518,14 +518,6 @@ function parseRunTestArguments(npmPrefix){
     case "acceptance":
       console.log("Launching StarryNight.  Analyzing meteor environment...");
 
-      // if(!fileExists(npmPrefix + '/lib/node_modules/starrynight/node_modules/selenium-server-standalone-jar/jar/selenium-server-standalone-2.45.0.jar')){
-      // if(!fileExists(seleniumJar.path)){
-      //   console.log("Can't find selenium-server!  Try running 'npm install selenium-server-standalone-jar -g'");
-      //   return;
-      // }else{
-      //   console.log("Detected a selenium binary...");
-      // }
-
       request("http://localhost:3000", function (error, httpResponse) {
          if (httpResponse) {
            console.log("Detected a meteor instance...");
@@ -543,32 +535,26 @@ function parseRunTestArguments(npmPrefix){
             }else{
               // the command paths if we're running locally
               configFileLocation = npmPrefix + '/lib/node_modules/starrynight/configs/nightwatch/config.json';
-              nightwatchCommand = 'nightwatch';
+              nightwatchCommand = npmPrefix + '/lib/node_modules/starrynight/node_modules/nightwatch/bin/nightwatch';
             }
 
             var nightwatchEnv = _.extend(process.env, {npm_config_prefix: npmPrefix});
-            var nightwatch = childProcess.spawn(nightwatchCommand, ['-c', configFileLocation], {env: nightwatchEnv}, function(error, result){
-              if(error){
-                console.log("[StarryNight] ERROR spawning nightwatch: ", error);
-                //process.exit(1);
-              }
-              if(result){
-                console.log("result", result);
-              }
-            });
-
-
             var frameworkExitCode = 0;
+            var nightwatch = childProcess.spawn(nightwatchCommand, ['-c', configFileLocation], {env: nightwatchEnv});
             nightwatch.stdout.on('data', function(data){
-
-              // data is in hex, lets convert it
-              // it also has a line break at the end; lets get rid of that
-              console.log(("" + data).slice(0, -1));
+              console.log(data.toString().trim());
 
               // without this, travis CI won't report that there are failed tests
-              if(("" + data).indexOf("✖") > -1){
+              if(data.toString().indexOf("✖") > -1){
                 frameworkExitCode = 1;
               }
+            });
+            nightwatch.stderr.on('data', function(data) {
+              console.error(data.toString());
+            });
+            nightwatch.on('error', function(error){
+              console.error('[StarryNight] ERROR spawning nightwatch. nightwatchCommand was', nightwatchCommand);
+              throw error;
             });
             nightwatch.on('close', function(nightwatchExitCode){
               if(nightwatchExitCode === 0){
