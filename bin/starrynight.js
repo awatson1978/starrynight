@@ -409,6 +409,21 @@ npm.load(function(error, npm) {
       break;
 
       //==================================================================================================
+      case "-display-env":
+          console.log( "Displaying environment variables:" );
+          console.log( "Usage:" );
+          console.log( "  -sample" );
+          console.log( "  -scaffold [project-homepage | client-server | rest-api]" );
+          console.log( "  -sample [acceptance | all]]" );
+          console.log( "  -pattern <url>" );
+          console.log( "  -rename <originalTerm> <newTerm> <directoryRoot>" );
+          console.log( "  -refactor <originalTerm> <newTerm> <directoryRoot>" );
+          console.log( "  -run-tests [tiny | acceptance | end-to-end]" );
+          console.log( "  -audit-permissions" );
+          //console.log( "  -clone [url]" );
+      break;
+
+      //==================================================================================================
       // If we can't figure out what the command-line argument was, then something is incorrect. Exit out.
       default:
 
