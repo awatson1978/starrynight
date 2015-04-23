@@ -411,15 +411,22 @@ npm.load(function(error, npm) {
       //==================================================================================================
       case "-display-env":
           console.log( "Displaying environment variables:" );
-          console.log( "Usage:" );
-          console.log( "  -sample" );
-          console.log( "  -scaffold [project-homepage | client-server | rest-api]" );
-          console.log( "  -sample [acceptance | all]]" );
-          console.log( "  -pattern <url>" );
-          console.log( "  -rename <originalTerm> <newTerm> <directoryRoot>" );
-          console.log( "  -refactor <originalTerm> <newTerm> <directoryRoot>" );
-          console.log( "  -run-tests [tiny | acceptance | end-to-end]" );
-          console.log( "  -audit-permissions" );
+          console.log( "PORT:                                 " + process.env.PORT);
+          console.log( "MONGO_URL:                            " + process.env.MONGO_URL);
+          console.log( "ROOT_URL:                             " + process.env.ROOT_URL);
+          console.log( "OPLOG_URL:                            " + process.env.OPLOG_URL);
+          console.log( "MONGO_OPLOG_URL:                      " + process.env.MONGO_OPLOG_URL);
+          console.log( "METEOR_ENV:                           " + process.env.METEOR_ENV);
+          console.log( "NODE_ENV:                             " + process.env.NODE_ENV);
+          console.log( "NODE_OPTIONS:                         " + process.env.NODE_OPTIONS);
+          console.log( "DISABLE_WEBSOCKETS:                   " + process.env.DISABLE_WEBSOCKETS);
+          console.log( "MAIL_URL:                             " + process.env.MAIL_URL);
+          console.log( "DDP_DEFAULT_CONNECTION_URL:           " + process.env.DDP_DEFAULT_CONNECTION_URL);
+          console.log( "HTTP_PROXY:                           " + process.env.HTTP_PROXY);
+          console.log( "HTTPS_PROXY:                          " + process.env.HTTPS_PROXY);
+          console.log( "METEOR_OFFLINE_CATALOG:               " + process.env.METEOR_OFFLINE_CATALOG);
+          console.log( "METEOR_PROFILE:                       " + process.env.METEOR_PROFILE);
+          console.log( "METEOR_PRINT_CONSTRAINT_SOLVER_INPUT: " + process.env.METEOR_PRINT_CONSTRAINT_SOLVER_INPUT);
           //console.log( "  -clone [url]" );
       break;
 
