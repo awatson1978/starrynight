@@ -55,7 +55,7 @@ Schemas.Customer = new SimpleSchema({
     type: String,
     label: "Fax",
     regEx: /^(?:(?:\(?(?:00|\+)([1-4]\d\d|[1-9]\d?)\)?)?[\-\.\ \\\/]?)?((?:\(?\d{1,}\)?[\-\.\ \\\/]?){0,})(?:[\-\.\ \\\/]?(?:#|ext\.?|extension|x)[\-\.\ \\\/]?(\d+))?$/i,
-    optional: true    
+    optional: true
   },
   Email: {
     type: String,

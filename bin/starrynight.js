@@ -60,6 +60,14 @@ var npm = require('npm');
 // for _.extend()ing the process.env object
 var _ = require('underscore');
 
+// so we can read files from the filesystem
+var filesystem = require('fs');
+
+// cheerio provides DOM/jQuery utilities to lets us parse html
+var cheerio = require('cheerio');
+
+// unzip lets us uncompress files
+var unzip = require('unzip');
 
 //==================================================================================================
 // FILE LINKING
@@ -79,8 +87,8 @@ var isReadyToRun = true;
 // PROCESSING COMMAND LINE ARGUMENTS
 
 // most of StarySky uses a two argument syntax
-var primaryArgument = (process.argv[ 2 ] || "");
-var secondaryArgument = (process.argv[ 3 ] || "");
+var firstArgument = (process.argv[ 2 ] || "");
+var secondArgument = (process.argv[ 3 ] || "");
 var thirdArgument = (process.argv[ 4 ] || "");
 var fourthArgument = (process.argv[ 5 ] || "");
 var fifthArgument = (process.argv[ 5 ] || "");
@@ -99,7 +107,7 @@ npm.load(function(error, npm) {
   DEBUG && console.log('npm prefix is', npmPrefix);
 
   // Check to see if the use has supplied a filter.
-  switch (primaryArgument){
+  switch (firstArgument){
 
       //============================================================================================================
       case "":
@@ -111,7 +119,7 @@ npm.load(function(error, npm) {
       //============================================================================================================
       case "-scaffold":
 
-        switch (secondaryArgument) {
+        switch (secondArgument) {
           //--------------------------------------------------------------------------------------------------------
           case "project-homepage":
             fs.copy(npmPrefix + '/lib/node_modules/starrynight/scaffolds/boilerplates/project-homepage', './', function (error) {
@@ -220,14 +228,14 @@ npm.load(function(error, npm) {
         console.log("Cloning repository...");
 
 
-        var url = urlParser(secondaryArgument);
+        var url = urlParser(secondArgument);
         console.log('url', url);
         console.log('url.path', url.path);
         console.log('user', url.path.match(/\/(.*)\//).pop());
         console.log('repo', url.path.substring(url.path.lastIndexOf("/") + 1));
 
 
-        githubDownload(secondaryArgument, thirdArgument)
+        githubDownload(secondArgument, thirdArgument)
           .on('dir', function(dir) {
             console.log(dir)
           })
@@ -259,8 +267,8 @@ npm.load(function(error, npm) {
       case "-pattern":
         console.log("Cloning repository pattern into directories...");
 
-        if(secondaryArgument){
-          // var url = urlParser(secondaryArgument);
+        if(secondArgument){
+          // var url = urlParser(secondArgument);
           // console.log('url', url);
           // console.log('url.path', url.path);
           // console.log('user', url.path.match(/\/(.*)\//).pop());
@@ -269,7 +277,7 @@ npm.load(function(error, npm) {
           //TODO:  check if we're in the root of an application?  That might be a good thing to do.
 
           // download the repository to a temp directory
-          githubDownload(secondaryArgument, './.temp')
+          githubDownload(secondArgument, './.temp')
             .on('dir', function(dir) {
               console.log(dir)
             })
@@ -327,14 +335,14 @@ npm.load(function(error, npm) {
       case "-rename":
         // starrynight -refactor Page Panel app/components
         // starrynight -refactor originalTerm newTerm directoryRoot
-        // starrynight -refactor secondaryArgument thirdArgument fourthArgument
+        // starrynight -refactor secondArgument thirdArgument fourthArgument
 
         if(!fourthArgument){
           fourthArgument = ".";
         }
         console.log("------------------------------------------");
         console.log("Searching files.... ");
-        finder(secondaryArgument, {root: fourthArgument, ignoreDirs: [".meteor", ".git", ".temp"]}, function(results){
+        finder(secondArgument, {root: fourthArgument, ignoreDirs: [".meteor", ".git", ".temp"]}, function(results){
           //console.log('results', results);\
 
           console.log("");
@@ -348,8 +356,8 @@ npm.load(function(error, npm) {
             // we need to run the replace twice - to replace the directory name
             // and then to replace the file name.
 
-            var newresult = result.filepath.replace(secondaryArgument, thirdArgument);
-            var finalPath = newresult.replace(secondaryArgument, thirdArgument);
+            var newresult = result.filepath.replace(secondArgument, thirdArgument);
+            var finalPath = newresult.replace(secondArgument, thirdArgument);
 
             fs.move(result.filepath, finalPath, function(error, result){
               console.log('error', error);
@@ -364,17 +372,39 @@ npm.load(function(error, npm) {
       break;
 
       //==================================================================================================
-      case "-refactor":
-        // starrynight -refactor foo bar app/components
-        // starrynight -refactor originalTerm newTerm directoryRoot
-        // starrynight -refactor secondaryArgument thirdArgument fourthArgument
+      case "-find-and-replace":
+        // starrynight -find-and-replace foo bar app/components
+        // starrynight -find-and-replace originalTerm newTerm directoryRoot
+        // starrynight -find-and-replace secondArgument thirdArgument fourthArgument
 
         if(!fourthArgument){
           fourthArgument = ".";
         }
 
         replace({
-          regex: secondaryArgument,
+          regex: secondArgument,
+          replacement: thirdArgument,
+          paths: ['.'],
+          excludes: [".meteor", ".git"],
+          recursive: true
+        });
+
+        console.log('Done refactoring!');
+      break;
+
+
+      //==================================================================================================
+      case "-refactor":
+        // starrynight -refactor foo bar app/components
+        // starrynight -refactor originalTerm newTerm directoryRoot
+        // starrynight -refactor secondArgument thirdArgument fourthArgument
+
+        if(!fourthArgument){
+          fourthArgument = ".";
+        }
+
+        replace({
+          regex: secondArgument,
           replacement: thirdArgument,
           paths: ['.'],
           excludes: [".meteor", ".git"],
@@ -427,8 +457,142 @@ npm.load(function(error, npm) {
           console.log( "METEOR_OFFLINE_CATALOG:               " + process.env.METEOR_OFFLINE_CATALOG);
           console.log( "METEOR_PROFILE:                       " + process.env.METEOR_PROFILE);
           console.log( "METEOR_PRINT_CONSTRAINT_SOLVER_INPUT: " + process.env.METEOR_PRINT_CONSTRAINT_SOLVER_INPUT);
+          console.log( "METEOR_CATALOG_COMPRESS_RPCS:         " + process.env.METEOR_CATALOG_COMPRESS_RPCS);
+
+
           //console.log( "  -clone [url]" );
       break;
+
+
+      //==================================================================================================
+      case "-download-tools":
+          console.log( "Downloading atom.io for Mac.  This may take awhile..." );
+
+          request({url: "https://github.com/atom/atom/releases/download/v0.194.0/atom-mac.zip", encoding: null}, function(err, resp, body) {
+            if(err) throw err;
+            fs.writeFile(process.cwd() + "/atom-mac.zip", body, function(err) {
+              console.log("Zip file written!");
+
+              console.log("Installing atom.io for mac...");
+
+
+            });
+          });
+
+          //https://atom.io/docs/v0.80.0/customizing-atom
+          //https://atom.io/docs/v0.189.0/getting-started-atom-basics
+      break;
+      //==================================================================================================
+      case "-extract-tools":
+          console.log( "Extract atom-mac.zip file..." );
+
+          fs.createReadStream(process.cwd() + "/atom-mac.zip").pipe(unzip.Extract({ path: '.' }), function(){
+            console.log("Atom unzipped.");
+            childProcess.exec("cp Atom.app/ /Applications/", function(err, stdout, stderr) {
+              console.log("Atom copied to the Applications folder...");
+
+
+              childProcess.exec("ln -s /Applications/Atom.app/Contents/MacOS/Atom /usr/local/bin/atom", function(err, stdout, stderr) {
+                console.log(stdout);
+              });
+
+              childProcess.exec("open -a Atom", function(err, stdout, stderr) {
+                console.log(stdout);
+              });
+            });
+          });
+
+          //https://atom.io/docs/v0.80.0/customizing-atom
+          //https://atom.io/docs/v0.189.0/getting-started-atom-basics
+      break;
+
+
+
+
+
+
+      //==================================================================================================
+      case "-file-to-console":
+          console.log( "Dumping contents of file " + secondArgument);
+          filesystem.readFile(secondArgument, {encoding: 'utf-8'}, function(error, data){
+            if(data){
+              console.log(data.toString());
+            }
+            if(error){
+              console.error(error);
+            }
+          });
+      break;
+
+      //==================================================================================================
+      case "-extract-ids":
+          console.log( "Extracting ids from " + secondArgument);
+          filesystem.readFile(secondArgument, {encoding: 'utf-8'}, function(error, data){
+            if(data){
+              //console.log(data.toString());
+              $ = cheerio.load(data.toString())
+              var ids = new Array();
+              $('[id]').each(function() { //Get elements that have an id=
+                ids.push($(this).attr("id")); //add id to array
+              });
+              console.log(ids);
+            }
+            if(error){
+              console.error(error);
+            }
+          });
+      break;
+
+      //==================================================================================================
+      case "-extract-classes":
+          console.log( "Extracting ids from " + secondArgument);
+          filesystem.readFile(secondArgument, {encoding: 'utf-8'}, function(error, data){
+            if(data){
+              //console.log(data.toString());
+              $ = cheerio.load(data.toString())
+              var ids = new Array();
+              $('[class]').each(function() { //Get elements that have an id=
+                ids.push($(this).attr("class")); //add id to array
+              });
+              console.log(ids);
+            }
+            if(error){
+              console.error(error);
+            }
+          });
+      break;
+
+      //==================================================================================================
+      case "-extract-tests-for":
+          //console.log( "Extracting ids from " + secondArgument);
+          filesystem.readFile(secondArgument, {encoding: 'utf-8'}, function(error, data){
+            if(data){
+              //console.log(data.toString());
+              $ = cheerio.load(data.toString())
+              var ids = new Array();
+              $('[id]').each(function() { //Get elements that have an id=
+                ids.push($(this).attr("id")); //add id to array
+              });
+
+              var fileText = "";
+              fileText += "exports.command = function() {\n";
+              fileText += "  this\n";
+              ids.forEach(function(id){
+                fileText += '    .verify.elementPresent("#' + id + ')\n';
+              });
+              fileText += "  return this;\n";
+              fileText += "};";
+
+              console.log(fileText);
+
+              //console.log(ids);
+            }
+            if(error){
+              console.error(error);
+            }
+          });
+      break;
+
 
       //==================================================================================================
       // If we can't figure out what the command-line argument was, then something is incorrect. Exit out.
@@ -449,7 +613,7 @@ npm.load(function(error, npm) {
 
 
  function parseInitializeTestFilesArguments(npmPrefix){
-  switch (secondaryArgument) {
+  switch (secondArgument) {
     case "all":
       // we're going to copy over all of the contents in the sample-tests directory
       fs.copy(npmPrefix + '/lib/node_modules/starrynight/sample-tests', './tests', function (error) {
@@ -521,7 +685,7 @@ npm.load(function(error, npm) {
 
 
 function parseRunTestArguments(npmPrefix){
-  switch (secondaryArgument) {
+  switch (secondArgument) {
 
     //------------------------------------------------------------------------------------------
     // case "":
