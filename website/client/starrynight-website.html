@@ -163,8 +163,23 @@
       <h2>Testing</h2>
       <hr>
       <p>
-        Supports package testing via TinyTest framework; and acceptance testing and unit testing via the Nightwatch testing framework.
+        Supports package testing via TinyTest framework; and acceptance testing and unit testing via the Nightwatch testing framework.  Here's the quick-and-simple way of getting started.
       </p>
+      <div class="code">
+        <code class="monospace">
+          <span class="gray"># add acceptance tests to your application (using the nightwatch framework)</span><br>
+          $ starrynight -sample acceptance<br>
+          <br>
+
+          <span class="gray"># make sure the acceptance testing framework is running</span><br>
+          $ starrynight -run-tests acceptance<br>
+          <br>
+
+          <span class="gray"># you can also use -survey which is an alias for -run-tests</span><br>
+          $ starrynight -survey acceptance<br>
+          <br>
+        </code>
+      </div>
 
 
       <h2>Examples</h2>
