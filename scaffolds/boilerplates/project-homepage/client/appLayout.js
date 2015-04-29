@@ -35,7 +35,7 @@ Template.body.helpers({
 });
 
 Template.body.layout = function(){
-  Session.set('transparencyDivHeight', $('#innerPanel .page').height() + 80);
+  Session.set('transparencyDivHeight', $('#innerPanel .page').height() + 110);
   console.log('appWidth', Session.get('appWidth'));
   if(Session.get('appWidth') > 768){
     Session.set('transparencyDivLeft', (Session.get('appWidth') - 768) * 0.5);

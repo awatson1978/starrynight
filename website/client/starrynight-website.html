@@ -3,6 +3,7 @@
 </head>
 
 <body>
+  <!-- first layer -->
   <img src="starrynight-van-gogh.jpg" id="backgroundImage" alt="">
   {{> hello}}
 </body>
@@ -20,26 +21,9 @@
       <h2>What is StarryNight?</h2>
       <hr>
       <p>
-        StarryNight is an application lifecycle managmeent tool for use in scaffolding and testing Meteor applications.  It's similar to tools like 'spacejam', 'yeoman', 'rails generate', 'abee', and 'mrt'.  It's a direct result of 2 years of working on the <a href="http://github.com/awatson1978/meteor-cookbook.git">Meteor Cookbook</a>.
+        StarryNight is an application lifecycle managmeent tool for use in scaffolding and testing Meteor applications.  It ostensibly for use in creating HIPAA and FDA compliant apps, but it turns out that it's useful for a lot more than that.  It's a direct result of 2 years of working on the <a href="http://github.com/awatson1978/meteor-cookbook.git">Meteor Cookbook</a> and the <a href="http://clinical.meteor.com">Clinical Meteor Track</a>.
       </p>
 
-
-      <h2>Why StarryNight?</h2>
-      <hr>
-      <ul>
-        <li>application life-cycle management</li>
-        <li>has scaffolding/boilerplates for getting people started</li>
-        <li>lean, simple, and focused testing</li>
-        <li>embraces the existing testing tools used by MDG</li>
-        <li>testing without the bloat of mirrors, file monitors, html reporters, and the like</li>
-        <li>isn't trying to be a SaaS testing platform</li>
-        <li>assumes developers will be using 3rd party SaaS solutions</li>
-        <li>single tool, not a collection of a dozen packages</li>
-        <li>continous integration ready</li>
-        <li>easy to integrate new life cycle management tools</li>
-        <li>easy to integrate new code snippets and boilerplates</li>
-        <li>easy to integrate new testing frameworks</li>
-      </ul>
 
       <h2>Installation</h2>
       <hr>
@@ -61,18 +45,25 @@
           $ starrynight <br>
           <br>
           <span class="gray">//arguments</span><br>
-          -help <br>
-          -audit-permissions<br>
-          -scaffold <span class="gray">[project-homepage | client-server | rest-api]</span> <br>
-          -sample <span class="gray">[acceptance | all]</span> <br>
-          -clone <span class="gray">url</span> <br>
-          -pattern <span class="gray">url</span> <br>
-          -rename <span class="gray">originalTerm newTerm directoryRoot</span> <br>
-          -refactor <span class="gray">originalTerm newTerm directoryRoot</span> <br>
-          -survey <span class="gray">[tiny | end-to-end | acceptance]</span> <br>
-          <!-- -survey <span class="gray">[tiny | unit | acceptance | all]</span> <br> -->
-          <!-- -generate <span class="gray">[component | subsystem]</span> <br> -->
-          <!-- -audit <span class="gray">[tag | all]</span> <br> -->
+          help <br>
+          audit-permissions<br>
+          display-env<br>
+          scaffold <span class="gray">[project-homepage | client-server | rest-api | active-record]</span> <br>
+          sample <span class="gray">[acceptance | all]</span> <br>
+          clone <span class="gray">url</span> <br>
+          pattern <span class="gray">url</span> <br>
+          rename <span class="gray">originalTerm newTerm directoryRoot</span> <br>
+          find-and-replace <span class="gray">originalTerm newTerm directoryRoot</span> <br>
+          refactor <span class="gray">originalTerm newTerm directoryRoot</span> <br>
+          run-tests <span class="gray">[package-tests | package-unit | integration | acceptance | end-to-end | oauth-end-to-end]</span> <br>
+          run-framework <span class="gray">[tinytest | tinytest-ci | nightwatch <span class="lightgray"> | spacejam | mocha | pioneer | multi </span>]</span> <br>
+          extract-ids<br>
+          extract-classes<br>
+          extract-tests-for  <span class="gray">filename > newFilename</span> <br>
+          generate-release-json<br>
+          generate-travis<br>
+          <span class="gray">-download-tools (experimental)</span> <br>
+          <span class="gray">-extract-tools (experimental)</span> <br>
         </code>
       </div>
 
@@ -82,6 +73,10 @@
         <p>
           <b>help</b><br>
           Prints out some information on commands that can be run and what arguments they take.
+        </p>
+        <p>
+          <b>display-env</b><br>
+          Display all the environment variables for Meteor (there's approximately 60 of them).
         </p>
         <p>
           <b>audit-permissions</b><br>
@@ -119,6 +114,35 @@
           <b>survey</b><br>
           Runs default testing frameworks.  Options currently include tiny, unit, and acceptance; with more on the way.  Alias for run-tests.
         </p>
+        <p>
+          <b>extract-ids</b><br>
+          Extracts element ids from the specified file. Best used on a Blaze/Spacebars html file.
+        </p>
+        <p>
+          <b>extract-classes</b><br>
+          Extracts element class names from the specified file. Best used on a Blaze/Spacebars html file.
+        </p>
+        <p>
+          <b>extract-tests-for</b><br>
+          Extracts ids from the specified file, and generate a Nightwatch command script.
+        </p>
+        <p>
+          <b>generate-release-json</b><br>
+          Generate a release.json file for use with `meteor publish-release` so you can publish a track.  (Advanced tool.)
+        </p>
+        <p>
+          <b>generate-travis</b><br>
+          Add a .travis.yml file to your application to get started with continuous integration.  Command assumes that you're using the Reference Scaffold, and your app is located in a /webapp directory.
+        </p>
+        <p>
+          <b>download-tools</b><br>
+          Experimental tool for downloading, installing, and configuring an isomorphic integrated development environment using Atom.io.  Use at your own risk!
+        </p>
+        <p>
+          <b>extract-tools</b><br>
+          Experimental tool for downloading, installing, and configuring an isomorphic integrated development environment using Atom.io.  Use at your own risk!
+        </p>
+
 
         <!-- <hr>
         <p>
@@ -130,28 +154,12 @@
           Runs a specific testing framework.  General alias for survey and run-tests, but let's you pass in framework specific options and arguments.
         </p>
         <p>
-          <b>package-clone</b><br>
-          Clones a package into the /packages directory.  Convenience function so you don't have to swap directories to run the clone command.
-        </p>
-        <p>
-          <b>package-publish</b><br>
-          The default meteor publish command can't run from within the /packages directory, because meteor will detect the parent .meteor directory and bork things.  package-publish will copy the package up two directories into a .temp directory and publish from there, then clean things up.  Allows you to develop a package from with the /packages directory.
-        </p>
-        <p>
           <b>clean</b><br>
           Similar to meteor reset, but doesn't dump the database.  Clears the following directories: .meteor/local, .temp, .demeteorizer.
         </p>
         <p>
-          <b>extract-ids</b><br>
-          Extracts element ids from the specified file, and generates a nightwatch command file. Best used on a component html file to generate a corresponding component test command that will inspect that component.
-        </p>
-        <p>
           <b>connect</b><br>
           There's a few services that people commonly like to connect their applications to, such as google-analytics and uservoice, which only require a single file copied into their app.      This will get those files in place without having to research things.
-        </p>
-        <p>
-          <b>display-env</b><br>
-          Displays the current value of all known Meteor environment variables.
         </p>
         <p>
           <b>install-dev-tools</b><br>
@@ -159,11 +167,76 @@
         </p> -->
       </div>
 
-      <h2>Testing</h2>
+      <h2>Testing Quickstart</h2>
       <hr>
       <p>
-        Supports package testing via TinyTest framework; and acceptance testing and unit testing via the Nightwatch testing framework.
+        Supports package testing via TinyTest framework; and acceptance testing and unit testing via the Nightwatch testing framework.  Here's the quick-and-simple way of getting started.
       </p>
+      <div class="code">
+        <code class="monospace">
+          <span class="gray"># add acceptance tests to your application (using the nightwatch framework)</span><br>
+          $ starrynight sample acceptance<br>
+          <br>
+
+          <span class="gray"># make sure the acceptance testing framework is running</span><br>
+          $ starrynight run-framework acceptance<br>
+          <br>
+
+          <span class="gray"># you can also use -survey which is an alias for -run-tests</span><br>
+          $ starrynight -survey acceptance<br>
+          <br>
+
+          <span class="gray"># if you have packages in your application</span><br>
+          $ starrynight -run-framework tinytest-ci<br>
+          <br>
+        </code>
+      </div>
+
+      <h2>Testing Frameworks</h2>
+      <hr>
+      <p>
+        Supports package testing via TinyTest framework; and acceptance testing and unit testing via the Nightwatch testing framework.  Here's the quick-and-simple way of getting started.
+      </p>
+      <p>
+        <b>nightwatch</b><br>
+        Node based library for managing Selenium servers.  Supports acceptance testing, unit testing, screenshots, tagging, and many more advanced features.
+      </p>
+      <p>
+        <b>tinytest</b><br>
+        Meteor's built in test framework for testing isopacks. Tests on both client and server.  Runs in a web-browser with user interface.
+      </p>
+      <p>
+        <b>tinytest-ci</b><br>
+        Meteor's built in test framework for testing isopacks. Tests on both client and server.  Runs in a web-browser with user interface.
+      </p>
+      <p>
+        <b>multi</b><br>
+        A multi-framework option that runs both Nightwatch and TinyTest-CI.
+      </p>
+      <span class="gray">
+        <p>
+          <b>end-to-end</b><br>
+          Experimental framework based on mocha which supports testing OAuth functionality.  <a href="https://github.com/meteor/e2e">Originally written by the MDG</a>, you might want to take a look at the <a href="https://github.com/awatson1978/e2e/tree/community-use">community use fork</a> for experimenting in your own apps.
+        </p>
+      </span>
+      <span class="gray">
+        <p>
+          <b>spacejam</b><br>
+          Package testing framework that extends TinyTest with chai assertions and a command line option.  A little inconsistent with launching, so it's remaining in experimental status for the time being.
+        </p>
+        <p>
+          <b>mocha</b><br>
+          Unit/Integration testing framework for Node.  Framework launches, but cannot find config file and/or test files, so remaining in experimental status.
+        </p>
+        <p>
+          <b>pioneer</b><br>
+          Acceptance testing framework that uses Cucumber, which itself uses Selenium with Gherkin syntax, a behavior-driven-development style.  Framework launches, but cannot find config file and/or test files, so remaining in experimental status.
+        </p>
+        <p>
+          <b>jasmine</b><br>
+          Unit/Integration testing framework for Node.  Experimental support.  Framework launches, but cannot find config file and/or test files, so remaining in experimental status.
+        </p>
+      </span>
 
 
       <h2>Examples</h2>
@@ -181,67 +254,83 @@
           <br>
 
           <span class="gray"># add acceptance tests to your application (using the nightwatch framework)</span><br>
-          $ starrynight -sample acceptance<br>
+          $ starrynight sample acceptance<br>
           <br>
 
           <span class="gray"># make sure the acceptance testing framework is running</span><br>
-          $ starrynight -survey acceptance<br>
+          $ starrynight run-framework nightwatch<br>
           <br>
 
           <span class="gray"># add a scaffold/boilerplate to your project</span><br>
-          $ starrynight -scaffold project-homepage<br>
+          $ starrynight scaffold project-homepage<br>
           $ rm helloworld.*<br>
           <br>
 
           <span class="gray"># add acceptance tests for the project-homepage scaffold</span><br>
-          $ starrynight -sample acceptance project-homepage<br>
+          $ starrynight sample acceptance project-homepage<br>
           <br>
 
           <span class="gray"># run acceptance tests on the new scaffold</span><br>
-          $ starrynight -survey acceptance<br>
+          $ starrynight run-framework nightwatch<br>
           <br>
 
           <span class="gray"># add more scaffolding to your project</span><br>
-          $ starrynight -scaffold iron-router<br>
+          $ starrynight scaffold iron-router<br>
           <br>
 
           <span class="gray"># see if our tests still work</span><br>
-          $ starrynight -survey acceptance<br>
+          $ starrynight run-framework nightwatch<br>
           <br>
 
           <span class="gray"># add the itunes connect acceptance tests (mobile first)</span><br>
-          $ starrynight -sample acceptance itunes<br>
+          $ starrynight sample acceptance itunes<br>
           <br>
 
           <span class="gray"># our tests should break</span><br>
-          $ starrynight -survey acceptance<br>
+          $ starrynight run-framework nightwatch<br>
           <br>
 
           <span class="gray"># add extra page components and routes to our app</span><br>
-          $ starrynight -pattern https://github.com/awatson1978/clinical-static-pages<br>
+          $ starrynight pattern https://github.com/awatson1978/clinical-static-pages<br>
           <br>
 
           <span class="gray"># run acceptance tests (they should break)</span><br>
-          $ starrynight -survey acceptance<br>
+          $ starrynight run-framework nightwatch<br>
           <br>
 
           <span class="gray"># rename files throughout your app in one go</span><br>
-          $ starrynight -rename about marketing<br>
-          $ starrynight -rename About Marketing<br>
+          $ starrynight rename about marketing<br>
+          $ starrynight rename About Marketing<br>
           <br>
 
           <span class="gray"># find-and-replace terms throughout our app</span><br>
-          $ starrynight -refactor "AppTitle" "Hello StarryNight"<br>
-          $ starrynight -refactor "about" "marketing"<br>
+          $ starrynight refactor "AppTitle" "Hello StarryNight"<br>
+          $ starrynight refactor "about" "marketing"<br>
           <br>
 
           <span class="gray"># when new files are created, we sometimes want to check file permissions</span><br>
-          $ starrynight -audit-permissions<br>
+          $ starrynight audit-permissions<br>
           <br>
 
           <span class="gray"># run acceptance tests again (they should pass)</span><br>
-          $ starrynight -survey acceptance<br>
+          $ starrynight run-framework nightwatch<br>
           <br>
+
+          <span class="gray"># create a package</span><br>
+          $ mkdir packages<br>
+          $ cd packages<br>
+          $ meteor create --package foo<br>
+          $ cd ..<br>
+          <br>
+
+          <span class="gray"># run package tests</span><br>
+          $ starrynight run-framework tinytest-ci<br>
+          <br>
+
+          <span class="gray"># lets add some database</span><br>
+          $ starrynight scaffold client-server<br>
+          <br>
+
 
         </code>
       </div>
