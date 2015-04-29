@@ -1,0 +1,42 @@
+<template name="fooPreviewPage">
+  <div id="fooPreviewPage" class="fullheight padded">
+    <div class="container">
+      <div class="col col-md-offset-3 col-md-6">
+
+      <!-- {{> fooCard }} -->
+
+      <div id="fooPreviewCard" class="card panel panel-default">
+        <div class="panel-heading">
+          <h2><span id="firstNameText">{{FirstName}}</span><span id="lastNameText"> {{LastName}}</span></h2>
+          <h4 id="companyText">{{Company}}</h4>
+        </div>
+        <div class="panel-body">
+          <p id="addressText">{{ Address }}<br>
+          <span id="cityText">{{ City }}</span><span id="stateText"> {{State}}</span><span id="zipText"> {{Zip}}</span></p>
+
+          <h5 id="phoneText">{{Phone}}</h5>clear
+          <h5>fax:  {{Fax}}</h5>
+
+          <hr>
+          <h5><a id="emailText" href="{{Email}}">{{Email}}</a></h5>
+          <h5><a id="webText" href="{{Web}}">{{Web}}</a></h5>
+
+          <hr>
+          <p id="notesText">
+            {{Notes}}
+          </p>
+
+        </div>
+        <div class="panel-footer">
+          <button id="fooEditButton" class="btn btn-warning">Edit Customer</button>
+          <button id="fooDeleteButton" class="btn btn-danger">Delete Customer</button>
+          <!-- <div>{{ _id }}</div> -->
+        </div>
+      </div>
+
+
+
+      </div>
+    </div>
+  </div>
+</template>

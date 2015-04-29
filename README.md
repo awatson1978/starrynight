@@ -1,7 +1,4 @@
 StarryNight
-=======================
-
-A node executable for launching nightwatch from Meteor atmosphere packages.  
 
 ===============================
 #### What is StarryNight?  
@@ -54,8 +51,9 @@ $ starrynight -initialize acceptance
 $ starrynight -run acceptance
 ````
 
+
 ===============================
-#### Contributing  
+#### Contributing a Test Framework
 
 StarryNight needs a few basic things to integrate new frameworks.
 
