@@ -83,13 +83,14 @@ var generateTravis = require('../tool/generate-travis.js');
 var pattern = require('../tool/pattern.js');
 var refactor = require('../tool/refactor.js');
 var rename = require('../tool/rename.js');
-var runTests = require('../tool/run-tests.js');
 var sample = require('../tool/sample.js');
 var scaffold = require('../tool/scaffold.js');
 var generateReleaseJson = require('../tool/generate-release-json.js');
 var extractTools = require('../tool/extract-tools.js');
 var downloadTools = require('../tool/download-tools.js');
 
+var runFramework = require('../tool/run-framework.js');
+var runTests = require('../tool/run-tests.js');
 
 //==================================================================================================
 // DEBUGGING
@@ -184,6 +185,14 @@ npm.load(function(error, npm) {
 
 
       //==============================================================================================
+      case "run-framework":
+        runFramework(npmPrefix, secondArgument);
+      break;
+
+
+
+
+      //==============================================================================================
       /*case "nightwatch":
         runTests(npmPrefix, secondArgument);
       break;*/
@@ -259,7 +268,7 @@ npm.load(function(error, npm) {
 
 
       //==================================================================================================
-      case "-download-tools":
+      case "download-tools":
         downloadTools();
       break;
 

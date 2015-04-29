@@ -1,3 +1,5 @@
+// child_process lets us exec and spawn external commands
+var childProcess = require( "child_process" );
 
 module.exports = function(){
   console.log("NOTICE:  This is very experimental integration of the meteor-e2e package!  ");

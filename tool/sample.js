@@ -6,7 +6,7 @@ module.exports = function(npmPrefix, secondArgument, thirdArgument){
   switch (secondArgument) {
     case "all":
       // we're going to copy over all of the contents in the sample-tests directory
-      fs.copy(npmPrefix + '/lib/node_modules/starrynight/sample-tests', './tests', function (error) {
+      fs.copy(npmPrefix + '/lib/node_modules/starrynight/scaffolds/sample-tests', './tests', function (error) {
         if (error){
           return console.error(error)
         }
@@ -14,7 +14,7 @@ module.exports = function(npmPrefix, secondArgument, thirdArgument){
       });
       break;
     case "end-to-end":
-      fs.copy(npmPrefix + '/lib/node_modules/starrynight/sample-tests/meteor-e2e', './tests/meteor-e2e', function (error) {
+      fs.copy(npmPrefix + '/lib/node_modules/starrynight/scaffolds/sample-tests/meteor-e2e', './tests/meteor-e2e', function (error) {
         if (error){
           console.log('Is meteor-e2e installed?');
           return console.error(error)
@@ -25,7 +25,7 @@ module.exports = function(npmPrefix, secondArgument, thirdArgument){
     case "acceptance":
       switch (thirdArgument) {
         case "project-homepage":
-            fs.copy(npmPrefix + '/lib/node_modules/starrynight/sample-tests/nightwatch-project-homepage', './tests/nightwatch', function (error) {
+            fs.copy(npmPrefix + '/lib/node_modules/starrynight/scaffolds/sample-tests/nightwatch-project-homepage', './tests/nightwatch', function (error) {
               if (error){
                 return console.error(error)
               }
@@ -33,7 +33,7 @@ module.exports = function(npmPrefix, secondArgument, thirdArgument){
             });
           break;
         case "itunes":
-            fs.copy(npmPrefix + '/lib/node_modules/starrynight/sample-tests/nightwatch-itunes', './tests/nightwatch', function (error) {
+            fs.copy(npmPrefix + '/lib/node_modules/starrynight/scaffolds/sample-tests/nightwatch-itunes', './tests/nightwatch', function (error) {
               if (error){
                 return console.error(error)
               }
@@ -41,7 +41,7 @@ module.exports = function(npmPrefix, secondArgument, thirdArgument){
             });
           break;
         default:
-          fs.copy(npmPrefix + '/lib/node_modules/starrynight/sample-tests/nightwatch', './tests/nightwatch', function (error) {
+          fs.copy(npmPrefix + '/lib/node_modules/starrynight/scaffolds/sample-tests/nightwatch', './tests/nightwatch', function (error) {
             if (error){
               return console.error(error);
             }
