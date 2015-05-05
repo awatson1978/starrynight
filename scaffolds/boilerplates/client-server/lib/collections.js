@@ -1,5 +1,5 @@
 
-Foo = new Collection('foo');
+Foo = new Meteor.Collection('foo');
 
 Foo.allow({
   insert: function(){
