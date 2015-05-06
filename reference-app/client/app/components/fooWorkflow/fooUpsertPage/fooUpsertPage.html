@@ -1,0 +1,32 @@
+
+<template name="fooUpsertPage">
+  <div id="fooUpsertPage">
+      <div class="container">
+        <div class="col col-md-offset-3 col-md-6">
+          <div id="fooUpsertCard" class="panel panel-default">
+            <div class="panel-heading">
+              {{ getRecordId }}
+            </div>
+            <div class="panel-body">
+              <form id="fooForm" class="meteor-form">
+                <label id="firstNameLabel" for="firstNameInput">First Name</label>
+                <input id="firstNameInput" class="form-control" type="text" placeholder="Jane" value="{{FirstName}}">
+
+                <label id="lastNameLabel" for="lastNameInput">Last Name</label>
+                <input id="lastNameInput"  class="form-control" type="text" placeholder="Doe" value="{{LastName}}">
+
+                <label id="notesLabel" for="notesInput">Notes</label>
+                <textarea id="notesInput"  class="form-control" rows="3" placeholder="Noteum papyrus et...">{{Notes}}</textarea>
+
+                <label id="webLabel" for="webInput">Website</label>
+                <input id="webInput"  class="form-control" type="url" placeholder="http://www.widget.com" value="{{Web}}">
+              </form>
+            </div>
+            <div class="panel-footer">
+              <button id="upsertFooButton" type="button" class="fullwidth btn btn-info" width="100%">Save Foo</button>
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
+</template>

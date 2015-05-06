@@ -1,0 +1,25 @@
+<template name="fooImageGridPage">
+  <div id="fooImageGridPage" class="horizontally-padded page">
+
+    <ul class="assets-list list-unstyled">
+      {{#each lists}}
+        <li class="col-md-6">
+          <a href="{{pathFor 'todosListPage'}}" title="{{name}}">
+            <div class="panel panel-default fooTile" style="background:url({{imageUrl}})">
+            </div>
+          </a>
+        </li>
+      {{/each}}
+      <li class="js-new-list col-md-6">
+        <div class="centered panel panel-default fooTile">
+          <i class="fa fa-5x fa-plus"></i>
+          <h6 class="fullwidth">Add Checklist</h6>
+        </div>
+      </li>
+    </ul>
+
+
+
+
+  </div>
+</template>

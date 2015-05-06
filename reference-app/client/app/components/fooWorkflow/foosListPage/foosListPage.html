@@ -1,0 +1,18 @@
+
+<template name="foosListPage">
+  <div id="foosListPage" class="page">
+    <input id="fooSearchInput" type="text" class="glass fullwidth form-control" placeholder="search..." />
+    <ul id="foosUnorderedList">
+      {{#each foosList}}
+        <li>
+          <article>
+            <h2 class="titleText">{{title}}</h2>
+            <span class="pull-right barcode gray idText">{{_id}}</span><br>
+            <span class="descriptionText">{{description}}</span>
+          </article>
+          <div class="fadeAway"></div>
+        </li>
+      {{/each}}
+    </ul>
+  </div>
+</template>
