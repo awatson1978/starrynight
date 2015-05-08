@@ -66,6 +66,10 @@ var cheerio = require('cheerio');
 // unzip lets us uncompress files
 var unzip = require('unzip');
 
+// prompt lets us accept input from the keyboard
+// https://www.npmjs.com/package/prompt
+var prompt = require('prompt');
+
 
 
 //==================================================================================================
