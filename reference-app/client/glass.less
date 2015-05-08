@@ -65,9 +65,12 @@
 .glass-footer-btn{
   border: 0px solid white;
 }
+.glass-footer-btn:focus{
+  outline: none;
+}
 .glass-footer-btn:hover{
   border: 0px solid white;
-  color: crimson;
+  color: maroon;
 }
 
 
@@ -75,11 +78,56 @@
 //==================================================================================================
 //
 
+
+
+#mainPanel:hover{
+  cursor: pointer;
+  .indexButton, .imageGridButton, .listButton, .lockButton, .tableButton{
+    visibility: visible;
+  }
+  .indexButton:hover,
+  .listButton:hover,
+  .imageGridButton:hover,
+  .recordId:hover,
+  .lockButton:hover,
+  .tableButton:hover{
+    color: maroon;
+  }
+}
+
 .page{
   .indexButton{
     position: absolute;
     top: 10px;
     left: 10px;
+    font-size: 150%;
+    visibility: hidden;
+  }
+  .imageGridButton{
+    position: absolute;
+    top: 10px;
+    right: 50px;
+    font-size: 150%;
+    visibility: hidden;
+  }
+  .listButton{
+    position: absolute;
+    top: 10px;
+    right: 90px;
+    font-size: 150%;
+    visibility: hidden;
+  }
+  .tableButton{
+    position: absolute;
+    top: 10px;
+    right: 130px;
+    font-size: 150%;
+    visibility: hidden;
+  }
+  .lockButton, .unlockButton{
+    position: absolute;
+    top: 10px;
+    left: 355px;
     font-size: 150%;
     visibility: hidden;
   }

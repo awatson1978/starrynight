@@ -20,7 +20,7 @@ module.exports = function(secondArgument){
       fileText += "exports.command = function() {\n";
       fileText += "  this\n";
       ids.forEach(function(id){
-        fileText += '    .verify.elementPresent("#' + id + ')\n';
+        fileText += '    .verify.elementPresent("#' + id + '")\n';
       });
       fileText += "  return this;\n";
       fileText += "};";
