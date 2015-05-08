@@ -1,0 +1,55 @@
+
+<template name="foosTablePage">
+  <div id="foosTablePage" class="page">
+    {{> pageNavHeader}}
+
+    <input id="fooSearchInput" type="text" class="glass fullwidth form-control" placeholder="search..." />
+
+    <table id="foosTable" class=" table table-striped tablesorter">
+      <thead>
+        <tr class="fooHeaderRow">
+          <th>
+            <i class="fa fa-check"></i>
+          </th>
+          <th>_id</th>
+          <th>
+            <i class="fa fa-image"></i>
+          </th>
+          <th>Title</th>
+          <th>Stars</th>
+          <th>Url</th>
+          <th>
+            <i class="fa fa-flag-o"></i>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each foosList}}
+          <tr class="fooRow">
+            <td>
+              <i class="fa fa-check"></i>
+            </td>
+            <td class="barcode">{{_id}}</td>
+            <td>
+              {{#if imageUrl}}
+              <i class="fa fa-image"></i>
+              {{/if}}
+            </td>
+            <td>{{title}}</td>
+            <td>
+              <i class="fa fa-star-o"></i>
+              <i class="fa fa-star-o"></i>
+              <i class="fa fa-star-o"></i>
+              <i class="fa fa-star-o"></i>
+              <i class="fa fa-star-o"></i>
+            </td>
+            <td>{{url}}</td>
+            <td>
+              <i class="fa fa-flag-o"></i>
+            </td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+</template>

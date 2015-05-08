@@ -1,0 +1,52 @@
+
+<template name="customersListPage">
+  <div id="customersListPage" class="page">
+    <div class="row">
+      <div class="col col-md-6">
+        <input id="customersSearchInput" type="text" class="form-control" placeholder="search..." />
+      </div>
+      <div class="centered col col-md-6">
+        <div id="customersListLimitButtons" class="pull-right btn-group">
+          <button id="twentyButton" class="{{isTwentyActive}} btn btn-default">20</button>
+          <button id="fiftyButton" class="{{isFiftyActive}} btn btn-default">50</button>
+          <button id="hundredButton" class="{{isHundredActive}} btn btn-default">100</button>
+        </div>
+      </div>
+    </div>
+    <hr>
+
+    <table id="customersTable" class=" table table-striped tablesorter">
+      <thead>
+        <tr>
+          <th>First Name</th>
+          <th>Last Name</th>
+          <th>Company</th>
+          <th>Zip</th>
+          <th>Email</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each customersList}}
+        <tr>
+          <td>{{FirstName}}</td>
+          <td>{{LastName}}</td>
+          <td>{{Company}}</td>
+          <td>{{Zip}}</td>
+          <td>{{Email}}</td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+    <hr>
+
+    <div id="customersListPaginationButtons" class="btn-group">
+      {{#each paginationButtonList }}
+      {{> paginationButton }}
+      {{/each}}
+    </div>
+  </div>
+</template>
+
+<template name="paginationButton">
+  <button id="pagination-btn-{{index}}" class="{{pageActive}} pagination-btn btn btn-default">{{getPage}}</button>
+</template>
