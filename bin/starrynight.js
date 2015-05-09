@@ -95,6 +95,7 @@ var downloadTools = require('../tool/download-tools.js');
 
 var runFramework = require('../tool/run-framework.js');
 var runTests = require('../tool/run-tests.js');
+var createPackage = require('../tool/create.js');
 
 //==================================================================================================
 // DEBUGGING
@@ -200,6 +201,12 @@ npm.load(function(error, npm) {
       /*case "nightwatch":
         runTests(npmPrefix, secondArgument);
       break;*/
+
+
+      //==================================================================================================
+      case "create":
+        createPackage(options.package, options.from);
+      break;
 
 
       //==================================================================================================

@@ -9,10 +9,17 @@ var request = require('request');
 var _ = require('underscore');
 
 var runEndToEnd = require('./frameworks/end-to-end.js');
-var runNightwatch = require('./frameworks/nightwatch.js');
 var runTinyTests = require('./frameworks/tinytest.js');
+var runNightwatch = require('./frameworks/nightwatch.js');
+
+var runSpaceJam = require('./frameworks/spacejam.js');
+var runPioneer = require('./frameworks/pioneer.js');
+var runJasmine = require('./frameworks/jasmine.js');
 var runCucumber = require('./frameworks/cucumber.js');
 var runMocha = require('./frameworks/mocha.js');
+
+var runTinyTestsInServerConsole = require('./frameworks/tinytest-on-server-console.js');
+var runMultiFramework = require('./frameworks/multi-framework.js');
 
 module.exports = function(npmPrefix, testType){
   switch (testType) {
