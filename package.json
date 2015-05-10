@@ -24,7 +24,8 @@
     "mocha": "^2.2.4",
     "cucumber": "0.4.8",
     "phantomjs": "1.9.16",
-    "prompt": "0.2.14"
+    "prompt": "0.2.14",
+    "mrtbulkrelease":"0.7.2"
   },
   "engines": {
     "node": ">= 0.4.0"

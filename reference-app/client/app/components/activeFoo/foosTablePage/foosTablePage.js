@@ -21,6 +21,48 @@ Router.map(function(){
 // TEMPLATE INPUTS
 
 Template.foosTablePage.events({
+  'click .starA': function(event, template){
+    event.stopPropagation();
+    Foo.update({_id: this._id}, {$set: {stars: 1}});
+  },
+  'click .starB': function(event, template){
+    event.stopPropagation();
+    Foo.update({_id: this._id}, {$set: {stars: 2}});
+  },
+  'click .starC': function(event, template){
+    event.stopPropagation();
+    Foo.update({_id: this._id}, {$set: {stars: 3}});
+  },
+  'click .starD': function(event, template){
+    event.stopPropagation();
+    Foo.update({_id: this._id}, {$set: {stars: 4}});
+  },
+  'click .starE': function(event, template){
+    event.stopPropagation();
+    Foo.update({_id: this._id}, {$set: {stars: 5}});
+  },
+  'click .checkbox': function(event, template){
+    event.stopPropagation();
+    if(this.checked){
+      Foo.update({_id: this._id}, {$set: {checked: false}});
+    }else{
+      Foo.update({_id: this._id}, {$set: {checked: true}});
+    }
+  },
+  'click .flag': function(event, template){
+    event.stopPropagation();
+    if(this.flagged){
+      Foo.update({_id: this._id}, {$set: {flagged: false}});
+    }else{
+      Foo.update({_id: this._id}, {$set: {flagged: true}});
+    }
+  },
+  'click .addFooIcon': function(){
+    Router.go('/insert/foo');
+  },
+  'click .delete': function(){
+    Foo.remove(this._id);
+  },
   'click tr': function(){
     Router.go('/view/foo/' + this._id);
   },
@@ -36,6 +78,62 @@ Template.foosTablePage.events({
 // TEMPLATE OUTPUTS
 
 Template.foosTablePage.helpers({
+  isGrayedOut: function(){
+    if(this.checked){
+      return "gray";
+    }else{
+      return "";
+    }
+  },
+  starA: function(){
+    if(this.stars >= 1){
+      return "fa-star";
+    }else{
+      return "fa-star-o"
+    }
+  },
+  starB: function(){
+    if(this.stars >= 2){
+      return "fa-star";
+    }else{
+      return "fa-star-o"
+    }
+  },
+  starC: function(){
+    if(this.stars >= 3){
+      return "fa-star";
+    }else{
+      return "fa-star-o"
+    }
+  },
+  starD: function(){
+    if(this.stars >= 4){
+      return "fa-star";
+    }else{
+      return "fa-star-o"
+    }
+  },
+  starE: function(){
+    if(this.stars == 5){
+      return "fa-star";
+    }else{
+      return "fa-star-o"
+    }
+  },
+  checkedIcon: function(){
+    if(this.checked){
+      return "fa-check";
+    }else{
+      return "fa-square-o";
+    }
+  },
+  flaggedIcon: function(){
+    if(this.flagged){
+      return "fa-flag";
+    }else{
+      return "fa-flag-o";
+    }
+  },
   foosList: function() {
     // this triggers a refresh of data elsewhere in the table
     // step C:  receive some data and set our reactive data variable with a new value

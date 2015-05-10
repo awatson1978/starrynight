@@ -24,7 +24,7 @@ var githubDownload = require('github-download');
 
 // minimist lets us cleanly parse our cli arguments into an object
 var minimist  = require('minimist');
-var arguments = require('minimist')(process.argv.slice(2));
+//var arguments = require('minimist')(process.argv.slice(2));
 
 // fs-extra lets us recursively copy directories and do advance file management
 var fs = require('fs-extra');
@@ -97,15 +97,17 @@ var runFramework = require('../tool/run-framework.js');
 var runTests = require('../tool/run-tests.js');
 var createPackage = require('../tool/create.js');
 
+var publishPackage = require('../tool/publish.js');
+
 //==================================================================================================
 // DEBUGGING
 
 if(process.env.DEBUG){
-  console.dir(arguments);
-  console.log("arg0: ", arguments[1]);
-  console.log("arg1: ", arguments[1]);
-  console.log("arg2: ", arguments[2]);
-  console.log("arg3: ", arguments[3]);
+  console.dir(process.argv);
+  console.log("arg0: ", process.argv[0]);
+  console.log("arg1: ", process.argv[1]);
+  console.log("arg2: ", process.argv[2]);
+  console.log("arg3: ", process.argv[3]);
 
   console.log('STARRYNIGHT_FRAMEWORK:         ' + process.env.STARRYNIGHT_FRAMEWORK);
   console.log('STARRYNIGHT_FRAMEWORK_CONFIG:  ' + process.env.STARRYNIGHT_FRAMEWORK_CONFIG);
@@ -208,8 +210,16 @@ npm.load(function(error, npm) {
         createPackage(options.package, options.from);
       break;
 
+      //==================================================================================================
+      // starrynight publish --bulk
+      case "publish":
+        publishPackage(npmPrefix, process.argv, options);
+      break;
 
       //==================================================================================================
+      // starrynight clone http://www.github.com/myaccount/myrepo
+      // TODO: starrynight clone --url starrynight clone http://www.github.com/myaccount/myrepo
+
       case "clone":
         clone(secondArgument);
         auditPermissions();
@@ -229,9 +239,10 @@ npm.load(function(error, npm) {
 
       //==================================================================================================
       case "rename":
-        // starrynight -refactor Page Panel app/components
-        // starrynight -refactor originalTerm newTerm directoryRoot
-        // starrynight -refactor secondArgument thirdArgument fourthArgument
+        // starrynight refactor Page Panel app/components
+        // starrynight refactor originalTerm newTerm directoryRoot
+        // starrynight refactor secondArgument thirdArgument fourthArgument
+        // TODO: starrynight refactor --old secondArgument --new thirdArgument --dir /path/to/component
 
         auditPermissions();
         rename(secondArgument, thirdArgument, fourthArgument);
@@ -240,9 +251,8 @@ npm.load(function(error, npm) {
 
       //==================================================================================================
       case "find-and-replace":
-        // starrynight -find-and-replace foo bar app/components
-        // starrynight -find-and-replace originalTerm newTerm directoryRoot
-        // starrynight -find-and-replace secondArgument thirdArgument fourthArgument
+        // starrynight find-and-replace foo bar app/components
+        // TODO: starrynight find-and-replace --current currentTerm --new newTerm --dir /path/to/component
 
         auditPermissions();
         findAndReplace(secondArgument, thirdArgument, fourthArgument);

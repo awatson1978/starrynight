@@ -42,6 +42,13 @@ Template.fooUpsertPage.rendered = function(){
 
 
 Template.fooUpsertPage.helpers({
+  isNewFoo: function(){
+    if(this._id){
+      return false;
+    }else{
+      return true;
+    }
+  },
   getLockIcon: function(){
     if(Session.get('fooReadOnly')){
       return "fa-lock";
@@ -64,6 +71,16 @@ Template.fooUpsertPage.helpers({
 });
 
 Template.fooUpsertPage.events({
+  'click #removeFooButton': function(){
+    Foo.remove(this._id, function(error, result){
+      if(result){
+        Router.go('/list/foos');
+      }
+    });
+  },
+  "click #saveFooButton": function(){
+    Template.fooUpsertPage.saveFoo(this);
+  },
   "click .barcode": function(){
     // TODO:  refactor to Session.toggle('fooReadOnly')
     if(Session.equals('fooReadOnly', true)){
@@ -112,9 +129,15 @@ Template.fooUpsertPage.saveFoo = function(record){
     url: $('#fooUrlInput').val()
   };
 
+  console.log("customerObject",customerObject);
+
+
   if(record._id){
     Foo.update({_id: record._id}, {$set: customerObject });
   }else{
-    Foo.insert({$set: customerObject });
+    Foo.insert(customerObject, function(error, result){
+      if(error) console.log(error);
+      Router.go('/view/foo/' + result);
+    });
   }
 }

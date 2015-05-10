@@ -6,7 +6,9 @@
       <i class="imageGridButton fa fa-th"></i>
       <i class="listButton fa fa-list"></i>
       <i class="tableButton fa fa-table"></i>
-      <i class="lockButton fa {{getLockIcon}}"></i>
+      {{#if _id}}
+        <i class="lockButton fa {{getLockIcon}}"></i>
+      {{/if}}
     </header>
 
     <div id="fooUpsertCard" class="card-contents">
@@ -23,9 +25,19 @@
       <textarea id="fooDescriptionInput"  class="glass form-control" rows="10" placeholder="Lorem ipsum dolar set et..." {{isReadOnly}}>{{description}}</textarea><br>
     </div>
 
-    <!-- <footer class="cardFooter">
-      <button id="upsertFooButton" class="glass-footer-btn">Save Foo</button>
-      <button id="lockFooButton" class="glass-footer-btn">Lock</button>
-    </footer> -->
+    <footer class="cardFooter">
+      <button id="saveFooButton">
+        <i class="fa fa-dot-circle-o"></i>
+        <i class="fa fa-dot-circle-o"></i>
+        <i class="fa fa-dot-circle-o"></i>
+      </button>
+      {{#if _id}}
+        <button id="removeFooButton">
+          <i class="fa fa-times"></i>
+          <i class="fa fa-times"></i>
+          <i class="fa fa-times"></i>
+        </button>
+      {{/if}}
+    </footer>
   </div>
 </template>
