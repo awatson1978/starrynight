@@ -1,5 +1,5 @@
 <template name="fooImageGridPage">
-  <div id="fooImageGridPage" class="page">
+  <article id="fooImageGridPage" class="page">
     {{> pageNavHeader}}
 
     <input id="fooSearchInput" type="text" class="glass fullwidth form-control" placeholder="search..." />
@@ -14,6 +14,8 @@
           <img class="fooImage" src="{{imageUrl}}" />
       </li>
     </ul>
-
-  </div>
+    <footer class="cardFooter">
+      <h3 class="addFooIcon"><i class="fa fa-sun-o"></i></h3>
+    </footer>
+  </article>
 </template>

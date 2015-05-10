@@ -14,57 +14,69 @@ var finder = require('find-files');
 // replace allows us to refactor contents of file
 var replace = require('replace');
 
-module.exports = function(packageName, componentLocation){
-  if(packageName && componentLocation){
+module.exports = function(options){
+  if(options.package && options.from){
     //console.log("Creating package from component...");
 
-    var packageDir = packageName.split(':')[1];
+    var newPackageDir = options.package.split(':')[1];
+    var componentDir = path.basename(options.from)
+    process.env.DEBUG && console.log("newPackageDir", newPackageDir);
 
-    childProcess.exec("meteor create --package " + packageName, function(err, stdout, stderr) {
-      //console.log(stdout);
-      if(stdout.toString().indexOf(": created in") > -1){
-        console.log('Package created!')
+    childProcess.exec("cd packages", function(err, stdout, stderr) {
+      process.env.DEBUG && console.log('process.env.pwd', process.env.pwd);
 
-        fs.copy(componentLocation, 'packages/' + packageDir, function (error) {
-          if (error){
-            return console.error(error)
-          }
-          console.log('Component files copied into package.')
-        });
+      childProcess.exec("meteor create --package " + options.package, function(err, stdout, stderr) {
+        process.env.DEBUG && console.log("newPackageDir", newPackageDir);
 
-        fs.remove('packages/' + packageDir + "/" + packageDir + ".js", function (err) {
-          if (err) return console.error(err)
+        console.log(stdout);
+        console.log(err);
 
-          console.log('Removed default .js file.')
-        });
+        if(stdout.toString().indexOf(": created in") > -1){
+          console.log('Package created!')
 
-        finder(packageDir, {root: componentLocation, ignoreDirs: [".meteor", ".git", ".temp"]}, function(results){
-          //console.log('results', results);
+          fs.copy(options.from, 'packages/' + newPackageDir, function (error) {
+            if (error){
+              return console.error(error)
+            }
+            console.log('Component files copied into package.')
 
-          var newFiles = "";
-          results.forEach(function(result){
-            newFiles += "  api.addFiles('" + path.basename(result.filepath) + "');\n";
+            finder(componentDir, {root: options.from, ignoreDirs: [".meteor", ".git", ".temp"]}, function(results){
+              process.env.DEBUG && console.log('results', results);
+
+              var newFiles = "";
+              results.forEach(function(result){
+                newFiles += "  api.addFiles('" + path.basename(result.filepath) + "');\n";
+              });
+              process.env.DEBUG && console.log(newFiles);
+
+              var searchTerm = "  api.addFiles\\('" + newPackageDir + ".js'\\);";
+              process.env.DEBUG && console.log("searchTerm: " + searchTerm);
+
+              var searchPath = './packages/' + newPackageDir;
+
+              replace({
+                regex: searchTerm,
+                replacement: newFiles,
+                paths: [searchPath],
+                excludes: [".meteor", ".git"],
+                recursive: true
+              });
+              console.log("Replaced some text...");
+            });
           });
-          //console.log(newFiles);
 
-          var searchTerm = "  api.addFiles\\('" + packageDir + ".js'\\);";
-          //console.log("searchTerm: " + searchTerm);
+          fs.remove('packages/' + newPackageDir + "/" + newPackageDir + ".js", function (err) {
+            if (err) return console.error(err)
 
-          var searchPath = './packages/' + packageDir;
-
-          replace({
-            regex: searchTerm,
-            replacement: newFiles,
-            paths: [searchPath],
-            excludes: [".meteor", ".git"],
-            recursive: true
+            console.log('Removed default .js file.')
           });
-          console.log("Replaced some files...");
-        });
 
-      }
+        }
+      }, function(error, result){
+        if(error) console.log(error);
+      });
+
     });
-
 
   }else{
     console.log("Please use the following syntax: ");

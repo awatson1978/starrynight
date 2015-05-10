@@ -1,6 +1,6 @@
 
 <template name="foosTablePage">
-  <div id="foosTablePage" class="page">
+  <article id="foosTablePage" class="page">
     {{> pageNavHeader}}
 
     <input id="fooSearchInput" type="text" class="glass fullwidth form-control" placeholder="search..." />
@@ -21,35 +21,44 @@
           <th>
             <i class="fa fa-flag-o"></i>
           </th>
+          <th>
+            <i class="fa fa-times"></i>
+          </th>
         </tr>
       </thead>
       <tbody>
         {{#each foosList}}
-          <tr class="fooRow">
-            <td>
-              <i class="fa fa-check"></i>
+          <tr class="fooRow {{isGrayedOut}}">
+            <td class="checkbox">
+              <i class="fa {{checkedIcon}}"></i>
             </td>
             <td class="barcode">{{_id}}</td>
-            <td>
+            <td class="avatar">
               {{#if imageUrl}}
               <i class="fa fa-image"></i>
               {{/if}}
             </td>
             <td>{{title}}</td>
             <td>
-              <i class="fa fa-star-o"></i>
-              <i class="fa fa-star-o"></i>
-              <i class="fa fa-star-o"></i>
-              <i class="fa fa-star-o"></i>
-              <i class="fa fa-star-o"></i>
+              <i class="starA fa {{starA}}"></i>
+              <i class="starB fa {{starB}}"></i>
+              <i class="starC fa {{starC}}"></i>
+              <i class="starD fa {{starD}}"></i>
+              <i class="starE fa {{starE}}"></i>
             </td>
             <td>{{url}}</td>
-            <td>
-              <i class="fa fa-flag-o"></i>
+            <td class="flag">
+              <i class="fa {{flaggedIcon}}"></i>
+            </td>
+            <td class="delete">
+              <i class="fa fa-times"></i>
             </td>
           </tr>
         {{/each}}
       </tbody>
     </table>
-  </div>
+    <footer class="cardFooter">
+      <h3 class="addFooIcon"><i class="fa fa-dot-circle-o"></i></h3>
+    </footer>
+  </article>
 </template>

@@ -207,7 +207,8 @@ npm.load(function(error, npm) {
 
       //==================================================================================================
       case "create":
-        createPackage(options.package, options.from);
+      // starrynight create --package foo:mypackage --from /path/to/component
+        createPackage(options);
       break;
 
       //==================================================================================================
