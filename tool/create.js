@@ -45,7 +45,7 @@ module.exports = function(options){
 
               var newFiles = "";
               results.forEach(function(result){
-                newFiles += "  api.addFiles('" + path.basename(result.filepath) + "');\n";
+                newFiles += "  api.addFiles('" + path.basename(result.filepath) + "', ['client']);\n";
               });
               process.env.DEBUG && console.log(newFiles);
 

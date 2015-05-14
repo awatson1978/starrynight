@@ -33,13 +33,19 @@ module.exports = function(npmPrefix, testType){
     //------------------------------------------------------------------------------------------
     case "end-to-end":
       console.log("Launching Nightwatch to run end-to-end tests.  Analyzing meteor environment...");
-      runNightwatch();
+      runPioneer();
+    break;
+
+    //------------------------------------------------------------------------------------------
+    case "tiny-tests":
+      console.log("Launching TinyTest to unit-test packages.  Check http://localhost:3000");
+      runTinyTests();
     break;
 
     //------------------------------------------------------------------------------------------
     case "package-tests":
       console.log("Launching TinyTest to unit-test packages.  Check http://localhost:3000");
-      runTinyTests();
+      runTinyTestsInServerConsole(npmPrefix);
     break;
 
     //------------------------------------------------------------------------------------------
@@ -57,14 +63,20 @@ module.exports = function(npmPrefix, testType){
     //------------------------------------------------------------------------------------------
     case "acceptance":
       console.log("Launching Pioneer to run acceptance tests.  Check http://localhost:3000");
-      runPioneer();
+      runNightwatch(npmPrefix);
+    break;
+
+    //------------------------------------------------------------------------------------------
+    case "validation":
+      console.log("Launching Pioneer to run acceptance tests.  Check http://localhost:3000");
+      runNightwatch(npmPrefix);
     break;
 
     //------------------------------------------------------------------------------------------
     case "all":
       console.log("Running all non-experimental test frameworks...");
-      runNightwatch();
-      runTinyTests();
+      runNightwatch(npmPrefix);
+      runTinyTestsInServerConsole(npmPrefix);
     break;
 
     //------------------------------------------------------------------------------------------

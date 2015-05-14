@@ -1,13 +1,13 @@
 {
-  "src_folders" : ["tests/nightwatch/walkthroughs"],
-  "output_folder" : "tests/.reports/nightwatch-acceptance",
+  "src_folders" : ["./tests/nightwatch/walkthroughs"],
+  "output_folder" : "./tests/nightwatch/reports",
   "custom_commands_path" : [
-    "tests/nightwatch/commands",
-    "tests/nightwatch/commands/components",
-    "tests/nightwatch/commands/methods"
+    "./tests/nightwatch/commands",
+    "./tests/nightwatch/commands/components",
+    "./tests/nightwatch/commands/methods"
   ],
-  "custom_assertions_path" : "tests/nightwatch/assertions",
-  "globals_path" : "tests/nightwatch/globals.json",
+  "custom_assertions_path" : "./tests/nightwatch/assertions",
+  "globals_path" : "./tests/nightwatch/globals.json",
 
   "selenium" : {
     "start_process" : true,
@@ -38,7 +38,16 @@
         "browserName" : "firefox",
         "javascriptEnabled" : true,
         "acceptSslCerts" : true
-      }
+      },
+      "exclude":"./tests/nightwatch/unittests/*"
+    },
+    "unittests":{
+      "selenium" : {
+        "start_process" : false,
+        "start_session" : false
+      },
+      "filter" : "./tests/nightwatch/unittests/*",
+      "exclude" : ""
     }
   }
 }

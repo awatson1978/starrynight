@@ -69,11 +69,11 @@ module.exports = function(npmPrefix, callback){
         nightwatch.on('close', function(nightwatchExitCode){
           if(nightwatchExitCode === 0){
             console.log('Finished!  Nightwatch ran all the tests!');
-              //process.exit(nightwatchExitCode);
+              process.exit(nightwatchExitCode);
           }
           if(nightwatchExitCode !== 0){
             console.log('Nightwatch exited with a code of ' + nightwatchExitCode);
-            //process.exit(nightwatchExitCode);
+            process.exit(nightwatchExitCode);
           }
         });
 
