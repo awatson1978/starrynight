@@ -159,7 +159,7 @@ npm.load(function(error, npm) {
 
       //============================================================================================================
       case "scaffold":
-        scaffold(npmPrefix, secondArgument)
+        scaffold(npmPrefix, process.argv, options)
       break;
 
 
@@ -195,8 +195,6 @@ npm.load(function(error, npm) {
       case "run-framework":
         runFramework(npmPrefix, secondArgument);
       break;
-
-
 
 
       //==============================================================================================
@@ -321,7 +319,7 @@ npm.load(function(error, npm) {
 
       //==================================================================================================
       case "generate-travis":
-        auditPermissions();
+        //auditPermissions();
         generateTravis(npmPrefix);
       break;
 

@@ -77,4 +77,4 @@ before_install:
 #  - npm install
 
 # we're not installing starrynight globally, so we run the script from the local node_modules folder
-script: "starrynight -run-tests acceptance"
+script: "starrynight run-framework nightwatch"

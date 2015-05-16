@@ -6,4 +6,7 @@ module.exports = function(){
   childProcess.exec("chmod -R 755 .meteor", function(err, stdout, stderr) {
     console.log(stdout);
   });
+  childProcess.exec("chmod -R 755 .", function(err, stdout, stderr) {
+    console.log(stdout);
+  });
 }
