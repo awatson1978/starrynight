@@ -193,7 +193,7 @@ npm.load(function(error, npm) {
 
       //==============================================================================================
       case "run-framework":
-        runFramework(npmPrefix, secondArgument);
+        runFramework(npmPrefix, secondArgument, options);
       break;
 
 

@@ -1,7 +1,7 @@
 {
   "name": "starrynight",
   "description": "Meteor scaffolding and testing.",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "author": "Abigail Watson (awatson1978@gmail.com)",
   "dependencies": {
     "nightwatch": "0.6.7",
@@ -26,7 +26,8 @@
     "phantomjs": "1.9.16",
     "prompt": "0.2.14",
     "mrtbulkrelease":"0.7.2",
-    "chai":"2.3.0"
+    "chai":"2.3.0",
+    "jsdoc": "3.3.0"
   },
   "engines": {
     "node": ">= 0.4.0"

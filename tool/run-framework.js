@@ -23,7 +23,7 @@ var runTinyTestsInServerConsole = require('./frameworks/tinytest-on-server-conso
 var runMultiFramework = require('./frameworks/multi-framework.js');
 
 
-module.exports = function(npmPrefix, testType){
+module.exports = function(npmPrefix, testType, options){
   switch (testType) {
 
 
@@ -36,7 +36,7 @@ module.exports = function(npmPrefix, testType){
     //------------------------------------------------------------------------------------------
     case "nightwatch":
       console.log("Launching StarryNight.  Analyzing meteor environment...");
-      runNightwatch(npmPrefix);
+      runNightwatch(npmPrefix, options);
     break;
 
     //------------------------------------------------------------------------------------------

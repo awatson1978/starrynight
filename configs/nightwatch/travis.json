@@ -4,7 +4,8 @@
   "custom_commands_path" : [
     "tests/nightwatch/commands",
     "tests/nightwatch/commands/components",
-    "tests/nightwatch/commands/methods"
+    "tests/nightwatch/commands/methods",
+    "tests/nightwatch/commands/actions"
   ],
   "custom_assertions_path" : "tests/nightwatch/assertions",
   "globals_path" : "tests/nightwatch/globals.json",

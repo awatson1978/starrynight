@@ -7,7 +7,7 @@ var request = require('request');
 // for _.extend()ing the process.env object
 var _ = require('underscore');
 
-module.exports = function(npmPrefix, callback){
+module.exports = function(npmPrefix, options, callback){
 
   var nightwatchExitCode = 0;
 
@@ -25,7 +25,6 @@ module.exports = function(npmPrefix, callback){
 
         // set the default nightwatch executable to our starrynight installation
         nightwatchCommand = npmPrefix + '/lib/node_modules/starrynight/node_modules/nightwatch/bin/nightwatch';
-
         //console.log("[framekworks/nightwatch]nightwatchCommand: " + nightwatchCommand);
 
 
@@ -48,9 +47,60 @@ module.exports = function(npmPrefix, callback){
           configFileLocation = npmPrefix + '/lib/node_modules/starrynight/configs/nightwatch/config.json';
         }
 
+        var nightwatchArguments = [];
+
+        if(options && options.tags){
+          //nightwatchCommand = nightwatchCommand + " --tags " + options.tags;
+          nightwatchArguments.push('--tags');
+          nightwatchArguments.push(options.tags);
+        }
+        if(options && options.test){
+          //nightwatchCommand = nightwatchCommand + " --test " + options.test;
+          nightwatchArguments.push('--test');
+          nightwatchArguments.push(options.test);
+        }
+        if(options && options.verbose){
+          //nightwatchCommand = nightwatchCommand + " --verbose " + options.verbose;
+          nightwatchArguments.push('--verbose');
+          nightwatchArguments.push(options.verbose);
+        }
+        if(options && options.group){
+          //nightwatchCommand = nightwatchCommand + " --group " + options.group;
+          nightwatchArguments.push('--group');
+          nightwatchArguments.push(options.group);
+        }
+        if(options && options.filter){
+          //nightwatchCommand = nightwatchCommand + " --filter " + options.filter;
+          nightwatchArguments.push('--filter');
+          nightwatchArguments.push(options.filter);
+        }
+        if(options && options.env){
+          //nightwatchCommand = nightwatchCommand + " --env " + options.env;
+          nightwatchArguments.push('--env');
+          nightwatchArguments.push(options.env);
+        }
+        if(options && options.testcase){
+          //nightwatchCommand = nightwatchCommand + " --testcase " + options.testcase;
+          nightwatchArguments.push('--testcase');
+          nightwatchArguments.push(options.testcase);
+        }
+        if(options && options.config){
+          nightwatchArguments.push('-c');
+          nightwatchArguments.push(options.config);
+        }else{
+          nightwatchArguments.push('-c');
+          nightwatchArguments.push(configFileLocation);
+        }
+
         var nightwatchEnv = _.extend(process.env, {npm_config_prefix: npmPrefix});
 
-        var nightwatch = childProcess.spawn(nightwatchCommand, ['-c', configFileLocation], {env: nightwatchEnv});
+        process.env.DEBUG && console.log("npmPrefix:           ", npmPrefix);
+        process.env.DEBUG && console.log("nightwatchCommand:   ", nightwatchCommand);
+        process.env.DEBUG && console.log("configFileLocation:  ", configFileLocation);
+        process.env.DEBUG && console.log("nightwatchArguments: ", nightwatchArguments);
+
+
+        var nightwatch = childProcess.spawn(nightwatchCommand, nightwatchArguments, {env: nightwatchEnv});
         nightwatch.stdout.on('data', function(data){
           console.log(data.toString().trim());
 
@@ -64,6 +114,7 @@ module.exports = function(npmPrefix, callback){
         });
         nightwatch.on('error', function(error){
           console.error('[StarryNight] ERROR spawning nightwatch. nightwatchCommand was', nightwatchCommand);
+          console.log("error", error);
           throw error;
         });
         nightwatch.on('close', function(nightwatchExitCode){
