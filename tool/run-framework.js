@@ -26,7 +26,6 @@ var runMultiFramework = require('./frameworks/multi-framework.js');
 module.exports = function(npmPrefix, testType, options){
   switch (testType) {
 
-
     //------------------------------------------------------------------------------------------
     case "end-to-end":
       console.log("Running end-to-end tests (experimental)...");

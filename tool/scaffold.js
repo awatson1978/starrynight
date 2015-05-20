@@ -112,8 +112,8 @@ module.exports = function(npmPrefix, arguments, options){
           break;
         case "nightwatch":
           console.log("Starting scaffolding of nightwatch tests...");
-            if(options.pattern){
-            switch (options.pattern) {
+            if(options.boilerplate){
+            switch (options.boilerplate) {
               case "project-homepage":
                   fs.copy(npmPrefix + '/lib/node_modules/starrynight/scaffolds/sample-tests/nightwatch-project-homepage', './tests/nightwatch', function (error) {
                     if (error){ return console.error(error) }

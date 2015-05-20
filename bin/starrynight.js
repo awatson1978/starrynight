@@ -93,11 +93,12 @@ var generateReleaseJson = require('../tool/generate-release-json.js');
 var extractTools = require('../tool/extract-tools.js');
 var downloadTools = require('../tool/download-tools.js');
 
+var createPackage = require('../tool/create.js');
+var publishPackage = require('../tool/publish.js');
+
+// deprecated APIs
 var runFramework = require('../tool/run-framework.js');
 var runTests = require('../tool/run-tests.js');
-var createPackage = require('../tool/create.js');
-
-var publishPackage = require('../tool/publish.js');
 
 //==================================================================================================
 // DEBUGGING
@@ -181,7 +182,7 @@ npm.load(function(error, npm) {
 
       //==============================================================================================
       case "run-tests":
-        runTests(npmPrefix, secondArgument);
+        runTests(npmPrefix, secondArgument, options);
       break;
 
 
@@ -232,7 +233,7 @@ npm.load(function(error, npm) {
       // in other words, it's a 'smart clone'
 
       case "pattern":
-        pattern(secondArgument);
+        pattern(options);
       break;
 
 
@@ -244,7 +245,7 @@ npm.load(function(error, npm) {
         // TODO: starrynight refactor --old secondArgument --new thirdArgument --dir /path/to/component
 
         auditPermissions();
-        rename(secondArgument, thirdArgument, fourthArgument);
+        rename(options);
       break;
 
 
@@ -254,7 +255,7 @@ npm.load(function(error, npm) {
         // TODO: starrynight find-and-replace --current currentTerm --new newTerm --dir /path/to/component
 
         auditPermissions();
-        findAndReplace(secondArgument, thirdArgument, fourthArgument);
+        findAndReplace(options);
       break;
 
 

@@ -8,37 +8,43 @@ var finder = require('find-files');
 var replace = require('replace');
 
 
-module.exports = function(secondArgument, thirdArgument, fourthArgument){
-  if(!fourthArgument){
-    fourthArgument = ".";
+//module.exports = function(secondArgument, thirdArgument, fourthArgument){
+module.exports = function(options){
+  if(!options.root){
+    options.root = ".";
   }
   console.log("------------------------------------------");
   console.log("Searching files.... ");
-  finder(secondArgument, {root: fourthArgument, ignoreDirs: [".meteor", ".git", ".temp"]}, function(results){
-    //console.log('results', results);\
 
-    console.log("");
-    console.log("------------------------------------------");
-    console.log("Renamed files...");
-    console.log("");
-    results.forEach(function(result){
-      // console.log('result.filepath', result.filepath);
+  if(options){
+    if(options.from && options.to){
+        finder(options.from, {root: options.root, ignoreDirs: [".meteor", ".git", ".temp"]}, function(results){
+          //console.log('results', results);\
 
-      // many component directories will have subfiles with the same name
-      // we need to run the replace twice - to replace the directory name
-      // and then to replace the file name.
+          console.log("");
+          console.log("------------------------------------------");
+          console.log("Renamed files...");
+          console.log("");
+          results.forEach(function(result){
+            // console.log('result.filepath', result.filepath);
 
-      var newresult = result.filepath.replace(secondArgument, thirdArgument);
-      var finalPath = newresult.replace(secondArgument, thirdArgument);
+            // many component directories will have subfiles with the same name
+            // we need to run the replace twice - to replace the directory name
+            // and then to replace the file name.
 
-      fs.move(result.filepath, finalPath, function(error, result){
-        console.log('error', error);
-      });
+            var newresult = result.filepath.replace(options.from, options.to);
+            var finalPath = newresult.replace(options.from, options.to);
 
-      console.log(finalPath);
+            fs.move(result.filepath, finalPath, function(error, result){
+              console.log('error', error);
+            });
 
-    });
-  });
+            console.log(finalPath);
 
-  console.log('Done renaming files!');
+          });
+        });
+
+        console.log('Done renaming files!');
+    }
+  }  
 }

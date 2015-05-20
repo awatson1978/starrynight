@@ -3,9 +3,8 @@ module.exports = function(){
   console.log( "Usage:" );
   console.log( "  audit-permissions" );
   console.log( "  display-env" );
-  console.log( "  scaffold [project-homepage | client-server | rest-api]" );
-  console.log( "  sample [acceptance | all]]" );
-  console.log( "  pattern <url>" );
+  console.log( "  scaffold --boilerplate foo --framework bar" );
+  console.log( "  pattern --url http://github.com/account/repo" );
   console.log( "  rename <originalTerm> <newTerm> <directoryRoot>" );
   console.log( "  refactor <originalTerm> <newTerm> <directoryRoot>" );
   console.log( "  create --package foo:mypackage --from /path/to/component" );
