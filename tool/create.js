@@ -16,20 +16,28 @@ var replace = require('replace');
 
 module.exports = function(options){
   if(options.package && options.from){
-    //console.log("Creating package from component...");
 
+    // Figure out Package Directory Name
     var newPackageDir = options.package.split(':')[1];
     var componentDir = path.basename(options.from)
-    process.env.DEBUG && console.log("newPackageDir", newPackageDir);
 
+    if(option.debug){
+      console.log("newPackageDir: ", newPackageDir);
+      console.log("componentDir:  ", componentDir);
+    }
+
+    //
     childProcess.exec("cd packages", function(err, stdout, stderr) {
-      process.env.DEBUG && console.log('process.env.pwd', process.env.pwd);
+      if(option.debug){
+        console.log('process.env.pwd', process.env.pwd);
+      }
 
       childProcess.exec("meteor create --package " + options.package, function(err, stdout, stderr) {
-        process.env.DEBUG && console.log("newPackageDir", newPackageDir);
-
+      if(option.debug){
         console.log(stdout);
         console.log(err);
+      }
+
 
         if(stdout.toString().indexOf(": created in") > -1){
           console.log('Package created!')
@@ -41,18 +49,26 @@ module.exports = function(options){
             console.log('Component files copied into package.')
 
             finder(componentDir, {root: options.from, ignoreDirs: [".meteor", ".git", ".temp"]}, function(results){
-              process.env.DEBUG && console.log('results', results);
+              //if(option.debug){
+                console.log('results', results);
+              //}
 
               var newFiles = "";
               results.forEach(function(result){
                 newFiles += "  api.addFiles('" + path.basename(result.filepath) + "', ['client']);\n";
               });
-              process.env.DEBUG && console.log(newFiles);
+              //if(option.debug){
+                console.log(newFiles);
+              //}
 
               var searchTerm = "  api.addFiles\\('" + newPackageDir + ".js'\\);";
-              process.env.DEBUG && console.log("searchTerm: " + searchTerm);
+              //if(option.debug){
+                console.log("searchTerm: " + searchTerm);
+              //}
 
               var searchPath = './packages/' + newPackageDir;
+
+                console.log("searchPath: " + searchPath);
 
               replace({
                 regex: searchTerm,
