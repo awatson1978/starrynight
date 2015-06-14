@@ -10,7 +10,11 @@ services:
 sudo: required
 
 env:
-
+  global:
+    - TRAVIS=true
+    - CONFIG_PREFIX=`npm config get prefix`
+    - DISPLAY=:99.0
+  matrix:
 
 cache:
   directories:
@@ -22,39 +26,9 @@ before_install:
   - "mkdir -p node_modules &"
 
   # install starrynight, so we can launch nightwatch and selenium
-  # - "npm install -g nightwatch"
-
-  # install starrynight, so we can launch nightwatch and selenium
   - "npm install -g starrynight"
 
-  # npm install -g selenium-server-standalone-jar"
-
-  #- "which node"
-  #- "which starrynight"
-
-  - "export CONFIG_PREFIX=`npm config get prefix`"
-  #- "echo $CONFIG_PREFIX"
-
-  - "export TRAVIS=true"
-
-  #- "ls -la /home/travis/.nvm/v0.10.38/lib/node_modules/"
-  #- "ls -la /home/travis/.nvm/v0.10.38/lib/node_modules/starrynight/node_modules/"
-  #- "ls -la /home/travis/.nvm/v0.10.38/lib/node_modules/starrynight/node_modules/nightwatch/"
-  #- "ls -la /home/travis/.nvm/v0.10.38/lib/node_modules/starrynight/node_modules/nightwatch/bin"
-  #- "ls -la /home/travis/.nvm/v0.10.38/lib/node_modules/starrynight/node_modules/selenium-server-standalone-jar/jar/"
-
-  #- "more /home/travis/.nvm/v0.10.38/lib/node_modules/starrynight/configs/nightwatch/travis.json"
-  #- "ls -la /home/travis/.nvm/v0.10.38/lib/node_modules/"
-
-
-  #- "ls -la /home/travis/.nvm/v0.10.38/lib/node_modules/"
-  #- "ls -la /home/travis/.nvm/v0.10.38/lib/node_modules/selenium-server/"
-  #- "ls -la /home/travis/.nvm/v0.10.38/lib/node_modules/selenium-server/lib/runner/"
-
-
-
   # fire up xvfb on port :99.0
-  - "export DISPLAY=:99.0"
   - "sh -e /etc/init.d/xvfb start"
 
   # set the xvfb screen size to 1280x1024x16
@@ -73,8 +47,5 @@ before_install:
   # give Meteor some time to download packages, init data, and to start
   - "sleep 60"
 
-#install:
-#  - npm install
-
 # we're not installing starrynight globally, so we run the script from the local node_modules folder
-script: "starrynight run-framework nightwatch"
+script: "starrynight run-tests --framework nightwatch"

@@ -11,8 +11,14 @@ module.exports = function(options){
         replace({
           regex: options.from,
           replacement: options.to,
-          paths: [options.root],
-          excludes: [".meteor", ".git"],
+          paths: [
+            options.root + "/client",
+            options.root + "/server",
+            options.root + "/lib",
+            options.root + "/public",
+            options.root + "/tests"
+            ],
+          excludes: [".meteor", ".git", ".meteor/*", ".git/*"],
           recursive: true
         });
 

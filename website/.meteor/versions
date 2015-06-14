@@ -16,6 +16,7 @@ deps@1.0.7
 ejson@1.0.6
 fastclick@1.0.3
 fortawesome:fontawesome@4.3.0
+gadicohen:prism@1.0.4
 geojson-utils@1.0.3
 gwendall:session-json@0.1.7
 html-tools@1.0.4
@@ -40,6 +41,7 @@ mongo@1.1.0
 msavin:mongol@1.0.12
 observe-sequence@1.0.6
 ordered-dict@1.0.3
+rahul:animate-everything@1.0.1
 random@1.0.3
 reactive-dict@1.1.0
 reactive-var@1.0.5
@@ -49,6 +51,7 @@ routepolicy@1.0.5
 session@1.1.0
 spacebars@1.0.6
 spacebars-compiler@1.0.6
+stylus@1.0.7
 templating@1.1.1
 tracker@1.0.7
 ui@1.0.6

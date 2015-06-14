@@ -7,6 +7,9 @@ var request = require('request');
 // for _.extend()ing the process.env object
 var _ = require('underscore');
 
+// we're going to want to install the chromedriver
+//var selenium = require('selenium-standalone');
+
 module.exports = function(npmPrefix, options, callback){
 
   var nightwatchExitCode = 0;
@@ -44,7 +47,11 @@ module.exports = function(npmPrefix, options, callback){
         }else if(process.env.FRAMEWORK_CONFIG_PATH){
           configFileLocation = process.env.FRAMEWORK_CONFIG_PATH;
         }else{
-          configFileLocation = npmPrefix + '/lib/node_modules/starrynight/configs/nightwatch/config.json';
+          if(options.autogenerate){
+            configFileLocation = '.meteor/nightwatch.json';
+          }else{
+            configFileLocation = npmPrefix + '/lib/node_modules/starrynight/configs/nightwatch/config.json';
+          }
         }
 
         var nightwatchArguments = [];
@@ -94,10 +101,14 @@ module.exports = function(npmPrefix, options, callback){
 
         var nightwatchEnv = _.extend(process.env, {npm_config_prefix: npmPrefix});
 
-        process.env.DEBUG && console.log("npmPrefix:           ", npmPrefix);
-        process.env.DEBUG && console.log("nightwatchCommand:   ", nightwatchCommand);
-        process.env.DEBUG && console.log("configFileLocation:  ", configFileLocation);
-        process.env.DEBUG && console.log("nightwatchArguments: ", nightwatchArguments);
+
+        if(options.debug){
+          console.log("npmPrefix:           ", npmPrefix);
+          console.log("nightwatchCommand:   ", nightwatchCommand);
+          console.log("configFileLocation:  ", configFileLocation);
+          console.log("nightwatchArguments: ", nightwatchArguments);          
+        }
+
 
 
         var nightwatch = childProcess.spawn(nightwatchCommand, nightwatchArguments, {env: nightwatchEnv});

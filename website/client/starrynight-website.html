@@ -4,7 +4,8 @@
 
 <body>
   <!-- first layer -->
-  <img src="starrynight-van-gogh.jpg" id="backgroundImage" alt="">
+  <img src="{{getRandomImage}}" id="backgroundImage" alt="">
+  <!-- <img src="starrynight-van-gogh.jpg" id="backgroundImage" alt=""> -->
   {{> hello}}
 </body>
 
@@ -21,51 +22,41 @@
       <h2>What is StarryNight?</h2>
       <hr>
       <p>
-        StarryNight is an application lifecycle managmeent tool for use in scaffolding and testing Meteor applications.  It ostensibly for use in creating HIPAA and FDA compliant apps, but it turns out that it's useful for a lot more than that.  It's a direct result of 2 years of working on the <a href="http://github.com/awatson1978/meteor-cookbook.git">Meteor Cookbook</a> and the <a href="http://clinical.meteor.com">Clinical Meteor Track</a>.
+        StarryNight is a managment tool for use in building and testing <a href="http://www.meteor.com/">Meteor.js</a> applications.  It's main intent is for creating HIPAA and FDA compliant Meteor apps (but it's useful for a lot more than that).  It's a direct result of 2 years of working on the <a href="http://github.com/awatson1978/meteor-cookbook.git">Meteor Cookbook</a> and the <a href="http://clinical.meteor.com">Clinical Meteor Track</a>, and makes extensive use of <a href="http://nightwatchjs.org/">Nightwatch.js</a>.
       </p>
 
 
       <h2>Installation</h2>
       <hr>
-      <div class="code">
-        <code>
+      {{#prism language="bash"}}
           npm install starrynight -g
-        </code>
-      </div>
+      {{/prism}}
       <p>
-        Currently only supports OSX.  That's not to say that you can't get it to work on other platforms, just that there are no guarantees.  In particular, StarryNight sometimes looks in specific directories for config files and to set environment variables, which may be specific to Mac.
+        StarryNight now supports dynamic Npm prefixing, which means that, in theory, it should install correctly on Linux and Windows.  Log a ticket if you have any problems.   Better yet, give us a shout-out if you actually *do* get it installed on environments other than Mac.  @awatson1978, forums.meteor.com, etc.
       </p>
 
 
-      <h2>Usage</h2>
+      <h2>Contributions / Technologies</h2>
       <hr>
-      <div class="code">
-        <code class="monospace">
-          <span class="gray">//running the utility</span><br>
-          $ starrynight <br>
-          <br>
-          <span class="gray">//arguments</span><br>
-          help <br>
-          audit-permissions<br>
-          display-env<br>
-          scaffold <span class="gray">--framework frameworkName --boilerplate boilerplateName --service serviceName</span> <br>
-          clone <span class="gray">--url http://github.com/myaccount/myrepo --to /path/to/install</span> <br>
-          pattern <span class="gray">--url http://github.com/myaccount/myrepo</span> <br>
-          rename <span class="gray">--from originalTerm --to newTerm --root directoryRoot</span> <br>
-          find-and-replace <span class="gray">--from originalTerm --to newTerm --root directoryRoot</span> <br>
-          refactor <span class="gray">--from originalTerm --to newTerm --root directoryRoot</span> <br>
-          run-tests <span class="gray">--framework frameworkName</span> <br>
-          clean <span class="gray">--all</span> <br>
-          create <span class="gray">--package foo:mypackage --from /path/to/component</span><br>
-          <!-- run-framework <span class="gray">[tinytest | tinytest-ci | nightwatch <span class="lightgray"> | spacejam | mocha | pioneer | multi </span>]</span> <br> -->
-          extract-ids<br>
-          extract-classes<br>
-          extract-tests-for  <span class="gray">filename > newFilename</span> <br>
-          generate-release-json<br>
-          <span class="gray">-download-tools (experimental)</span> <br>
-          <span class="gray">-extract-tools (experimental)</span> <br>
-        </code>
-      </div>
+      <ul>
+        <li>Meteor</li>
+        <li>GitHub</li>
+        <li>Selenium</li>
+        <li>Atom</li>
+        <li>Phantom JS</li>
+        <li>Nightwatch</li>
+        <li>Meteor Bulk Release</li>
+        <li>SpaceJam</li>
+        <li>Travis</li>
+        <!-- <li>BrowserStack</li>
+        <li>SauceLabs</li>
+        <li>XCode</li> -->
+      </ul>
+
+
+      <h2>System Architecture</h2>
+      <hr>
+      <img id="architectureDiagram" src="NightwatchMeteor.png" alt="" />
 
       <h2>Commands</h2>
       <hr>
@@ -135,25 +126,13 @@
           Add a .travis.yml file to your application to get started with continuous integration.  Command assumes that you're using the Reference Scaffold, and your app is located in a /webapp directory.
         </p>
         <p>
-          <b>download-tools</b><br>
-          Experimental tool for downloading, installing, and configuring an isomorphic integrated development environment using Atom.io.  Use at your own risk!
-        </p>
-        <p>
-          <b>extract-tools</b><br>
-          Experimental tool for downloading, installing, and configuring an isomorphic integrated development environment using Atom.io.  Use at your own risk!
+          <b>generate-autoconfig</b><br>
+          Generates the <b>.meteor/nightwatch.json</b> config file for Nightwatch to use.  Parses the application and searches for .test directories, which allows you to keep tests with their associated components.
         </p>
 
 
 
         <!-- <hr>
-        <p>
-          <b>generate</b><br>
-          Runs a scaffold command followed by a refactor command.  If a url is specified, runs a pattern command followed by a refactor.
-        </p>
-        <p>
-          <b>run-framework</b><br>
-          Runs a specific testing framework.  General alias for survey and run-tests, but let's you pass in framework specific options and arguments.
-        </p>
         <p>
           <b>clean</b><br>
           Similar to meteor reset, but doesn't dump the database.  Clears the following directories: .meteor/local, .temp, .demeteorizer.
@@ -165,29 +144,83 @@
         <p>
           <b>install-dev-tools</b><br>
           Installs common development tools for Meteor, including Atom.io.
-        </p> -->
+        </p>
+        -->
       </div>
+
+
+
+      <h2>Generic Flags</h2>
+      <hr>
+      <div class="horizontally-padded">
+        <p>
+          <b>--root</b><br>
+          StarryNight generally expects to be run from the root of an application, and most commands will default to running relative from the root of the application.  The <b>--root</b> flag will adjust where a command runs relative to.  Generally used for restricting a command to running from a subdirectory.
+        </p>
+        <p>
+          <b>--framework</b><br>
+          StarryNight supports a half-dozen testing frameworks; and defaults to an integrated version that uses parts from each.  If a command supports the <b>--framework</b> flag, it will restrict the command to only modifying files associated with that particular framework.
+        </p>
+        <p>
+          <b>--boilerplate</b><br>
+          A boilerplate is a generic application scaffold that's specific to some functionality.  A boilerplate differs from a package in that it's expected you'll use a boilerplate as a starting-off point.  It's not a self-contained piece of code.  It's more like a self-contained starting point for future code development.
+        </p>
+        <p>
+          <b>--from</b><br>
+          Many commands involve copying, moving, or renaming things from one location to another.  This flag generally accepts either a relative url path or a string, depending on context.
+        </p>
+        <p>
+          <b>--to</b><br>
+          Many commands involve copying, moving, or renaming things from one location to another.  This flag generally accepts either a relative url path or a string, depending on context.
+        </p>
+        <p>
+          <b>--url</b><br>
+          Specifies that the following URL should be used as an input to the command.
+        </p>
+        <p>
+          <b>--mode</b><br>
+          Specifies a testing mode for FDA review.
+        </p>
+      </div>
+
+      <h2>Global Flags</h2>
+      <hr>
+      <div class="horizontally-padded">
+        <p>
+          <b>--debug</b><br>
+          Prints out debug information.
+        </p>
+        <p>
+          <b>--trace</b><br>
+          Prints out even more detailed debugging information.
+        </p>
+      </div>
+
+
+
+
 
       <h2>Testing Quickstart</h2>
       <hr>
       <p>
         Supports package testing via TinyTest framework; and acceptance testing and unit testing via the Nightwatch testing framework.  Here's the quick-and-simple way of getting started.
       </p>
-      <div class="code">
-        <code class="monospace">
-          <span class="gray"># add acceptance tests to your application (using the nightwatch framework)</span><br>
-          $ starrynight scaffold --framework nightwatch<br>
-          <br>
+      {{#prism language="bash"}}
+        # add acceptance tests to your application (using the nightwatch framework)
+        $ starrynight scaffold --framework nightwatch
 
-          <span class="gray"># make sure the acceptance testing framework is running</span><br>
-          $ starrynight run-tests --framework nightwatch<br>
-          <br>
+        # make sure the acceptance testing framework is running
+        $ starrynight run-tests --framework nightwatch
 
-          <span class="gray"># if you have packages in your application</span><br>
-          $ starrynight run-tests --framework tinytest-ci<br>
-          <br>
-        </code>
-      </div>
+        # if you have packages in your application
+        $ starrynight run-tests --framework tinytest-ci
+      {{/prism}}
+
+
+
+
+
+
 
       <h2>Testing Frameworks</h2>
       <hr>
@@ -216,7 +249,7 @@
           Experimental framework based on mocha which supports testing OAuth functionality.  <a href="https://github.com/meteor/e2e">Originally written by the MDG</a>, you might want to take a look at the <a href="https://github.com/awatson1978/e2e/tree/community-use">community use fork</a> for experimenting in your own apps.
         </p>
       </span>
-      <span class="gray">
+      <!-- <span class="gray">
         <p>
           <b>spacejam</b><br>
           Package testing framework that extends TinyTest with chai assertions and a command line option.  A little inconsistent with launching, so it's remaining in experimental status for the time being.
@@ -233,107 +266,105 @@
           <b>jasmine</b><br>
           Unit/Integration testing framework for Node.  Experimental support.  Framework launches, but cannot find config file and/or test files, so remaining in experimental status.
         </p>
-      </span>
+      </span> -->
 
 
       <h2>Examples</h2>
       <hr>
+      {{> firstTutorial}}
+
+
+
+      <h2>Testing Modes</h2>
+      <hr>
+        <p>
+          StarryNight combines functionality from a number of testing libraries, some of which overlap.  Rather than specifying a particular test framework to use; it's often benefitial to specify which part of the architecture you want to test.  Which is what Test Modes provide.  A way to specify which part of the architecture your reviewing for FDA compliance.
+        </p>
+        <p>
+          <b>all</b><br>
+          Alias for running both validation and verification tests.
+        </p>
+        <p>
+          <b>validation</b><br>
+          Also known as black-box or acceptance testing.  Alias for running both client-validation and package-validation tests.
+        </p>
+        <p>
+          <b>verification</b><br>
+          Also known as unit-testing or integration testing.  Runs client, package, and server unit tests using TinyTest, Mocha, and Nightwatch.
+        </p>
+        <p>
+          <b>package-verification</b><br>
+          Unit testing of Meteor packages using TinyTest.
+        </p>
+        <p>
+          <b>package-validation</b><br>
+          Acceptance testing of Meteor packages using an automated browser controlled by Selenium.
+        </p>
+        <p>
+          <b>server-verification</b><br>
+          Unit testing of Meteor server code using Mocha syntax.
+        </p>
+        <p>
+          <b>client-verification</b><br>
+          Unit testing of Meteor client code using Nightwatch and Chai syntax.
+        </p>
+        <p>
+          <b>client-validation</b><br>
+          Acceptance testing of Meteor client code using an automated browser controlled by Selenium.
+        </p>
+
+
+
+
+      <h2>Client Verification Testing</h2>
+      <hr>
       <p>
-        API Version 0.2.6
+        More commonly known as unit-testing, Verification Testing doesn't test the Document Object Model (DOM) that the user interacts with.  Rather, it inspects the underlying javascript functions on the client.  Client-side verification testing can also test Meteor methods on the server.  Consider an ultra-simple Meteor app that has the following code.
       </p>
-      <div class="code">
-        <code class="monospace">
-          <span class="gray"># create a helloworld application</span><br>
-          $ meteor create helloworld<br>
-          $ cd helloworld<br>
-          <br>
+      {{#prism language="javascript" class="line-numbers"}}
+        if(Meteor.isClient()){
+          Session.setDefault("loggedInUser", "Jane Doe")
+        }
+        if(Meteor.isServer()){
+          Meteor.methods({
+            testMethod:function(){
+               return "abc";
+            },
+            testMethodWithInput:function(value){
+               return value * 2;
+            }
+          });
+        }
+      {{/prism}}
 
-          <span class="gray"># you might want to open your editor to follow along</span><br>
-          $ atom .<br>
-          $ meteor<br>
-          <br>
+      <p>
+        Our Nightwatch script to test the above code would look something like the following:
+      </p>
+      {{#prism language="javascript" class="line-numbers" data-line="7, 15-20"}}
+        module.exports = {
+          "Check Client Session" : function (client) {
 
-          <span class="gray"># add acceptance tests to your application (using the nightwatch framework)</span><br>
-          $ starrynight scaffold --framework nightwatch<br>
-          <br>
+            var sessionBar = false;
+            client
+              .url("http://localhost:3000/list/users")
+              .checkSession("loggedInUser", "Jane Doe")
+              .end();
+          },
+          "Check Server Methods" : function (client) {
 
-          <span class="gray"># make sure the acceptance testing framework is running</span><br>
-          $ starrynight run-tests --framework nightwatch<br>
-          <br>
-
-          <span class="gray"># add a scaffold/boilerplate to your project</span><br>
-          $ starrynight scaffold --boilerplate project-homepage<br>
-          $ rm helloworld.*<br>
-          <br>
-
-          <span class="gray"># add acceptance tests for the project-homepage scaffold</span><br>
-          $ starrynight scaffold --boilerplate project-homepage --framework nightwatch<br>
-          <br>
-
-          <span class="gray"># run acceptance tests on the new scaffold</span><br>
-          $ starrynight run-tests --framework nightwatch<br>
-          <br>
-
-          <span class="gray"># add more scaffolding to your project</span><br>
-          $ starrynight scaffold --boilerplate iron-router<br>
-          <br>
-
-          <span class="gray"># see if our tests still work</span><br>
-          $ starrynight run-tests --framework nightwatch<br>
-          <br>
-
-          <span class="gray"># add the itunes connect acceptance tests (mobile first)</span><br>
-          $ starrynight scaffold --boilerplate itunes --framework nightwatch<br>
-          <br>
-
-          <span class="gray"># our tests should break</span><br>
-          $ starrynight run-tests --framework nightwatch<br>
-          <br>
-
-          <span class="gray"># add extra page components and routes to our app</span><br>
-          $ starrynight pattern --url https://github.com/awatson1978/clinical-static-pages<br>
-          <br>
-
-          <span class="gray"># run acceptance tests (they should break)</span><br>
-          $ starrynight run-tests --framework nightwatch<br>
-          <br>
-
-          <span class="gray"># rename files throughout your app in one go</span><br>
-          $ starrynight rename --from about --to marketing<br>
-          $ starrynight rename --from About --to Marketing<br>
-          <br>
-
-          <span class="gray"># find-and-replace terms throughout our app</span><br>
-          $ starrynight find-and-replace "AppTitle" "Hello StarryNight"<br>
-          $ starrynight find-and-replace "about" "marketing"<br>
-          <br>
-
-          <span class="gray"># when new files are created, we sometimes want to check file permissions</span><br>
-          $ starrynight audit-permissions<br>
-          <br>
-
-          <span class="gray"># run acceptance tests again (they should pass)</span><br>
-          $ starrynight run-tests --framework nightwatch<br>
-          <br>
-
-          <span class="gray"># create a package</span><br>
-          $ mkdir packages<br>
-          $ cd packages<br>
-          $ meteor create --package foo<br>
-          $ cd ..<br>
-          <br>
-
-          <span class="gray"># run package tests</span><br>
-          $ starrynight run-tests --framework tinytest-ci<br>
-          <br>
-
-          <span class="gray"># lets add some database</span><br>
-          $ starrynight scaffold --boilerplate client-server<br>
-          <br>
-
-
-        </code>
-      </div>
+            var sessionBar = false;
+            client
+              .url("http://localhost:3000/list/users")
+              .meteorCall("testMethod", false, function(error, result){
+                client.assert.equal(result, "abc");
+              })
+              .meteorCall("testMethodWithInput", 3, function(error, result){
+                client.assert.equal(result, 6);
+              })
+              .end();
+          }
+        };
+      {{/prism}}
 
 
       <h2>Reference Scaffold</h2>
@@ -341,30 +372,29 @@
       <p>
         To get the most out of StarryNight, it's best to understand the structure of the Reference Scaffold, which is a sort of default app that StarryNight uses to structure apps.  Some people will object to the design assumptions that the Reference Scaffold makes, and that's okay.  That's what the refactoring tools in StarryNight are for:  it's assumed that, at some point, you'll stop wanting to follow the scaffold, and begin custom modifying parts of it.  If anybody wants to make changes to the underlying scaffold itself (ie to add angular, famo.us, or react scaffolds), they're free to fork StarryNight and write their own scaffolding utility or submit pull-requests.
       </p>
-      <div class="code">
-        <code class="monospace">
-          /media<br>
-          /docs<br>
-          /design<br>
-          /data<br>
-          /webapp<br>
-          /webapp/client<br>
-          /webapp/client/mainLayout.html<br>
-          /webapp/client/mainLayout.js<br>
-          /webapp/client/mainLayout.less<br>
-          /webapp/client/app/components<br>
-          /webapp/client/app/components/<br>
-          /webapp/client/app/components<br>
-          /webapp/client/app<br>
-          /webapp/server<br>
-          /webapp/lib<br>
-          /webapp/tests<br>
-          /webapp/tests/nightwatch<br>
-          /webapp/tests/nightwatch/commands<br>
-          /webapp/tests/nightwatch/walkthroughs<br>
-          .travis.yml
-        </code>
-      </div>
+      {{#prism language="bash"}}
+        /media
+        /docs
+        /design
+        /data
+        /webapp
+        /webapp/client
+        /webapp/client/mainLayout.html
+        /webapp/client/mainLayout.js
+        /webapp/client/mainLayout.less
+        /webapp/client/app/components
+        /webapp/client/app/components/
+        /webapp/client/app/components
+        /webapp/client/app
+        /webapp/server
+        /webapp/lib
+        /webapp/tests
+        /webapp/tests/nightwatch
+        /webapp/tests/nightwatch/commands
+        /webapp/tests/nightwatch/walkthroughs
+        .travis.yml
+      {{/prism}}
+
       <p>
         The Reference Scaffold makes quite a few opinionated assumptions about how to structure an app...  everything from how to integrate analytics to which continuous-integration environment to run.  You're welcome to ignore any part, delete components, or not run the scaffolding commands in the first place.  But if you just want to get an app up-and-running, and are willing to follow some standard conventions, StarryNight will do a whole lot of the heavy-lifting for you.  But you should know what you're getting, and that begins by looking at the default directory structure of what you would get if you ran all the scaffolding components.
       </p>
@@ -378,22 +408,7 @@
         Supports out-of-the-box support for Travis.org.  Support for BrowserStack and SauceLabs is coming soon!
       </p> -->
 
-      <h2>Contributions / Technologies</h2>
-      <hr>
-      <ul>
-        <li>Meteor</li>
-        <li>GitHub</li>
-        <li>Selenium</li>
-        <li>Atom</li>
-        <li>Phantom JS</li>
-        <li>Nightwatch</li>
-        <li>Meteor Bulk Release</li>
-        <li>SpaceJam</li>
-        <li>Travis</li>
-        <!-- <li>BrowserStack</li>
-        <li>SauceLabs</li>
-        <li>XCode</li> -->
-      </ul>
+
 
 
       <h2>About The Name</h2>
@@ -405,7 +420,7 @@
       <h2>History</h2>
       <hr>
       <p>
-        StarryNight was originally a test-runner to run the Nightwatch testing framework.  Somewhere along the way it seemed like a good idea to copy test files into a user's application.  Then it seemed like a good idea to run those tests on a continuous integration server.  And if we could copy some tests files into the app, maybe it would be a good idea to be able to scaffold some application boilerplate into an app as well.  And then it just became a place to add all the tools and scripts that Meteor doesn't include by default.
+        StarryNight was originally a launcher for the Nightwatch testing framework.  Somewhere along the way it seemed like a good idea to copy test files into a user's application.  Then it seemed like a good idea to run those tests on a continuous integration server.  And if we could copy some tests files into the app, maybe it would be a good idea to be able to scaffold some application boilerplate into an app as well.  And then it just became a place to add all the tools and scripts that Meteor doesn't include by default.
       </p>
 
 
@@ -420,7 +435,20 @@
       <h2>About The Utility</h2>
       <hr>
       <p>
-        Written by <a href="http://www.linkedin.com/in/abigailwatson">Abigail Watson</a><br>
+        StarryNight written by <a href="http://www.linkedin.com/in/abigailwatson">Abigail Watson</a><br>
+        <!-- Nightwatch written by Andrei Rusu<br> -->
+      </p>
+      <b>Contributors</b>
+      <p>
+        Andrei Rusu <br>
+        Alan Blount <br>
+        Adam Monsen
+      </p>
+
+      <h2>About The Backgrounds</h2>
+      <hr>
+      <p>
+        Backgrounds generated with <a href="https://itunes.apple.com/us/app/sky-guide-view-stars-night/id576588894?mt=8">SkyGuide</a> for iPad.  Highly recommended.  Download it today!
       </p>
 
 

@@ -1,4 +1,4 @@
-Session.setDefault('fooSearchFilter', '');
+Session.setDefault('userSearchFilter', '');
 Session.setDefault('tableLimit', 20);
 Session.setDefault('paginationCount', 1);
 Session.setDefault('selectedPagination', 0);
@@ -57,19 +57,19 @@ Template.foosTablePage.events({
       Foo.update({_id: this._id}, {$set: {flagged: true}});
     }
   },
-  'click .addFooIcon': function(){
-    Router.go('/insert/foo');
+  'click .addUserIcon': function(){
+    Router.go('/insert/user');
   },
   'click .delete': function(){
     Foo.remove(this._id);
   },
   'click tr': function(){
-    Router.go('/view/foo/' + this._id);
+    Router.go('/view/user/' + this._id);
   },
   // use keyup to implement dynamic filtering
   // keyup is preferred to keypress because of end-of-line issues
-  'keyup #fooSearchInput': function() {
-    Session.set('fooSearchFilter', $('#fooSearchInput').val());
+  'keyup #userSearchInput': function() {
+    Session.set('userSearchFilter', $('#userSearchInput').val());
   }
 });
 
@@ -157,7 +157,7 @@ Template.foosTablePage.rendered = function(){
   Template.appLayout.layout();
 
   // step A:  initialize the table sorting functionality
-  $(this.find('#foosTable')).tablesorter();
+  $(this.find('#usersTable')).tablesorter();
 
   // the Tracker API watches Collection and Session objects
   // so what we're doing here is registering a Tracker to watch the
@@ -175,7 +175,7 @@ Template.foosTablePage.rendered = function(){
     setTimeout(function() {
       // step F:  update the tablesorting library 200ms after receiving data
       // and Blaze has had a change to rerender the table
-      $("#foosTable").trigger("update");
+      $("#usersTable").trigger("update");
     }, 200);
   });
 

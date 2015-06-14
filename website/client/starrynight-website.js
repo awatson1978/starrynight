@@ -14,15 +14,36 @@ Meteor.startup(function () {
     Session.set("appHeight", $(window).height());
     Session.set("appWidth", $(window).width());
   });
+  Template.hello.layout();
 });
-
 
 
 //==================================================================================================
 
-Template.hello.rendered = function(){
+var backgroundImages = [
+  "IMG_4641.PNG",
+  "IMG_4646.PNG",
+  "IMG_4650.PNG",
+  "IMG_4654.PNG",
+  "IMG_4656.PNG",
+  "IMG_4665.PNG",
+  "IMG_4669.PNG",
+  "IMG_4671.PNG",
+  "IMG_4673.PNG"
+];
+
+Template.body.helpers({
+  getRandomImage: function(){
+    return Random.choice(backgroundImages);
+  }
+});
+
+//==================================================================================================
+
+Template.hello.onRendered(function(){
   Template.hello.layout();
-}
+});
+
 
 Template.hello.helpers({
   resized: function () {
@@ -56,7 +77,9 @@ Template.hello.events({
 Template.hello.layout = function(){
   Session.set('transparencyDivHeight', $('#innerPanel').height() + 80);
   console.log('appWidth', Session.get('appWidth'));
-  if(Session.get('appWidth') > 768){
+  if(Session.get('appWidth') > 1636){
+    Session.set('transparencyDivLeft', (Session.get('appWidth') - 1536) * 0.5);
+  }else if(Session.get('appWidth') > 768){
     Session.set('transparencyDivLeft', (Session.get('appWidth') - 768) * 0.5);
   }else{
     Session.set('transparencyDivLeft', 0);

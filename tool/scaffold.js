@@ -77,8 +77,16 @@ module.exports = function(npmPrefix, arguments, options){
             });
             break;
           //--------------------------------------------------------------------------------------------------------
+          case "active-record":
+            fs.copy(npmPrefix + '/lib/node_modules/starrynight/scaffolds/boilerplates/active-record', './', function (error) {
+              if (error){
+                return console.error(error)
+              }
+              console.log('Scaffold copied over!')
+            });
+            break;          //--------------------------------------------------------------------------------------------------------
           default:
-            console.log('No scaffold template specified.  Please specify:')
+            console.log('No scaffold template specified.:')
             console.log('> project-homepage');
             console.log('> client-server');
             console.log('> rest-api');

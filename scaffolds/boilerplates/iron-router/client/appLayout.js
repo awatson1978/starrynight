@@ -47,6 +47,12 @@ Template.appLayout.layout = function(){
     Session.set('transparencyDivLeft', 0);
   }
 }
+Template.appLayout.delayedLayout = function(timeout){
+  Meteor.setTimeout(function(){
+    Template.appLayout.layout();
+  }, timeout);
+}
+
 
 
 //==================================================================================================

@@ -1,7 +1,7 @@
 
-Foo = new Meteor.Collection('foo');
+Records = new Meteor.Collection('records');
 
-Foo.allow({
+Records.allow({
   insert: function(){
     return true;
   },

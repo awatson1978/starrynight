@@ -1,3 +1,4 @@
-Session.setDefault("fooId", null);
+Session.setDefault("recordId", null);
 
-Meteor.subscribe("foo", Session.get('fooId'));
+Meteor.subscribe("records", Session.get('recordId'));
+Meteor.subscribe("allRecords");

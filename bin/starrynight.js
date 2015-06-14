@@ -41,9 +41,6 @@ var request = require('request');
 // replace allows us to refactor contents of file
 var replace = require('replace');
 
-// just want to know where it's located
-/*var seleniumJar = require('selenium-server-standalone-jar');*/
-
 // so we can find the NODE_PATH
 var path = require('path');
 
@@ -69,6 +66,12 @@ var unzip = require('unzip');
 // prompt lets us accept input from the keyboard
 // https://www.npmjs.com/package/prompt
 var prompt = require('prompt');
+
+
+// for accessing meteor collections
+// https://github.com/oortcloud/node-ddp-client
+// https://www.npmjs.com/package/ddp
+var ddp = require('ddp');
 
 
 
@@ -99,6 +102,14 @@ var publishPackage = require('../tool/publish.js');
 // deprecated APIs
 var runFramework = require('../tool/run-framework.js');
 var runTests = require('../tool/run-tests.js');
+
+var locateFireFox = require("../tool/locate-firefox.js");
+
+var findTestDirs = require("../tool/find-test-dirs.js");
+
+var generateAutoConfig = require("../tool/generate-nightwatch-config.js");
+
+var compactFiles = require("../tool/compact.js");
 
 //==================================================================================================
 // DEBUGGING
@@ -182,6 +193,7 @@ npm.load(function(error, npm) {
 
       //==============================================================================================
       case "run-tests":
+        checkIfInAppRoot();
         runTests(npmPrefix, secondArgument, options);
       break;
 
@@ -194,6 +206,7 @@ npm.load(function(error, npm) {
 
       //==============================================================================================
       case "run-framework":
+        checkIfInAppRoot();
         runFramework(npmPrefix, secondArgument, options);
       break;
 
@@ -233,6 +246,7 @@ npm.load(function(error, npm) {
       // in other words, it's a 'smart clone'
 
       case "pattern":
+        checkIfInAppRoot();
         pattern(options);
       break;
 
@@ -254,6 +268,7 @@ npm.load(function(error, npm) {
         // starrynight find-and-replace foo bar app/components
         // TODO: starrynight find-and-replace --current currentTerm --new newTerm --dir /path/to/component
 
+        checkIfInAppRoot();
         auditPermissions();
         findAndReplace(options);
       break;
@@ -265,13 +280,18 @@ npm.load(function(error, npm) {
         // starrynight -refactor originalTerm newTerm directoryRoot
         // starrynight -refactor secondArgument thirdArgument fourthArgument
 
+        checkIfInAppRoot();
         auditPermissions();
-        refactor(secondArgument, thirdArgument, fourthArgument);
+        findAndReplace(options);
+        auditPermissions();
+        rename(options);
+        /*refactor(secondArgument, thirdArgument, fourthArgument);*/
       break;
 
 
       //==================================================================================================
       case "audit-permissions":
+        checkIfInAppRoot();
         auditPermissions();
       break;
 
@@ -302,12 +322,14 @@ npm.load(function(error, npm) {
 
       //==================================================================================================
       case "extract-ids":
+        checkIfInAppRoot();
         extractIds(secondArgument);
       break;
 
 
       //==================================================================================================
       case "extract-classes":
+        checkIfInAppRoot();
         extractClasses(secondArgument);
       break;
 
@@ -327,14 +349,36 @@ npm.load(function(error, npm) {
 
       //==================================================================================================
       case "generate-release-json":
-        generateReleaseJson();
+        generateReleaseJson(npmPrefix, options);
       break;
+
+      //==================================================================================================
+      case "locate-firefox":
+        locateFireFox();
+      break;
+
+      //==================================================================================================
+      case "find-test-dirs":
+        findTestDirs(options);
+      break;
+
+      //==================================================================================================
+      case "generate-autoconfig":
+        checkIfInAppRoot();
+        generateAutoConfig(npmPrefix, options);
+      break;
+
+      //==================================================================================================
+      case "compact":
+        compactFiles(options);
+      break;
+
 
 
       //==================================================================================================
       // If we can't figure out what the command-line argument was, then something is incorrect. Exit out.
       default:
-          console.log( "Didn't understand that command.  Use -help for information." );
+          console.log( "Didn't understand that command.  Use 'starrynight help' for information." );
 
           // Exit out of the process (as a failure).
           process.exit( 1 );
@@ -342,3 +386,12 @@ npm.load(function(error, npm) {
 
   }
 });
+
+
+
+//****************************************************************************************************************
+// HELPER FUNCTIONS
+
+function checkIfInAppRoot(){
+  console.log("This command should be run in the root of an application.");
+}

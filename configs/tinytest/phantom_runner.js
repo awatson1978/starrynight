@@ -2,8 +2,11 @@ var page = require('webpage').create();
 var system = require('system');
 var platform = system.args[1] || "local";
 console.log("Running Meteor tests in PhantomJS... " + system.env.URL);
+
+var logMessages = [];
 page.onConsoleMessage = function (message) {
   console.log(message);
+  logMessages.push(message);
 };
 page.open(system.env.URL + platform);
 setInterval(function () {

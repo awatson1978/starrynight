@@ -13,7 +13,7 @@ module.exports = function(){
   console.log( "  extract-classes <filename>" );
   console.log( "  extract-tests-for <filename>" );
   console.log( "  generate-release-json" );
+  console.log( "  generate-autoconfig" );
   console.log( "  download-tools (EXPERIMENTAL)" );
-  console.log( "  extract-tools (EXPERIMENTAL)" );
   console.log( "  extract-tools (EXPERIMENTAL)" );
 }

@@ -1,7 +1,10 @@
-Meteor.publish("foo", function(recordId){
+Meteor.publish("records", function(recordId){
   if(recordId){
-    return Foo.findOne({_id:recordId});
+    return Records.findOne({_id:recordId});
   }else{
-    return Foo.find();    
+    return Records.find();
   }
+});
+Meteor.publish("allFoos", function(recordId){
+  return Records.find();
 });
