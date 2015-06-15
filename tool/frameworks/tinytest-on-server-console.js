@@ -3,84 +3,55 @@ var childProcess = require( "child_process" );
 
 var spawn = require('child_process').spawn;
 
-module.exports = function(npmPrefix, callback){
-  /*childProcess.exec("meteor test-packages --driver-package test-in-console", function(err, stdout, stderr) {
-    console.log(stdout);
-  });*/
+// request allows us to query external websites
+var request = require('request');
 
-  var tinyTestExitCode = 0;
+// for _.extend()ing the process.env object
+var _ = require('underscore');
+
+// import our nightwatch framework
+var runNightwatch = require('./nightwatch.js');
+
+
+module.exports = function(npmPrefix, options, callback){
+  console.log("multiFramework::options", options);
+
+
+  multiFrameworkExitCode = 0;
 
   var workingDir = process.env.WORKING_DIR || process.env.PACKAGE_DIR || './';
-  var args = ['test-packages', '--once', '--driver-package', 'test-in-console', '-p', 10015];
+  var tinyTestArgs = ['test-packages', '--once', '--driver-package', 'test-in-console', '-p', 3300];
 
-
+  console.log("Detecting release version...");
   if (typeof process.env.METEOR_RELEASE !== 'undefined' &&
       process.env.METEOR_RELEASE !== '') {
-      args.push('--release');
-      args.push(process.env.METEOR_RELEASE);
+      tinyTestArgs.push('--release');
+      tinyTestArgs.push(process.env.METEOR_RELEASE);
   }
 
-
-  if (typeof process.env.PACKAGES === 'undefined') {
-    //args.push('./');
-  }
-  else if (process.env.PACKAGES !== '') {
-    args = args.concat(process.env.PACKAGES.split(';'));
-  }
-
-  var meteor = spawn((process.env.TEST_COMMAND || 'meteor'), args, {cwd: workingDir});
+  console.log("Spawning Meteor instance on port 3300 for Package Verification testing using TinyTest...");
+  var meteor = spawn((process.env.TEST_COMMAND || 'meteor'), tinyTestArgs, {cwd: workingDir});
   meteor.stdout.pipe(process.stdout);
   meteor.stderr.pipe(process.stderr);
-  meteor.on('close', function (code) {
-    console.log('meteor exited with code ' + code);
-    //process.exit(code);
-    tinyTestExitCode = 4;
-  });
 
   meteor.stdout.on('data', function startTesting(data) {
     var data = data.toString();
-    if(data.match(/10015|test-in-console listening/)) {
+    if(data.match(/3300|test-in-console listening/)) {
       //console.log('starting testing...');
-      meteor.stdout.removeListener('data', startTesting);
-      runTestSuite();
+      //meteor.stdout.removeListener('data', startTesting);
+
+      // Magic Sauce:  We're Going to Overload Our Options
+      options.tinytests = true;
+      runNightwatch(npmPrefix, options, 3300, false);
     }
   });
-
-  function runTestSuite() {
-    //console.log("Running test suite.  Spawning PhantomJS...");
-
-    process.env.URL = "http://localhost:10015/"
-
+  meteor.on('exit', function (code) {
+    console.log('Package Verification Testing exited with code ' + code);
+    //process.exit(code);
+  });
 
 
-    var phantomjs = spawn(npmPrefix + '/lib/node_modules/starrynight/node_modules/phantomjs/bin/phantomjs', [npmPrefix + '/lib/node_modules/starrynight/configs/tinytest/phantom_runner.js']);
-    //phantomjs.stdout.pipe(process.stdout);
-    //phantomjs.stderr.pipe(process.stderr);
 
-    phantomjs.stdout.on('data', function(data){
-      var data = data.toString().trim();
-      if(!data.match(/##_meteor_magic##state/)) {
-        console.log(data);
-      }
-    });
-    phantomjs.on('error', function(error){
-      console.error('[StarryNight] ERROR spawning phantomjs.');
-      //throw error;
-      tinyTestExitCode = 3;
-    });
-    phantomjs.on('close', function(code) {
-      //console.log("Closing meteor...");
-      meteor.kill('SIGQUIT');
-      //console.log("Exiting phantomjs with code " + code);
-      process.exit(code);
-    });
-  }
-
-  /*if(tinyTestExitCode > 0){
-    return callback( new Error('TinyTest didt run and complete all its tasks'), nightwatchExitCode);
-  }else{
-    return callback( null, 0);
-  }*/
 
 
 }

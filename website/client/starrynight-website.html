@@ -129,7 +129,10 @@
           <b>generate-autoconfig</b><br>
           Generates the <b>.meteor/nightwatch.json</b> config file for Nightwatch to use.  Parses the application and searches for .test directories, which allows you to keep tests with their associated components.
         </p>
-
+        <p>
+          <b>compact</b><br>
+          Recursively searches for <b>.meteor/local/build</b> and <b>screenshot</b> directories which it will then delete to save space on your diskdrive.  Can be run across repositories.  Use the <b>--scan</b> flag to nondestructively scan.
+        </p>
 
 
         <!-- <hr>

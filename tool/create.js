@@ -21,55 +21,62 @@ module.exports = function(options){
     var newPackageDir = options.package.split(':')[1];
     var componentDir = path.basename(options.from)
 
-    if(option.debug){
+    if(options.debug){
       console.log("newPackageDir: ", newPackageDir);
       console.log("componentDir:  ", componentDir);
     }
 
-    //
+    // Move to the Correct Directory
     childProcess.exec("cd packages", function(err, stdout, stderr) {
-      if(option.debug){
-        console.log('process.env.pwd', process.env.pwd);
-      }
 
+      // And Create Our New Package
       childProcess.exec("meteor create --package " + options.package, function(err, stdout, stderr) {
-      if(option.debug){
-        console.log(stdout);
-        console.log(err);
+      if(options.debug){
+        if(stdout){console.log(stdout);}
+        if(err){console.log(err);}
       }
 
-
+        // Check That the Package Was Created Correctly
         if(stdout.toString().indexOf(": created in") > -1){
           console.log('Package created!')
 
-          fs.copy(options.from, 'packages/' + newPackageDir, function (error) {
+          // Copy Our Component Into the New Package
+          fs.copy(options.from, 'packages/' + newPackageDir + "/components/" + path.basename(options.from), function (error) {
             if (error){
               return console.error(error)
             }
             console.log('Component files copied into package.')
 
+            // Look for Files with the Same Name as the Component Name
             finder(componentDir, {root: options.from, ignoreDirs: [".meteor", ".git", ".temp"]}, function(results){
-              //if(option.debug){
+              if(options.debug){
                 console.log('results', results);
-              //}
+              }
 
               var newFiles = "";
               results.forEach(function(result){
-                newFiles += "  api.addFiles('" + path.basename(result.filepath) + "', ['client']);\n";
+                if(options.trace){
+                  console.log("result.filepath: " + path.basename(result.filepath).split('.')[0] + "/" + path.basename(result.filepath));
+                }
+                // Build A New Set of File Includes
+                newFiles += "  api.addFiles('components/" + path.basename(result.filepath).split('.')[0] + "/" + path.basename(result.filepath) + "', ['client']);\n";
               });
-              //if(option.debug){
+              if(options.trace){
                 console.log(newFiles);
-              //}
+              }
 
+              // Search for the Default File Includes
               var searchTerm = "  api.addFiles\\('" + newPackageDir + ".js'\\);";
-              //if(option.debug){
+              if(options.trace){
                 console.log("searchTerm: " + searchTerm);
-              //}
+              }
 
               var searchPath = './packages/' + newPackageDir;
-
+              if(options.trace){
                 console.log("searchPath: " + searchPath);
+              }
 
+              // Replace the Default File Includes With Our New Terms
               replace({
                 regex: searchTerm,
                 replacement: newFiles,
@@ -81,6 +88,7 @@ module.exports = function(options){
             });
           });
 
+          // Remove The Default Package Javascript File
           fs.remove('packages/' + newPackageDir + "/" + newPackageDir + ".js", function (err) {
             if (err) return console.error(err)
 

@@ -77,7 +77,7 @@ module.exports = function(npmPrefix, testType, options){
     //------------------------------------------------------------------------------------------
     case "multi":
       console.log("Running all non-experimental test frameworks...");
-      runMultiFramework(npmPrefix);
+      runMultiFramework(npmPrefix, options);
 
       /*var exitCode = 0;
 

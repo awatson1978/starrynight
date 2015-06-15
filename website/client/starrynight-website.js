@@ -22,7 +22,6 @@ Meteor.startup(function () {
 
 var backgroundImages = [
   "IMG_4641.PNG",
-  "IMG_4646.PNG",
   "IMG_4650.PNG",
   "IMG_4654.PNG",
   "IMG_4656.PNG",

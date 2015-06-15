@@ -71,13 +71,13 @@ module.exports = function(npmPrefix, testType, options){
       //------------------------------------------------------------------------------------------
       case "tinytest-ci":
         console.log("Running tiny tests on packages.  Check http://localhost:3000");
-        runTinyTestsInServerConsole(npmPrefix);
+        runTinyTestsInServerConsole(npmPrefix, options);
       break;
 
       //------------------------------------------------------------------------------------------
       case "multi":
         console.log("Running all non-experimental test frameworks...");
-        runMultiFramework(npmPrefix);
+        runMultiFramework(npmPrefix, options);
       break;
 
       //------------------------------------------------------------------------------------------
