@@ -105,17 +105,8 @@ module.exports = function(npmPrefix, testType, options){
     //------------------------------------------------------------------------------------------
     default:
       console.log("Didn't recognize that framework.  Please select:");
-      console.log('> tinytest');
-      console.log('> tinytest-ci');
       console.log('> nightwatch');
-      console.log("");
-      console.log("Experimental support is available for:");
-      console.log('> end-to-end');
-      console.log('> spacejam');
-      console.log('> mocha');
-      console.log('> pioneer');
-      console.log('> jasmine');
-      console.log('> cucumber');
+      console.log('> tinytest-ci');
     break;
   }
 }
