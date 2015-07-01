@@ -149,6 +149,11 @@ var options = minimist(process.argv);
 
 DEBUG && console.log(options);
 
+if(options.help){
+  help();
+  process.exit(0);
+}
+
 
 npm.load(function(error, npm) {
   if (error) {
@@ -165,7 +170,7 @@ npm.load(function(error, npm) {
       case "":
           console.log("");
           console.log( "Welcome to the StarryNight." );
-          console.log( "Use -help for more info." );
+          console.log( "Use --help for more info." );
       break;
 
 
@@ -296,10 +301,10 @@ npm.load(function(error, npm) {
       break;
 
 
-      //==================================================================================================
+      /*//==================================================================================================
       case "help":
         help();
-      break;
+      break;*/
 
 
       //==================================================================================================
@@ -378,7 +383,7 @@ npm.load(function(error, npm) {
       //==================================================================================================
       // If we can't figure out what the command-line argument was, then something is incorrect. Exit out.
       default:
-          console.log( "Didn't understand that command.  Use 'starrynight help' for information." );
+          console.log( "Didn't understand that command.  Use --help for information." );
 
           // Exit out of the process (as a failure).
           process.exit( 1 );
