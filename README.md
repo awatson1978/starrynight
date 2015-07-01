@@ -19,7 +19,6 @@ npm install starrynight -g
 #### Usage  
 
 ````
--help
 -scaffold [project-homepage | mobile-app | backend]
 -clone [url]
 -pattern [url]
