@@ -1,4 +1,3 @@
-
 Session.set("resize", null);
 Session.setDefault('counter', 0);
 
@@ -14,8 +13,13 @@ Meteor.startup(function () {
     Session.set("appHeight", $(window).height());
     Session.set("appWidth", $(window).width());
   });
-  Template.hello.layout();
 });
+
+
+
+Session.setDefault('transparencyDivHeight', 100);
+Session.setDefault('transparencyDivLeft', 0);
+
 
 
 //==================================================================================================
@@ -31,22 +35,20 @@ var backgroundImages = [
   "IMG_4673.PNG"
 ];
 
-Template.body.helpers({
-  getRandomImage: function(){
-    return Random.choice(backgroundImages);
-  }
-});
 
 //==================================================================================================
 
-Template.hello.onRendered(function(){
-  Template.hello.layout();
+Template.appLayout.onRendered(function(){
+  //Template.hello.layout();
+  Template.appLayout.layout();
 });
 
-
-Template.hello.helpers({
+Template.appLayout.helpers({
+  getRandomImage: function(){
+    return Random.choice(backgroundImages);
+  },
   resized: function () {
-    Template.hello.layout();
+    Template.appLayout.layout();
   },
   getStyle: function () {
     return parseStyle({
@@ -65,15 +67,8 @@ Template.hello.helpers({
   }
 });
 
-Template.hello.events({
-  'click button': function () {
-    // increment the counter when button is clicked
-    Session.set('counter', Session.get('counter') + 1);
-  }
-});
 
-
-Template.hello.layout = function(){
+Template.appLayout.layout = function(){
   Session.set('transparencyDivHeight', $('#innerPanel').height() + 80);
   console.log('appWidth', Session.get('appWidth'));
   if(Session.get('appWidth') > 1636){
@@ -84,6 +79,12 @@ Template.hello.layout = function(){
     Session.set('transparencyDivLeft', 0);
   }
 }
+Template.appLayout.delayedLayout = function(timeout){
+  Meteor.setTimeout(function(){
+    Template.appLayout.layout();
+  }, timeout);
+}
+
 
 
 //==================================================================================================

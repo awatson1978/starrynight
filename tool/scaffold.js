@@ -16,21 +16,24 @@ module.exports = function(npmPrefix, arguments, options){
     if(options.boilerplate){
         switch (options.boilerplate) {
           case "project-homepage":
-            fs.copy(npmPrefix + '/lib/node_modules/starrynight/scaffolds/boilerplates/project-homepage', './', function (error) {
-              if (error){
-                return console.error(error)
-              }
-              childProcess.spawn('meteor', ['add', 'less', 'awatson1978:fonts-helveticas'], function(error, result){
+
+            if(!options.framework){
+              childProcess.spawn('meteor', ['add', 'less', 'awatson1978:fonts-helveticas'], {cwd: './'}, function(error, result){
                 if(error){
                   console.log("[StarryNight] Error adding meteor packages. ", error);
                 }
                 if(result){
                   console.log('Packages installed.')
+                  fs.copy(npmPrefix + '/lib/node_modules/starrynight/scaffolds/boilerplates/project-homepage', './', function (error) {
+                    if (error){
+                      return console.error(error)
+                    }
+                    console.log('Scaffold copied into place.')
+                  });
                 }
               });
-              console.log('Scaffold copied into place.')
-            });
-            break;
+            }
+          break;
           //--------------------------------------------------------------------------------------------------------
           case "mobile-app":
             fs.copy(npmPrefix + '/lib/node_modules/starrynight/scaffolds/boilerplates/mobile-app', './', function (error) {
@@ -52,19 +55,19 @@ module.exports = function(npmPrefix, arguments, options){
           //--------------------------------------------------------------------------------------------------------
           case "iron-router":
 
-            childProcess.spawn('meteor', ['add', 'iron:router'], function(error, result){
+            childProcess.spawn('meteor', ['add', 'iron:router'], {cwd: './'}, function(error, result){
               if(error){
                 console.log("[StarryNight] Error adding meteor packages. ", error);
               }
               if(result){
                 console.log('iron:router installed.')
+                fs.copy(npmPrefix + '/lib/node_modules/starrynight/scaffolds/boilerplates/iron-router', './', function (error) {
+                  if (error){
+                    return console.error(error)
+                  }
+                  console.log('Scaffold copied over!')
+                });
               }
-            });
-            fs.copy(npmPrefix + '/lib/node_modules/starrynight/scaffolds/boilerplates/iron-router', './', function (error) {
-              if (error){
-                return console.error(error)
-              }
-              console.log('Scaffold copied over!')
             });
             break;
           //--------------------------------------------------------------------------------------------------------
