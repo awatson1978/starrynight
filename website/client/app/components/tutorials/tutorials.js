@@ -1,17 +1,14 @@
+Session.setDefault("selectedTutorial", 'testingQuickstart');
 
 Router.route("/tutorials", {
   name:"tutorials",
   template:"tutorials"
 });
 
-Template.tutorials.helpers({ 
-  rendered: function(){
+Template.tutorials.helpers({
 
-  }
 });
 
-Template.tutorials.events({ 
-  "click #elementId": function(event, template){
+Template.tutorials.events({
 
-  }
 });

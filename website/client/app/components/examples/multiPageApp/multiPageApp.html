@@ -1,0 +1,40 @@
+<template name="multiPageApp">
+  <div id="multiPageApp">
+    <h2>Multi-Page App</h2>
+    <hr>
+
+      {{#prism language="bash"}}
+        # API Version 0.2.6
+
+        # create a helloworld application
+        $ meteor create helloworld
+        $ cd helloworld
+
+        # you might want to open your editor to follow along
+        $ atom .
+        $ meteor
+
+        # add acceptance tests to your application (using the nightwatch framework)
+        $ starrynight scaffold --framework nightwatch
+
+        # make sure the acceptance testing framework is running
+        $ starrynight run-tests --framework nightwatch
+
+        # add a scaffold/boilerplate to your project
+        $ starrynight scaffold --boilerplate project-homepage
+        $ rm helloworld.*
+
+        # add acceptance tests for the project-homepage scaffold
+        $ starrynight scaffold --boilerplate project-homepage --framework nightwatch
+
+        # run acceptance tests on the new scaffold
+        $ starrynight run-tests --framework nightwatch
+
+        # add more scaffolding to your project
+        $ starrynight scaffold --boilerplate iron-router
+
+        # see if our tests still work
+        $ starrynight run-tests --framework nightwatch
+      {{/prism}}
+  </div>
+</template>

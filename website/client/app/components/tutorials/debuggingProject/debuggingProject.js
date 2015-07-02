@@ -1,6 +1,9 @@
-Router.route("/examples", {
-  name:"examples",
-  template:"examples",
+
+
+Router.route("/tutorials/debugging-a-project", {
+  name:"debuggingProject",
+  template:"debuggingProject",
+  layoutTemplate: 'appLayout',
   yieldTemplates: {
     'navbarHeader': {to: 'header'},
     'navbarFooter': {to: 'footer'},
@@ -8,13 +11,13 @@ Router.route("/examples", {
   }
 });
 
-Template.examples.helpers({
+Template.debuggingProject.helpers({
   rendered: function(){
 
   }
 });
 
-Template.examples.events({
+Template.debuggingProject.events({
   "click #elementId": function(event, template){
 
   }

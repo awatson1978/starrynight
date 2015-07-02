@@ -45,7 +45,7 @@ Template.appLayout.onRendered(function(){
 
 Template.appLayout.helpers({
   getRandomImage: function(){
-    return Random.choice(backgroundImages);
+    return Meteor.absoluteUrl() + Random.choice(backgroundImages);
   },
   resized: function () {
     Template.appLayout.layout();

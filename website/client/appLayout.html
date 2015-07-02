@@ -6,12 +6,12 @@
   {{> yield 'header'}}
 
     <div class="hidden">{{resized}}</div>
-    <img src="{{getRandomImage}}" id="backgroundImage" alt="">
+    <img src="{{getRandomImage}}" id="backgroundImage">
 
     <!-- <div id="transparentPanel" class="container" style="{{getStyle}}"></div> -->
     <div id="mainPanel" class="padded container helveticas" style="{{getStyle}}">
       <div id="innerPanel" class="panel panel-default">
-
+        {{> yield 'exampleMenu'}}
         {{> yield }}
 
       </div>
