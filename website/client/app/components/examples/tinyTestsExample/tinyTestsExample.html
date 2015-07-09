@@ -6,44 +6,80 @@
       # API Version 3.3.0
 
       # create a helloworld application
-      $ meteor create helloworld
-      $ cd helloworld
+      meteor create helloworld
+      cd helloworld
 
       # you might want to open your editor to follow along
-      $ atom .
-      $ meteor
+      atom .
+      meteor
 
       # add .meteor/nightwatch.json to our application
-      $ starrynight generate-autoconfig
+      starrynight generate-autoconfig
 
       # add acceptance tests to your application (using the nightwatch framework)
-      $ starrynight scaffold --framework nightwatch
+      starrynight scaffold --framework nightwatch
 
       # make sure the acceptance testing framework is running
-      $ starrynight run-tests --framework nightwatch
+      starrynight run-tests --framework nightwatch
 
       # add a package to our application
       meteor create --package me:foo
 
       # add tinytest-ci pickup to your application
-      $ starrynight scaffold --framework tinytest-ci
+      starrynight scaffold --framework tinytest-ci
 
       # run tinytests and read the results through nightwatch
-      $ starrynight run-tests --framework tinytest-ci
-
+      starrynight run-tests --framework tinytest-ci
     {{/prism}}
 
 
     <h2>Detailed Walkthrough</h2>
     <hr>
-
+    {{#prism language="bash"}}
+      # A.  Create a Hello World Application
+      $ meteor create helloworld
+      $ cd helloworld
+      $ meteor
+    {{/prism}}
     <img src="/tinytests/tinytests-a.png" class="exampleScreenshot" />
+
+    {{#prism language="bash"}}
+      # B.  Add Nightwatch Files
+      $ starrynight generate-autoconfig
+      $ starrynight scaffold --framework nightwatch
+    {{/prism}}
     <img src="/tinytests/tinytests-b.png" class="exampleScreenshot" />
+
+    {{#prism language="bash"}}
+      # C.  Check that Nightwatch Runs Correctly
+      $ starrynight run-tests --framework nightwatch
+    {{/prism}}
     <img src="/tinytests/tinytests-c.png" class="exampleScreenshot" />
+
+    {{#prism language="bash"}}
+      # D.  Add a package to our application
+      meteor create --package me:foo
+    {{/prism}}
     <img src="/tinytests/tinytests-d.png" class="exampleScreenshot" />
     <img src="/tinytests/tinytests-e.png" class="exampleScreenshot" />
+
+    {{#prism language="bash"}}
+      # E.  Run TinyTests with Default Web Runner
+      meteor test-packages
+    {{/prism}}
     <img src="/tinytests/tinytests-f.png" class="exampleScreenshot" />
+
+    {{#prism language="bash"}}
+      # F.  Add tinytest-ci pickup to your application
+      $ starrynight scaffold --framework tinytest-ci
+    {{/prism}}
+
     <img src="/tinytests/tinytests-g.png" class="exampleScreenshot" />
+
+    {{#prism language="bash"}}
+      # G.  Run TinyTests and read the results through NightWatch
+      $ starrynight run-tests --framework tinytest-ci
+    {{/prism}}
     <img src="/tinytests/tinytests-h.png" class="exampleScreenshot" />
 
 
