@@ -14,25 +14,25 @@ module.exports = function(npmPrefix, arguments, options){
     // APP BOILERPLATES
 
     if(options.boilerplate){
+      console.log("Adding a boilerplate to your project...");
+
         switch (options.boilerplate) {
           case "project-homepage":
 
-            if(!options.framework){
+            if(options.framework === undefined){
               childProcess.spawn('meteor', ['add', 'less', 'awatson1978:fonts-helveticas'], {cwd: './'}, function(error, result){
                 if(error){
                   console.log("[StarryNight] Error adding meteor packages. ", error);
                 }
-                if(result){
-                  console.log('Packages installed.')
-                  fs.copy(npmPrefix + '/lib/node_modules/starrynight/scaffolds/boilerplates/project-homepage', './', function (error) {
-                    if (error){
-                      return console.error(error)
-                    }
-                    console.log('Scaffold copied into place.')
-                  });
-                }
+                console.log('Packages installed.')
               });
             }
+            fs.copy(npmPrefix + '/lib/node_modules/starrynight/scaffolds/boilerplates/project-homepage', './', function (error) {
+              if (error){
+                return console.error(error)
+              }
+              console.log('Scaffold copied into place.')
+            });
           break;
           //--------------------------------------------------------------------------------------------------------
           case "mobile-app":
@@ -53,21 +53,28 @@ module.exports = function(npmPrefix, arguments, options){
             });
             break;
           //--------------------------------------------------------------------------------------------------------
+          case "itunes":
+            fs.copy(npmPrefix + '/lib/node_modules/starrynight/scaffolds/boilerplates/rest-api', './', function (error) {
+              if (error){
+                return console.error(error)
+              }
+              console.log('Scaffold copied over!')
+            });
+            break;
+          //--------------------------------------------------------------------------------------------------------
           case "iron-router":
 
             childProcess.spawn('meteor', ['add', 'iron:router'], {cwd: './'}, function(error, result){
               if(error){
                 console.log("[StarryNight] Error adding meteor packages. ", error);
               }
-              if(result){
-                console.log('iron:router installed.')
-                fs.copy(npmPrefix + '/lib/node_modules/starrynight/scaffolds/boilerplates/iron-router', './', function (error) {
-                  if (error){
-                    return console.error(error)
-                  }
-                  console.log('Scaffold copied over!')
-                });
+              console.log('iron:router installed.')
+            });
+            fs.copy(npmPrefix + '/lib/node_modules/starrynight/scaffolds/boilerplates/iron-router', './', function (error) {
+              if (error){
+                return console.error(error)
               }
+              console.log('Scaffold copied over!')
             });
             break;
           //--------------------------------------------------------------------------------------------------------
@@ -119,6 +126,15 @@ module.exports = function(npmPrefix, arguments, options){
               return console.error(error)
             }
             console.log('e2e mocha tests copied over!')
+          });
+          break;
+        case "tinytest-ci":
+          fs.copy(npmPrefix + '/lib/node_modules/starrynight/scaffolds/sample-tests/nightwatch-tinytests', './tests/nightwatch', function (error) {
+            if (error){
+              console.log('Error installing tinyTestPickup.js');
+              return console.error(error)
+            }
+            console.log('tinyTestPickup.js installed successfully.');
           });
           break;
         case "nightwatch":

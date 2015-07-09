@@ -1,7 +1,10 @@
 <template name="mobileApp">
   <div id="mobileApp">
-    <h2>Mobile App</h2>
+    <h2>App Store & Refactoring</h2>
     <hr>
+    <p>
+
+    </p>
 
     {{#prism language="bash"}}
       # API Version 0.2.6
@@ -13,6 +16,9 @@
       # you might want to open your editor to follow along
       $ atom .
       $ meteor
+
+      # add .meteor/nightwatch.json to our application
+      $ starrynight generate-autoconfig
 
       # add acceptance tests to your application (using the nightwatch framework)
       $ starrynight scaffold --framework nightwatch
@@ -47,8 +53,8 @@
       $ starrynight rename --from About --to Marketing
 
       # find-and-replace terms throughout our app
-      $ starrynight find-and-replace "AppTitle" "Hello StarryNight"
-      $ starrynight find-and-replace "about" "marketing"
+      $ starrynight find-and-replace --from "AppTitle" --to "Hello StarryNight"
+      $ starrynight find-and-replace --from "about" --to "marketing"
     {{/prism}}
   </div>
 </template>

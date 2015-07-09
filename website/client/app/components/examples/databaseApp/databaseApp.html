@@ -14,6 +14,9 @@
       $ atom .
       $ meteor
 
+      # add .meteor/nightwatch.json to our application
+      $ starrynight generate-autoconfig
+
       # add acceptance tests to your application (using the nightwatch framework)
       $ starrynight scaffold --framework nightwatch
 
@@ -32,6 +35,9 @@
 
       # lets add some database
       $ starrynight scaffold --boilerplate client-server
+
+      # run acceptance tests on the new scaffold
+      $ starrynight run-tests --framework nightwatch
 
     {{/prism}}
   </div>

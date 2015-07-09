@@ -14,8 +14,9 @@ var runNightwatch = require('./nightwatch.js');
 
 
 module.exports = function(npmPrefix, options, callback){
-  console.log("multiFramework::options", options);
-
+  if(options.debug){
+    console.log("tinytest-ci::options", options);
+  }
 
   multiFrameworkExitCode = 0;
 
@@ -23,8 +24,7 @@ module.exports = function(npmPrefix, options, callback){
   var tinyTestArgs = ['test-packages', '--once', '--driver-package', 'test-in-console', '-p', 3300];
 
   console.log("Detecting release version...");
-  if (typeof process.env.METEOR_RELEASE !== 'undefined' &&
-      process.env.METEOR_RELEASE !== '') {
+  if (typeof process.env.METEOR_RELEASE !== 'undefined' && process.env.METEOR_RELEASE !== '') {
       tinyTestArgs.push('--release');
       tinyTestArgs.push(process.env.METEOR_RELEASE);
   }
@@ -36,8 +36,14 @@ module.exports = function(npmPrefix, options, callback){
 
   meteor.stdout.on('data', function startTesting(data) {
     var data = data.toString();
+    if(options.trace){
+      console.log("[meteor:3300]", data);
+
+    }
     if(data.match(/3300|test-in-console listening/)) {
-      //console.log('starting testing...');
+      if(options.debug){
+        console.log('Detected test-in-console data stream...');
+      }
       //meteor.stdout.removeListener('data', startTesting);
 
       // Magic Sauce:  We're Going to Overload Our Options

@@ -1,0 +1,71 @@
+<template name="packageRefactor">
+  <div id="packageRefactor">
+    <h2>Extract A Package</h2>
+    <hr>
+    {{#prism language="bash"}}
+      # create a helloworld application
+      $ meteor create helloworld
+      $ cd helloworld
+
+      # you might want to open your editor to follow along
+      $ atom .
+      $ meteor
+
+      # add .meteor/nightwatch.json to our application
+      $ starrynight generate-autoconfig
+
+      # add acceptance tests to your application (using the nightwatch framework)
+      $ starrynight scaffold --framework nightwatch
+
+      # make sure the acceptance testing framework is running
+      $ starrynight run-tests --framework nightwatch
+
+      # add a scaffold/boilerplate to your project
+      $ starrynight scaffold --boilerplate project-homepage
+      $ rm helloworld.*
+
+      # add acceptance tests for the project-homepage scaffold
+      $ starrynight scaffold --boilerplate project-homepage --framework nightwatch
+
+      # run acceptance tests on the new scaffold
+      $ starrynight run-tests --framework nightwatch
+
+      # create a componentized test file
+      mkdir client/mainPage/.tests
+      starrynight extract-tests-for client/mainPage/mainPage.html > client/mainPage/.tests/reviewMainPage.js
+
+      # add our new test command to our walkthrough
+      nano tests/nightwatch/walkthroughs/appLayout.js
+      > .waitForPage("#mainPage")
+      > .reviewMainPage()
+      > .end()
+
+      # rescan the filesystem and update .meteor/nightwatch.json
+      $ starrynight generate-autoconfig
+
+      # run acceptance tests on the new scaffold
+      $ starrynight run-tests --framework nightwatch
+
+      # now we're going to extract a package from one of our components
+      starrynight create --package foo:mainpage --from client/mainPage
+
+      # lets remove the original component
+      rm -rf client/mainPage
+
+      # our tests shoudl fail
+      $ starrynight run-tests --framework nightwatch
+
+      # rescan the filesystem and update .meteor/nightwatch.json
+      $ starrynight generate-autoconfig
+
+
+      # we need to edit our package.js file
+      # we need to use meteor-platform and less; and export mainPage
+      $ nano/vi/emacs packages/mainPage/package.js
+
+      # our tests should now pass
+      $ starrynight run-tests --framework nightwatch
+
+    {{/prism}}
+  </div>
+</template>

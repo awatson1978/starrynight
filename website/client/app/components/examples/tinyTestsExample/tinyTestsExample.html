@@ -1,0 +1,34 @@
+<template name="tinyTestsExample">
+  <div id="tinyTestsExample">
+    <h2>TinyTests</h2>
+    <hr>
+    {{#prism language="bash"}}
+      # create a helloworld application
+      $ meteor create helloworld
+      $ cd helloworld
+
+      # you might want to open your editor to follow along
+      $ atom .
+      $ meteor
+
+      # add .meteor/nightwatch.json to our application
+      $ starrynight generate-autoconfig
+
+      # add acceptance tests to your application (using the nightwatch framework)
+      $ starrynight scaffold --framework nightwatch
+
+      # make sure the acceptance testing framework is running
+      $ starrynight run-tests --framework nightwatch
+
+      # add a package to our application
+      meteor create --package me:foo
+
+      # add tinytest-ci pickup to your application
+      $ starrynight scaffold --framework tinytest-ci
+
+      # run tinytests and read the results through nightwatch
+      $ starrynight run-tests --framework tinytest-ci
+
+    {{/prism}}
+  </div>
+</template>

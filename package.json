@@ -4,7 +4,7 @@
   "version": "3.2.65",
   "author": "Abigail Watson (awatson1978@gmail.com)",
   "dependencies": {
-    "nightwatch": "0.6.13",
+    "nightwatch": "0.7.6",
     "chromedriver": "2.15.1",
     "selenium-server-standalone-jar": "2.45.0",
     "fs-extra": "0.18.0",

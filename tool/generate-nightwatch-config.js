@@ -58,7 +58,7 @@ module.exports = function(npmPrefix, options){
         }
 
         // Write Our New Config File
-        fs.writeJson('.meteor/nightwatch.json',autoConfigObject, function (error, result) {
+        fs.writeJson('.meteor/nightwatch.json', autoConfigObject, {spaces: 2}, function (error, result) {
           if(error){
             console.log(error)
           }

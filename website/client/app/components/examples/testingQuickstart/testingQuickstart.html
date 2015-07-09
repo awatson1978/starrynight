@@ -3,13 +3,16 @@
     <h2>Testing Quickstart</h2>
     <hr>
     {{#prism language="bash"}}
+      # add .meteor/nightwatch.json to our application
+      $ starrynight generate-autoconfig
+
       # add acceptance tests to your application (using the nightwatch framework)
       $ starrynight scaffold --framework nightwatch
 
-      # make sure the acceptance testing framework is running
+      # run your validation tests using NightWatch
       $ starrynight run-tests --framework nightwatch
 
-      # if you have packages in your application
+      # run any verification tests you may have written with TinyTest
       $ starrynight run-tests --framework tinytest-ci
     {{/prism}}
   </div>

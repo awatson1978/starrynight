@@ -1,11 +1,19 @@
 {
+  "starrynight": {
+    "version": "3.2.65"
+  },
+  "nightwatch": {
+    "version": "0.7.6"
+  },
   "src_folders" : ["./tests/nightwatch/walkthroughs"],
   "output_folder" : "./tests/nightwatch/reports",
   "custom_commands_path" : [
     "./tests/nightwatch/commands",
+    "./tests/nightwatch/commands/api/entry",
+    "./tests/nightwatch/commands/api/meteor",
+    "./tests/nightwatch/commands/actions",
     "./tests/nightwatch/commands/components",
-    "./tests/nightwatch/commands/methods",
-    "./tests/nightwatch/commands/actions"
+    "./tests/nightwatch/commands/methods"
   ],
   "custom_assertions_path" : ["./tests/nightwatch/assertions"],
   "globals_path" : "./tests/nightwatch/globals.json",
@@ -18,7 +26,7 @@
     "port" : 4444,
     "cli_args": {
       "webdriver.chrome.driver": "${npm_config_prefix}/lib/node_modules/starrynight/node_modules/chromedriver/bin/chromedriver"
-    }    
+    }
   },
 
   "test_settings" : {
