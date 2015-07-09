@@ -258,11 +258,7 @@ npm.load(function(error, npm) {
 
       //==================================================================================================
       case "rename":
-        // starrynight refactor Page Panel app/components
-        // starrynight refactor originalTerm newTerm directoryRoot
-        // starrynight refactor secondArgument thirdArgument fourthArgument
-        // TODO: starrynight refactor --old secondArgument --new thirdArgument --dir /path/to/component
-
+        // rename --from <originalTerm> --to <newTerm> -root <directoryRoot>
         auditPermissions();
         rename(options);
       break;
@@ -270,8 +266,7 @@ npm.load(function(error, npm) {
 
       //==================================================================================================
       case "find-and-replace":
-        // starrynight find-and-replace foo bar app/components
-        // TODO: starrynight find-and-replace --current currentTerm --new newTerm --dir /path/to/component
+        // find-and-replace --from <originalTerm> --to <newTerm> -root <directoryRoot>
 
         checkIfInAppRoot();
         auditPermissions();
