@@ -1,7 +1,7 @@
 {
   "name": "starrynight",
   "description": "Meteor scaffolding and testing.",
-  "version": "3.3.1",
+  "version": "3.3.3",
   "author": "Abigail Watson (awatson1978@gmail.com)",
   "dependencies": {
     "nightwatch": "0.7.6",
@@ -22,13 +22,15 @@
     "cheerio": "^0.19.0",
     "unzip": "0.1.11",
     "mocha": "^2.2.4",
-    "cucumber": "0.4.8",
+    "cucumber": "^0.4.8",
     "prompt": "0.2.14",
     "chai":"2.3.0",
     "jsdoc": "3.3.0",
     "ddp": "0.11.0",
     "locate-firefox": "0.1.1",
-    "phantomjs": "1.9.16"
+    "phantomjs": "1.9.16",
+    "glob": "^5.0.5",
+    "rimraf": "^2.3.3"
   },
   "engines": {
     "node": ">= 0.10.32"

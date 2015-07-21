@@ -1,13 +1,14 @@
 {
   "starrynight": {
-    "version": "3.2.65"
+    "version": "3.3.1"
   },
   "nightwatch": {
-    "version": "0.7.6"
+    "version": "0.7.9"
   },
   "src_folders" : ["./tests/nightwatch/walkthroughs"],
   "output_folder" : "./tests/nightwatch/reports",
   "custom_commands_path" : [
+    "./tests/nightwatch/temp-tests",
     "./tests/nightwatch/commands",
     "./tests/nightwatch/commands/api/entry",
     "./tests/nightwatch/commands/api/meteor",
@@ -16,7 +17,10 @@
     "./tests/nightwatch/commands/methods"
   ],
   "custom_assertions_path" : ["./tests/nightwatch/assertions"],
-  "globals_path" : "./tests/nightwatch/globals.json",
+  "globals_path" : [
+    "./tests/nightwatch/globals.json",
+    "./tests/nightwatch/specifications/specification.globals.js"
+    ],
 
   "selenium" : {
     "start_process" : true,

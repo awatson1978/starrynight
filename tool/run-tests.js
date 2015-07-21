@@ -45,6 +45,12 @@ module.exports = function(npmPrefix, testType, options){
       break;
 
       //------------------------------------------------------------------------------------------
+      case "specifications":
+        console.log("Launching System Specifications Analyzer....");
+        runCucumber(options);
+        break;
+
+      //------------------------------------------------------------------------------------------
       case "spacejam":
         console.log("Launching SpaceJam.  Analyzing meteor environment...");
         runSpaceJam();

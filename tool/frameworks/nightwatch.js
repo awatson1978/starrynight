@@ -13,6 +13,12 @@ var fs = require('fs-extra');
 // we're going to want to install the chromedriver
 //var selenium = require('selenium-standalone');
 
+
+var path = require('path');
+var rimraf = require('rimraf');
+var glob = require("glob");
+var Cucumber = require('cucumber/lib/cucumber');
+
 module.exports = function(npmPrefix, options, port, autoclose, callback){
   if(options.debug){
     console.log("options", options);

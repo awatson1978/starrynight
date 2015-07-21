@@ -1,0 +1,28 @@
+15:43:56.230 INFO - Launching a standalone server
+Setting system property webdriver.chrome.driver to /usr/local/lib/node_modules/starrynight/node_modules/chromedriver/bin/chromedriver
+15:43:56.288 INFO - Java: Apple Inc. 20.65-b04-466.1
+15:43:56.288 INFO - OS: Mac OS X 10.10.1 x86_64
+15:43:56.304 INFO - v2.45.0, with Core v2.45.0. Built from revision 5017cb8
+15:43:56.409 INFO - Default driver org.openqa.selenium.ie.InternetExplorerDriver registration is skipped: registration capabilities Capabilities [{platform=WINDOWS, ensureCleanSession=true, browserName=internet explorer, version=}] does not match with current platform: MAC
+15:43:56.448 INFO - RemoteWebDriver instances should connect to: http://127.0.0.1:4444/wd/hub
+15:43:56.449 INFO - Version Jetty/5.1.x
+15:43:56.450 INFO - Started HttpContext[/selenium-server/driver,/selenium-server/driver]
+15:43:56.451 INFO - Started HttpContext[/selenium-server,/selenium-server]
+15:43:56.451 INFO - Started HttpContext[/,/]
+15:43:56.501 INFO - Started org.openqa.jetty.jetty.servlet.ServletHandler@6ca084f8
+15:43:56.502 INFO - Started HttpContext[/wd,/wd]
+15:43:56.509 INFO - Started SocketListener on 0.0.0.0:4444
+15:43:56.509 INFO - Started org.openqa.jetty.jetty.Server@5289cf1e
+15:43:56.828 INFO - Executing: [new session: Capabilities [{loggingPrefs=org.openqa.selenium.logging.LoggingPreferences@dfa6d18, platform=ANY, acceptSslCerts=true, javascriptEnabled=true, browserName=chrome, name=Walkthroughs / App Layout}]])
+15:43:56.845 INFO - Creating a new session for Capabilities [{loggingPrefs=org.openqa.selenium.logging.LoggingPreferences@dfa6d18, platform=ANY, acceptSslCerts=true, javascriptEnabled=true, browserName=chrome, name=Walkthroughs / App Layout}]
+Starting ChromeDriver 2.15.322455 (ae8db840dac8d0c453355d3d922c91adfb61df8f) on port 44368
+Only local connections are allowed.
+15:44:00.029 INFO - Done: [new session: Capabilities [{loggingPrefs=org.openqa.selenium.logging.LoggingPreferences@dfa6d18, platform=ANY, acceptSslCerts=true, javascriptEnabled=true, browserName=chrome, name=Walkthroughs / App Layout}]]
+15:44:00.063 INFO - Executing: [get: http://localhost:3000])
+15:44:00.870 INFO - Done: [get: http://localhost:3000]
+15:44:00.883 INFO - Executing: [set window size])
+15:44:01.078 INFO - Done: [set window size]
+15:44:01.085 INFO - Executing: [find element: By.cssSelector: body])
+15:44:01.124 INFO - Done: [find element: By.cssSelector: body]
+15:44:01.128 INFO - Executing: [delete session: 0617eb6c-cfd3-4c1b-b40e-ff4d055534a5])
+15:44:01.692 INFO - Done: [delete session: 0617eb6c-cfd3-4c1b-b40e-ff4d055534a5]

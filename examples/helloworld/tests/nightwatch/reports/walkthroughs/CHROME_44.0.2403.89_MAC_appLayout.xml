@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites errors="0"
+            failures="0"
+            tests="1">
+
+  <testsuite name="appLayout"
+    errors="0" failures="0" hostname="" id="" package="appLayout" skipped="0"
+    tests="1" time="5.081" timestamp="Tue, 21 Jul 2015 19:43:56 GMT">
+  
+    <testcase name="Layout &amp; Static Pages" time="5.081" assertions="1">
+
+    
+    </testcase>
+  
+  
+  </testsuite>
+</testsuites>

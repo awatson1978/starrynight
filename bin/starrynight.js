@@ -240,7 +240,7 @@ npm.load(function(error, npm) {
 
       case "clone":
         clone(secondArgument);
-        auditPermissions();
+        auditPermissions(options);
       break;
 
 
@@ -259,7 +259,7 @@ npm.load(function(error, npm) {
       //==================================================================================================
       case "rename":
         // rename --from <originalTerm> --to <newTerm> -root <directoryRoot>
-        auditPermissions();
+        auditPermissions(options);
         rename(options);
       break;
 
@@ -269,7 +269,7 @@ npm.load(function(error, npm) {
         // find-and-replace --from <originalTerm> --to <newTerm> -root <directoryRoot>
 
         checkIfInAppRoot();
-        auditPermissions();
+        auditPermissions(options);
         findAndReplace(options);
       break;
 
@@ -281,9 +281,9 @@ npm.load(function(error, npm) {
         // starrynight -refactor secondArgument thirdArgument fourthArgument
 
         checkIfInAppRoot();
-        auditPermissions();
+        auditPermissions(options);
         findAndReplace(options);
-        auditPermissions();
+        auditPermissions(options);
         rename(options);
         /*refactor(secondArgument, thirdArgument, fourthArgument);*/
       break;
@@ -292,7 +292,7 @@ npm.load(function(error, npm) {
       //==================================================================================================
       case "audit-permissions":
         checkIfInAppRoot();
-        auditPermissions();
+        auditPermissions(options, npmPrefixßß);
       break;
 
 
@@ -342,7 +342,7 @@ npm.load(function(error, npm) {
 
       //==================================================================================================
       case "generate-travis":
-        //auditPermissions();
+        //auditPermissions(options);
         generateTravis(npmPrefix);
       break;
 

@@ -1,0 +1,1 @@
+module.exports = require(process.cwd() + "tests/nightwatch/globals.json").features["Google Search"];

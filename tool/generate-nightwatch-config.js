@@ -4,9 +4,6 @@ var fs = require('fs-extra');
 // so we can read files from the filesystem
 var filesystem = require('fs');
 
-// replace allows us to refactor contents of file
-var replace = require('replace');
-
 // find our files
 var find = require('find');
 
@@ -25,11 +22,18 @@ module.exports = function(npmPrefix, options){
 
   if(options){
 
+    if(options.trace){
+      console.log('npmPrefix', npmPrefix)
+      console.log('autoconfig path:', npmPrefix + '/lib/node_modules/starrynight/configs/nightwatch/autoconfig.json');
+    }
 
     // Read Our Config File Template
     fs.readJson(npmPrefix + '/lib/node_modules/starrynight/configs/nightwatch/autoconfig.json', function (err, autoConfigObject) {
 
       if(options.trace){
+        if(err){
+          console.log('autoConfigObject[error]', err);
+        }
         console.log('autoConfigObject', autoConfigObject)
       }
       console.log("Updating .meteor/nightwatch.json with file paths.");
@@ -65,11 +69,7 @@ module.exports = function(npmPrefix, options){
           console.log("Writing .meteor/nightwatch.json");
 
         });
-
-
       });
-
-
     })
 
 
