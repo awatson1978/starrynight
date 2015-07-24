@@ -1,0 +1,67 @@
+<template name="verificationSection">
+  <section id="verificationSection">
+      <h2><b>Verification Testing</b></h2>
+
+      <h2 id="clientApp">Client Verification Tests</h2>
+      <hr>
+      <p>
+        lorem ipsum...
+      </p>
+      {{#prism language="javascript" class="line-numbers"}}
+
+      {{/prism}}
+
+      <h2 id="remoteProcedureCalls">Testing Meteor Methods</h2>
+
+      <hr>
+      <p>
+        More commonly known as unit-testing, Verification Testing doesn't test the Document Object Model (DOM) that the user interacts with.  Rather, it inspects the underlying javascript functions on the client.  Client-side verification testing can also test Meteor methods on the server.  Consider an ultra-simple Meteor app that has the following code.
+      </p>
+      {{#prism language="javascript" class="line-numbers"}}
+        if(Meteor.isClient()){
+          Session.setDefault("loggedInUser", "Jane Doe")
+        }
+        if(Meteor.isServer()){
+          Meteor.methods({
+            testMethod:function(){
+               return "abc";
+            },
+            testMethodWithInput:function(value){
+               return value * 2;
+            }
+          });
+        }
+      {{/prism}}
+
+      <p>
+        Our Nightwatch script to test the above code would look something like the following:
+      </p>
+      {{#prism language="javascript" class="line-numbers" data-line="7, 15-20"}}
+        module.exports = {
+          "Check Client Session" : function (client) {
+
+            var sessionBar = false;
+            client
+              .url("http://localhost:3000/list/users")
+              .checkSession("loggedInUser", "Jane Doe")
+              .end();
+          },
+          "Check Server Methods" : function (client) {
+
+            var sessionBar = false;
+            client
+              .url("http://localhost:3000/list/users")
+              .meteorCall("testMethod", false, function(error, result){
+                client.assert.equal(result, "abc");
+              })
+              .meteorCall("testMethodWithInput", 3, function(error, result){
+                client.assert.equal(result, 6);
+              })
+              .end();
+          }
+        };
+      {{/prism}}
+
+
+  </section>
+</template>

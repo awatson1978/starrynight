@@ -1,0 +1,154 @@
+<template name="validationSection">
+  <section id="validationSection">
+    <h2><b>Validation Testing</b></h2>
+
+    <h2 id="appSurfaceCoverage">App Surface Coverage</h2>
+    <hr>
+    <p>
+      At it's most basic level, validation testing is essentially black-box testing, which is fundamentally concerned with testing inputs and outputs of a closed system. As such, there are three essential features to acceptance testing: locating a resource, reading data, and writing data. When it comes to browsers and webapps, these three features basically boil down to the following:
+    </p>
+    <ol>
+      <li>Load a webpage or application view</li>
+      <li>Inspect user interface elements (i.e. DOM)</li>
+      <li>Trigger an event / simulate a user interaction</li>
+    </ol>
+    <p>
+      We call this the surface area of the application.  Surface area is anything that a user sees or experiences.  It's the outside of a blackbox system.  And since users interact with modern web applications on video screens using web browsers, our surface coverage is defined by universal resource locators (URLs) and pixel grids (which we call Views).
+
+      And so our very first walkthrough starts off looking something like the following:
+    </p>
+      {{#prism language="javascript" class="line-numbers"}}
+          module.exports = {
+            "Hello World" : function (client) {
+              client
+                // our location
+                .url("http://localhost:3000")
+
+                // the pixel grid that's displayed via the screen viewport
+                .resizeWindow(1024, 768)
+
+                // inspect elements and components
+                .expect.element('body').to.be.present;
+
+                // saving a copy of our viewport pixel grid
+                .saveScreenshot('tests/nightwatch/screenshots/homepage.png')
+                .end();
+            }
+          };
+      {{/prism}}
+
+
+
+    <h2 id="componentSurfaceCoverage">Component Surface Coverage</h2>
+    <hr>
+    <p>
+      Pixel grids and matrices can obviously have partial grids and submatrices, which we refer to as Components.  These can be web components, blaze components, react components, or any number of other technologies.  But they all wind up grabbing some pixesl on the screen, and doing some stuff behind the scenes with the database, network, etc.  To that extent, a Component may have surface area that's not exposed to the outside of the black box; but which is still the surface of that component.  And that surface area needs to be tested also.
+      <br><br>
+      Typically, for any given component, we have to concern ourselves with:
+
+    </p>
+    <ul>
+      <li>isomorphic objects</li>
+      <li>url routes / rest api</li>
+      <li>remote procedure calls</li>
+      <li>user haptics (component input)</li>
+      <li>screen rendering (component output)</li>
+      <li>network access</li>
+      <li>database storage</li>
+    </ul>
+
+
+    <h2 id="componentOutput">Testing Component Output</h2>
+    <hr>
+    <p>
+      lorem ipsum...
+    </p>
+    {{#prism language="javascript" class="line-numbers"}}
+      exports.command = function(username, password) {
+        this
+          .waitForElementVisible('#entrySignIn', 1000)
+            .verify.elementPresent("#signInPageTitle")
+            .verify.elementPresent("#signInPageMessage")
+            .verify.elementPresent("#signInPageEmailInput")
+            .verify.elementPresent("#signInPagePasswordInput")
+            .verify.elementPresent("#signInToAppButton")
+            .verify.elementPresent("#needAnAccountButton")
+
+            .verify.containsText("#signInPageTitle", "Sign In")
+            .verify.containsText("#signInPageMessage", "Improve your clincal practice with checklists.")
+
+        return this;  // allows the command to be chained.
+      };
+    {{/prism}}
+
+    <h2 id="componentInput">Testing Component User Input</h2>
+    <hr>
+    <p>
+      lorem ipsum...
+    </p>
+    {{#prism language="javascript" class="line-numbers"}}
+      exports.command = function(username, password) {
+
+        this
+          .waitForElementVisible('#entrySignIn', 1000)
+            .verify.elementPresent("#signInPageEmailInput")
+            .verify.elementPresent("#signInPagePasswordInput")
+
+            .setValue("#signInPageEmailInput", username)
+            .setValue("#signInPagePasswordInput", password)
+
+          .click("#signInToAppButton").pause(1000)
+
+        return this; // allows the command to be chained.
+      };
+    {{/prism}}
+
+
+
+      <h2 id="isomorphicValidation"><b>Isomorphic Validation Testing</b></h2>
+      <h2>Refactoring Packages</h2>
+      <hr>
+      <p>
+        Lets scan the filesystem and rebuild our nightwatch.json file.
+      </p>
+      {{#prism language="bash" class="line-numbers"}}
+        # regenerate your autoconfig
+        starrynight generate-autoconfig
+
+        # then use it
+        starrynight run-tests --nightwatch --autogenerated
+      {{/prism}}
+
+
+      <h2>Isomorphic Validation API</h2>
+      <hr>
+      <p>
+        Support for isomorphic validation testing across client and packages is now available, as of version 0.2.61.  Support includes package refactoring tools, filsystem scanning and autogeneration of nightwatch files, and use of autogenerated config files in the test runner.
+      </p>
+      {{#prism language="bash"}}
+        # create our meteor application
+        meteor create helloworld
+        cd helloworld
+        mkdir client/components/foo/.tests
+        nano client/components/foo/foo.html
+        nano client/components/foo/foo.js
+        nano client/components/foo/foo.css
+        nano client/components/foo/.tests/testFoo.js
+
+        # create a package from a component
+        $ starrynight create --package myname:foo --from client/components/foo
+
+        # scan filesystem for .tests directories and build our autoconfig
+        $ starrynight generate-autoconfig
+
+        # run nightwatch tests from packages
+        $ starrynight run-tests --framework nightwatch --autogenerated
+
+        # run nightwatch tests
+        $ starrynight run-tests --framework tinytest-ci
+      {{/prism}}
+
+
+
+  </section>
+</template>

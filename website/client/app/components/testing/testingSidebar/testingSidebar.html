@@ -1,9 +1,35 @@
 <template name="testingSidebar">
   <aside id="testingSidebar" style="{{getLeft}}" class="{{isVisible}} helveticas">
     <ul>
-      <li class="large">Introduction</li>
-      <li class="small">Quickstart</li>
-      <li class="small">Frameworks</li>
+      <li target="introductionSection" class="large">Introduction</li>
+        <li target="fdaTitle" class="small">FDA Title 21</li>
+        <li target="validationVsVerification" class="small">Validation vs Verification</li>
+        <li target="testingModes" class="small">Testing Modes</li>
+
+      <li target="quickstartSection" class="large">Quickstart</li>
+        <li target="testingFrameworks" class="small">Testing Frameworks</li>
+
+      <li target="validationSection" class="large">Validation Testing</li>
+        <li target="appSurfaceCoverage" class="small">App Surface Coverage</li>
+        <li target="componentSurfaceCoverage" class="small">Component Surface Coverage</li>
+        <li target="componentOutput" class="small">Component Output</li>
+        <li target="componentInput" class="small">Component Input</li>
+        <li target="isomorphicValidation" class="small">Isomorphic Testing</li>
+
+      <li target="verificationSection" class="large">Verification Testing</li>
+        <li target="clientApp" class="small">Client App</li>
+        <li target="packages" class="small">Packages</li>
+        <li target="remoteProcedureCalls" class="small">Remote Procedure Calls</li>
+
+      <li target="specificationsSection" class="large">System Specifications</li>
+        <li target="businessFeatures" class="small">Business Features</li>
+        <li target="featuresToScenarios" class="small">Converting Features to Scenarios</li>
+
+      <li target="miscellaneousSection" class="large">Miscellaneous</li>
+        <li target="restApi" class="small">REST APIs</li>
+        <li target="fileUpload" class="small">File Uploads</li>
+
+
     </ul>
   </aside>
 </template>
