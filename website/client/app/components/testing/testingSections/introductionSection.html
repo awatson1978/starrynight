@@ -18,45 +18,46 @@
       Validation testing, therefore, includes acceptance testing, user testing, beta testing, and load testing.  Whereas verification testing includes unit testing and integration testing.
     </p>
 
-    <div class="gray">
-      <h2>Testing Modes</h2>
-      <hr>
-        <p>
-          StarryNight combines functionality from a number of testing libraries, some of which overlap.  Rather than specifying a particular test framework to use; it's often benefitial to specify which part of the architecture you want to test.  Which is what Test Modes provide.  A way to specify which part of the architecture your reviewing for FDA compliance.  Note:  these testing modes are not entirely implemented yet, and will eventually be supported by the <b>run-tests</b> command.
-        </p>
-        <p>
-          <b>all</b><br>
-          Alias for running both validation and verification tests.
-        </p>
-        <p>
-          <b>validation</b><br>
-          Also known as black-box or acceptance testing.  Alias for running both client-validation and package-validation tests.
-        </p>
-        <p>
-          <b>verification</b><br>
-          Also known as unit-testing or integration testing.  Runs client, package, and server unit tests using TinyTest, Mocha, and Nightwatch.
-        </p>
-        <p>
-          <b>package-verification</b><br>
-          Unit testing of Meteor packages using TinyTest.
-        </p>
-        <p>
-          <b>package-validation</b><br>
-          Acceptance testing of Meteor packages using an automated browser controlled by Selenium.
-        </p>
-        <p>
-          <b>server-verification</b><br>
-          Unit testing of Meteor server code using Mocha syntax.
-        </p>
-        <p>
-          <b>client-verification</b><br>
-          Unit testing of Meteor client code using Nightwatch and Chai syntax.
-        </p>
-        <p>
-          <b>client-validation</b><br>
-          Acceptance testing of Meteor client code using an automated browser controlled by Selenium.
-        </p>
+    <h2>Testing Modes</h2>
+    <hr>
+    <p>
+      StarryNight combines functionality from a number of testing libraries, some of which overlap.  Rather than specifying a particular test framework to use; it's often benefitial to specify which part of the architecture you want to test.  Which is what Test Modes provide.  A way to specify which part of the architecture your reviewing for FDA compliance.
+      <br><br>
+      <b>Note:  these testing modes are not entirely implemented yet.</b>
+    </p>
+    <div class="gray left-padded">
+      <p>
+        <b>all</b><br>
+        Alias for running both validation and verification tests.
+      </p>
+      <p>
+        <b>validation</b><br>
+        Also known as black-box or acceptance testing.  Alias for running both client-validation and package-validation tests.
+      </p>
+      <p>
+        <b>verification</b><br>
+        Also known as unit-testing or integration testing.  Runs client, package, and server unit tests using TinyTest, Mocha, and Nightwatch.
+      </p>
+      <p>
+        <b>package-verification</b><br>
+        Unit testing of Meteor packages using TinyTest.
+      </p>
+      <p>
+        <b>package-validation</b><br>
+        Acceptance testing of Meteor packages using an automated browser controlled by Selenium.
+      </p>
+      <p>
+        <b>server-verification</b><br>
+        Unit testing of Meteor server code using Mocha syntax.
+      </p>
+      <p>
+        <b>client-verification</b><br>
+        Unit testing of Meteor client code using Nightwatch and Chai syntax.
+      </p>
+      <p>
+        <b>client-validation</b><br>
+        Acceptance testing of Meteor client code using an automated browser controlled by Selenium.
+      </p>
     </div>
-
   </section>
 </template>
