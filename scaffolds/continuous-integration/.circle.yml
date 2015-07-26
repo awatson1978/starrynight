@@ -31,4 +31,4 @@ dependencies:
     - "sleep 60"    
 test:
   override:
-    - starrynight run-framework nightwatch
+    - starrynight run-tests --framework nightwatch

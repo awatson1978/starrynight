@@ -3,6 +3,9 @@ Session.setDefault('counter', 0);
 
 Session.setDefault('transparencyDivHeight', 100);
 Session.setDefault('transparencyDivLeft', 0);
+Session.setDefault('sidebarLeft', 0);
+Session.setDefault("sidebarVisible", false);
+
 
 Session.setDefault('appHeight', $(window).height());
 Session.setDefault('appWidth', $(window).width());
@@ -70,13 +73,25 @@ Template.appLayout.helpers({
 
 Template.appLayout.layout = function(){
   Session.set('transparencyDivHeight', $('#innerPanel').height() + 80);
-  console.log('appWidth', Session.get('appWidth'));
-  if(Session.get('appWidth') > 1636){
-    Session.set('transparencyDivLeft', (Session.get('appWidth') - 1536) * 0.5);
+  //console.log('appWidth', Session.get('appWidth'));
+  /*if(Session.get('appWidth') > 1636){
+    Session.set('transparencyDivLeft', ((Session.get('appWidth') - 1436) * 0.5) + 100);
+    Session.set("sidebarLeft", ((Session.get('appWidth') - 1436) * 0.5) - 100);
+  }else */
+
+  if(Session.get('appWidth') > 1168){
+    Session.set('transparencyDivLeft', (Session.get('appWidth') - 768) * 0.5);
+    Session.set('sidebarLeft', (Session.get('appWidth') - 1168) * 0.5);
+    Session.set("sidebarVisible", true);
   }else if(Session.get('appWidth') > 768){
     Session.set('transparencyDivLeft', (Session.get('appWidth') - 768) * 0.5);
+    Session.set("sidebarLeft", -200);
+    Session.set("sidebarVisible", false);
+    /*Session.set('sidebarLeft', (Session.get('appWidth') - 768) * 0.5);*/
   }else{
     Session.set('transparencyDivLeft', 0);
+    Session.set("sidebarLeft", -200);
+    Session.set("sidebarVisible", false);
   }
 }
 Template.appLayout.delayedLayout = function(timeout){

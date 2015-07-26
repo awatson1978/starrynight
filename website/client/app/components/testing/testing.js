@@ -1,15 +1,20 @@
 Router.route("/testing", {
   name:"testing",
-  template:"testing"
+  template:"testing",
+  yieldTemplates: {
+    'navbarHeader': {to: 'header'},
+    'navbarFooter': {to: 'footer'},
+    'testingSidebar': {to: 'sidebar'}
+  }
 });
 
-Template.testing.helpers({ 
+Template.testing.helpers({
   rendered: function(){
 
   }
 });
 
-Template.testing.events({ 
+Template.testing.events({
   "click #elementId": function(event, template){
 
   }
