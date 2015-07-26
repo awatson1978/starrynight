@@ -2,10 +2,10 @@
 const fs = require('fs-extra');
 
 // so we can read files from the filesystem
-// var filesystem = require('fs');     // unsued ??
+// var filesystem = require('fs');     // unused ??
 
 // replace allows us to refactor contents of file
-// var replace = require('replace');   // unsued ??
+// var replace = require('replace');   // unused ??
 
 // find our files
 const find = require('find');
@@ -29,9 +29,7 @@ module.exports = function generateNightWatchConfig(npmPrefix, options) {
     fs.readJson(
       npmPrefix + '/lib/node_modules/starrynight/configs/nightwatch/autoconfig.json',
       function updateNightWatchJson(err, autoConfigObject) {
-        if (err) {
-          log.info(err);
-        }
+        if (err) { log.error(err); }
 
         log.debug('autoConfigObject', autoConfigObject);
         log.info('Updating .meteor/nightwatch.json with file paths.');
@@ -50,19 +48,13 @@ module.exports = function generateNightWatchConfig(npmPrefix, options) {
             autoConfigObject.custom_commands_path.push(actionsDir);
           });
         }).end(function() {
-          if (options.debug) {
-            log.info('autoConfigObject', autoConfigObject);
-          }
+          log.debug('autoConfigObject', autoConfigObject);
 
           // Write Our New Config File
           fs.writeJson('.meteor/nightwatch.json', autoConfigObject, {spaces: 2}, function writing(error, result) {
-            if (error) {
-              log.info(error);
-            }
+            if (error) { log.error(error); }
             log.info('Writing .meteor/nightwatch.json');
-            if (options.trace) {
-              log.info(result);
-            }
+            log.debug('writeJson result is : ' + result);
           });
         });
       }
