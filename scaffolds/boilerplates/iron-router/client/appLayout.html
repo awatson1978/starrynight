@@ -7,13 +7,8 @@
 
     <div class="hidden">{{resized}}</div>
 
-    <div id="transparentPanel" class="container" style="{{getStyle}}"></div>
-    <div id="mainPanel" class="padded container helveticas" style="{{getStyle}}">
-      <div id="innerPanel" class="panel panel-default">
-
+    <div id="mainPanel" class="padded container helveticas" style="{{getStyle}} {{getOpacity}}">
         {{> yield }}
-
-      </div>
     </div>
 
   {{> navbarFooter}}

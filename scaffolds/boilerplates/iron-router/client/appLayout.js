@@ -1,6 +1,7 @@
 Session.set("resize", null);
 Session.setDefault('appHeight', $(window).height());
 Session.setDefault('appWidth', $(window).width());
+Session.setDefault("glassOpacity", .95);
 
 Meteor.startup(function () {
   window.addEventListener('resize', function(){
@@ -9,13 +10,6 @@ Meteor.startup(function () {
     Session.set("appWidth", $(window).width());
   });
 });
-
-
-
-
-Session.setDefault('transparencyDivHeight', 100);
-Session.setDefault('transparencyDivLeft', 0);
-
 
 
 
@@ -31,8 +25,7 @@ Template.appLayout.helpers({
   },
   getStyle: function () {
     return parseStyle({
-      "left": Session.get('transparencyDivLeft') + "px;",
-      "height": Session.get('transparencyDivHeight') + "px;"
+      "left": Session.get('transparencyDivLeft') + "px;"
     });
   }
 });
@@ -52,6 +45,10 @@ Template.appLayout.delayedLayout = function(timeout){
     Template.appLayout.layout();
   }, timeout);
 }
+
+Template.registerHelper("getOpacity", function(){
+  return "background: linear-gradient(225deg, transparent 28.28px, rgba(255,255,255," + Session.get('glassOpacity') + ") 0) top right;"
+});
 
 
 

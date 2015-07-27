@@ -7,7 +7,7 @@
 
 var DEBUG = false;
 
-if(process.env.DEBUG){
+if (process.env.DEBUG) {
   DEBUG = true;
 }
 
@@ -17,13 +17,13 @@ if(process.env.DEBUG){
 
 
 // child_process lets us exec and spawn external commands
-var childProcess = require( "child_process" );
+var childProcess = require('child_process');
 
 // github-download allows us to clone repos into our application
 var githubDownload = require('github-download');
 
 // minimist lets us cleanly parse our cli arguments into an object
-var minimist  = require('minimist');
+var minimist = require('minimist');
 //var arguments = require('minimist')(process.argv.slice(2));
 
 // fs-extra lets us recursively copy directories and do advance file management
@@ -111,10 +111,11 @@ var generateAutoConfig = require("../tool/generate-nightwatch-config.js");
 
 var compactFiles = require("../tool/compact.js");
 
+
 //==================================================================================================
 // DEBUGGING
 
-if(process.env.DEBUG){
+if (process.env.DEBUG) {
   console.dir(process.argv);
   console.log("arg0: ", process.argv[0]);
   console.log("arg1: ", process.argv[1]);
@@ -124,7 +125,6 @@ if(process.env.DEBUG){
   console.log('STARRYNIGHT_FRAMEWORK:         ' + process.env.STARRYNIGHT_FRAMEWORK);
   console.log('STARRYNIGHT_FRAMEWORK_CONFIG:  ' + process.env.STARRYNIGHT_FRAMEWORK_CONFIG);
 }
-
 
 
 
@@ -138,24 +138,24 @@ var isReadyToRun = true;
 // PROCESSING COMMAND LINE ARGUMENTS
 
 // most of StarySky uses a two argument syntax
-var firstArgument = (process.argv[ 2 ] || "");
-var secondArgument = (process.argv[ 3 ] || "");
-var thirdArgument = (process.argv[ 4 ] || "");
-var fourthArgument = (process.argv[ 5 ] || "");
-var fifthArgument = (process.argv[ 5 ] || "");
+var firstArgument = (process.argv[2] || "");
+var secondArgument = (process.argv[3] || "");
+var thirdArgument = (process.argv[4] || "");
+var fourthArgument = (process.argv[5] || "");
+var fifthArgument = (process.argv[5] || "");
 
 // otherwise we'll want to pass in all of the arguments
 var options = minimist(process.argv);
 
 DEBUG && console.log(options);
 
-if(options.help){
+if (options.help) {
   help();
   process.exit(0);
 }
 
 
-npm.load(function(error, npm) {
+npm.load(function (error, npm) {
   if (error) {
     throw error;
   }
@@ -164,225 +164,227 @@ npm.load(function(error, npm) {
   DEBUG && console.log('npm prefix is', npmPrefix);
 
   // Check to see if the use has supplied a filter.
-  switch (firstArgument){
+  switch (firstArgument) {
 
-      //============================================================================================================
-      case "":
-          console.log("");
-          console.log( "Welcome to the StarryNight." );
-          console.log( "Use --help for more info." );
-      break;
-
-
-      //============================================================================================================
-      case "scaffold":
-        scaffold(npmPrefix, process.argv, options)
-      break;
+    //============================================================================================================
+  case "":
+    console.log("");
+    console.log("Welcome to the StarryNight.");
+    console.log("Use --help for more info.");
+    break;
 
 
-      //============================================================================================================
-      case "sample":
-        console.log('StarryNight is initializing some default tests in your app...');
-        sample(npmPrefix, secondArgument, thirdArgument);
-      break;
+    //============================================================================================================
+  case "scaffold":
+    scaffold(npmPrefix, process.argv, options);
+    break;
 
 
-      //============================================================================================================
-      // -initialize is simply an alias for -sample
-
-      case "initialize":
-        console.log('StarryNight is initializing some default tests in your app...');
-        sample(npmPrefix, secondArgument, thirdArgument);
-      break;
+    //============================================================================================================
+  case "sample":
+    console.log('StarryNight is initializing some default tests in your app...');
+    sample(npmPrefix, secondArgument, thirdArgument);
+    break;
 
 
-      //==============================================================================================
-      case "run-tests":
-        checkIfInAppRoot();
-        runTests(npmPrefix, secondArgument, options);
-      break;
+    //============================================================================================================
+    // -initialize is simply an alias for -sample
+
+  case "initialize":
+    console.log('StarryNight is initializing some default tests in your app...');
+    sample(npmPrefix, secondArgument, thirdArgument);
+    break;
 
 
-      //==============================================================================================
-      case "survey":
-        runTests(npmPrefix, secondArgument);
-      break;
+    //==============================================================================================
+  case "run-tests":
+    checkIfInAppRoot();
+    runTests(npmPrefix, secondArgument, options);
+    break;
 
 
-      //==============================================================================================
-      case "run-framework":
-        checkIfInAppRoot();
-        runFramework(npmPrefix, secondArgument, options);
-      break;
+    //==============================================================================================
+  case "survey":
+    runTests(npmPrefix, secondArgument);
+    break;
 
 
-      //==============================================================================================
-      /*case "nightwatch":
-        runTests(npmPrefix, secondArgument);
-      break;*/
+    //==============================================================================================
+  case "run-framework":
+    checkIfInAppRoot();
+    runFramework(npmPrefix, secondArgument, options);
+    break;
 
 
-      //==================================================================================================
-      case "create":
-      // starrynight create --package foo:mypackage --from /path/to/component
-        createPackage(options);
-      break;
-
-      //==================================================================================================
-      // starrynight publish --bulk
-      case "publish":
-        publishPackage(npmPrefix, process.argv, options);
-      break;
-
-      //==================================================================================================
-      // starrynight clone http://www.github.com/myaccount/myrepo
-      // TODO: starrynight clone --url starrynight clone http://www.github.com/myaccount/myrepo
-
-      case "clone":
-        clone(secondArgument);
-        auditPermissions();
-      break;
+    //==============================================================================================
+    /*case "nightwatch":
+      runTests(npmPrefix, secondArgument);
+    break;*/
 
 
-      //==================================================================================================
-      // -pattern is similar to -clone, but assumes that the target url implements a standard boilerplate
-      // it then goes into the boilerplate, and copies files into appropriate locations
-      // and avoids copying over package and repo specific files
-      // in other words, it's a 'smart clone'
+    //==================================================================================================
+  case "create":
+    // starrynight create --package foo:mypackage --from /path/to/component
+    createPackage(options);
+    break;
 
-      case "pattern":
-        checkIfInAppRoot();
-        pattern(options);
-      break;
+    //==================================================================================================
+    // starrynight publish --bulk
+  case "publish":
+    publishPackage(npmPrefix, process.argv, options);
+    break;
 
+    //==================================================================================================
+    // starrynight clone http://www.github.com/myaccount/myrepo
+    // TODO: starrynight clone --url starrynight clone http://www.github.com/myaccount/myrepo
 
-      //==================================================================================================
-      case "rename":
-        // rename --from <originalTerm> --to <newTerm> -root <directoryRoot>
-        auditPermissions();
-        rename(options);
-      break;
-
-
-      //==================================================================================================
-      case "find-and-replace":
-        // find-and-replace --from <originalTerm> --to <newTerm> -root <directoryRoot>
-
-        checkIfInAppRoot();
-        auditPermissions();
-        findAndReplace(options);
-      break;
+  case "clone":
+    clone(secondArgument);
+    auditPermissions();
+    break;
 
 
-      //==================================================================================================
-      case "refactor":
-        // starrynight -refactor foo bar app/components
-        // starrynight -refactor originalTerm newTerm directoryRoot
-        // starrynight -refactor secondArgument thirdArgument fourthArgument
+    //==================================================================================================
+    // -pattern is similar to -clone, but assumes that the target url implements a standard boilerplate
+    // it then goes into the boilerplate, and copies files into appropriate locations
+    // and avoids copying over package and repo specific files
+    // in other words, it's a 'smart clone'
 
-        checkIfInAppRoot();
-        auditPermissions();
-        findAndReplace(options);
-        auditPermissions();
-        rename(options);
-        /*refactor(secondArgument, thirdArgument, fourthArgument);*/
-      break;
+  case "pattern":
+    checkIfInAppRoot();
+    pattern(options);
+    break;
 
 
-      //==================================================================================================
-      case "audit-permissions":
-        checkIfInAppRoot();
-        auditPermissions();
-      break;
+    //==================================================================================================
+  case "rename":
+    // rename --from <originalTerm> --to <newTerm> -root <directoryRoot>
+    auditPermissions();
+    rename(options);
+    break;
 
 
-      /*//==================================================================================================
-      case "help":
-        help();
-      break;*/
+    //==================================================================================================
+  case "find-and-replace":
+    // find-and-replace --from <originalTerm> --to <newTerm> -root <directoryRoot>
+
+    checkIfInAppRoot();
+    auditPermissions();
+    findAndReplace(options);
+    break;
 
 
-      //==================================================================================================
-      case "display-env":
-        displayEnv();
-      break;
+    //==================================================================================================
+  case "refactor":
+    // starrynight -refactor foo bar app/components
+    // starrynight -refactor originalTerm newTerm directoryRoot
+    // starrynight -refactor secondArgument thirdArgument fourthArgument
+
+    checkIfInAppRoot();
+    auditPermissions();
+    findAndReplace(options);
+    auditPermissions();
+    rename(options);
+    /*refactor(secondArgument, thirdArgument, fourthArgument);*/
+    break;
 
 
-      //==================================================================================================
-      case "download-tools":
-        downloadTools();
-      break;
+    //==================================================================================================
+  case "audit-permissions":
+    checkIfInAppRoot();
+    auditPermissions();
+    break;
 
 
-      //==================================================================================================
-      case "extract-tools":
-        extractTools();
-      break;
+    /*//==================================================================================================
+    case "help":
+      help();
+    break;*/
 
 
-      //==================================================================================================
-      case "extract-ids":
-        checkIfInAppRoot();
-        extractIds(secondArgument);
-      break;
+    //==================================================================================================
+  case "display-env":
+    displayEnv();
+    break;
 
 
-      //==================================================================================================
-      case "extract-classes":
-        checkIfInAppRoot();
-        extractClasses(secondArgument);
-      break;
+    //==================================================================================================
+  case "download-tools":
+    downloadTools();
+    break;
 
 
-      //==================================================================================================
-      case "extract-tests-for":
-        extractTestsFor(secondArgument);
-      break;
+    //==================================================================================================
+  case "extract-tools":
+    extractTools();
+    break;
 
 
-      //==================================================================================================
-      case "generate-travis":
-        //auditPermissions();
-        generateTravis(npmPrefix);
-      break;
+    //==================================================================================================
+  case "extract-ids":
+    checkIfInAppRoot();
+    extractIds(secondArgument);
+    break;
 
 
-      //==================================================================================================
-      case "generate-release-json":
-        generateReleaseJson(npmPrefix, options);
-      break;
-
-      //==================================================================================================
-      case "locate-firefox":
-        locateFireFox();
-      break;
-
-      //==================================================================================================
-      case "find-test-dirs":
-        findTestDirs(options);
-      break;
-
-      //==================================================================================================
-      case "generate-autoconfig":
-        checkIfInAppRoot();
-        generateAutoConfig(npmPrefix, options);
-      break;
-
-      //==================================================================================================
-      case "compact":
-        compactFiles(options);
-      break;
+    //==================================================================================================
+  case "extract-classes":
+    checkIfInAppRoot();
+    extractClasses(secondArgument);
+    break;
 
 
+    //==================================================================================================
+  case "extract-tests-for":
+    extractTestsFor(secondArgument);
+    break;
 
-      //==================================================================================================
-      // If we can't figure out what the command-line argument was, then something is incorrect. Exit out.
-      default:
-          console.log( "Didn't understand that command.  Use --help for information." );
 
-          // Exit out of the process (as a failure).
-          process.exit( 1 );
-      break;
+    //==================================================================================================
+  case "generate-travis":
+    //auditPermissions();
+    generateTravis(npmPrefix);
+    break;
+
+
+    //==================================================================================================
+  case "generate-release-json":
+    generateReleaseJson(npmPrefix, options);
+    break;
+
+    //==================================================================================================
+  case "locate-firefox":
+    locateFireFox();
+    break;
+
+    //==================================================================================================
+  case "find-test-dirs":
+    findTestDirs(options);
+    break;
+
+
+    //==================================================================================================
+  case "generate-autoconfig":
+    checkIfInAppRoot();
+    generateAutoConfig(npmPrefix, options);
+    break;
+
+
+    //==================================================================================================
+  case "compact":
+    compactFiles(options);
+    break;
+
+
+
+    //==================================================================================================
+    // If we can't figure out what the command-line argument was, then something is incorrect. Exit out.
+  default:
+    console.log("Didn't understand that command.  Use --help for information.");
+
+    // Exit out of the process (as a failure).
+    process.exit(1);
+    break;
 
   }
 });
@@ -392,6 +394,6 @@ npm.load(function(error, npm) {
 //****************************************************************************************************************
 // HELPER FUNCTIONS
 
-function checkIfInAppRoot(){
+function checkIfInAppRoot() {
   console.log("This command should be run in the root of an application.");
 }

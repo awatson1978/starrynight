@@ -231,7 +231,7 @@
     "quote-props": 0, // require quotes around object literal property names (off by default)
     "quotes": [
       1,
-      "double"
+      "single"
     ], // specify whether backticks, double or single quotes should be used
     "semi-spacing": [
       2,
@@ -256,14 +256,14 @@
       "always"
     ], // require or disallow space before function opening parenthesis (off by default)
     "space-before-function-parentheses": 0, // (deprecated) require or disallow space before function parentheses (off by default)
-    "space-in-brackets": [ 2, "always", {
+    "space-in-brackets": [2, "always", {
       "singleValue": false,
       "objectsInArrays": false,
       "arraysInArrays": false,
       "arraysInObjects": false,
       "objectsInObjects": false,
       "propertyName": false
-    } ], // (deprecated) require or disallow spaces inside brackets (off by default)
+    }], // (deprecated) require or disallow spaces inside brackets (off by default)
     "space-in-parens": [
       0,
       "never"
@@ -289,7 +289,7 @@
     "max-depth": 0, // specify the maximum depth that blocks can be nested (off by default)
     "max-len": [
       1,
-      100,
+      80,
       2
     ], // specify the maximum length of a line in your program (off by default)
     "max-params": 0, // limits the number of parameters that can be used in the function declaration. (off by default)
