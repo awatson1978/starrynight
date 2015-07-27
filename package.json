@@ -28,7 +28,6 @@
     "jsdoc": "3.3.0",
     "ddp": "0.11.0",
     "locate-firefox": "0.1.1",
-    "bunyan": "1.4.0",
     "phantomjs": "1.9.16"
   },
   "engines": {
