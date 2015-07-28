@@ -256,14 +256,6 @@
       "always"
     ], // require or disallow space before function opening parenthesis (off by default)
     "space-before-function-parentheses": 0, // (deprecated) require or disallow space before function parentheses (off by default)
-    "space-in-brackets": [ 2, "always", {
-      "singleValue": false,
-      "objectsInArrays": false,
-      "arraysInArrays": false,
-      "arraysInObjects": false,
-      "objectsInObjects": false,
-      "propertyName": false
-    } ], // (deprecated) require or disallow spaces inside brackets (off by default)
     "space-in-parens": [
       0,
       "never"
@@ -274,6 +266,8 @@
     "space-unary-word-ops": 0, // (deprecated) Require or disallow spaces before/after unary operators (words on by default, nonwords off by default)
     "spaced-comment": 0, // require or disallow a space immediately following the // or /* in a comment (off by default)
     "spaced-line-comment": 0, // (deprecated) require or disallow a space immediately following the // in a line comment (off by default)
+
+    "computed-property-spacing": [ 2, "always" ],
     "wrap-regex": 0, // require regex literals to be wrapped in parentheses (off by default)
 
     /////////// ECMAScript 6 ///////////

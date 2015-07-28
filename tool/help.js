@@ -1,5 +1,7 @@
-module.exports = function(){
-  console.log( "StarryNight... managing your application life-cycle from installation to testing to deployment." );
+module.exports = function () {
+  console.log(
+    "StarryNight... managing your application life-cycle from installation to testing to deployment."
+  );
   console.log( "Usage:" );
   console.log( "  display-env" );
   console.log( "  audit-permissions" );
@@ -16,5 +18,6 @@ module.exports = function(){
   console.log( "  extract-tests-for /path/to/<filename>" );
   console.log( "  generate-release-json" );
   console.log( "  generate-travis" );
+  console.log( "  generate-linters" );
   console.log( "  compact" );
-}
+};

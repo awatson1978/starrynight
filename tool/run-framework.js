@@ -18,7 +18,7 @@ var runJasmine = require( "./frameworks/jasmine.js" );
 var runCucumber = require( "./frameworks/cucumber.js" );
 var runMocha = require( "./frameworks/mocha.js" );
 
-var runEsLinter = require( "./frameworks/eslint.js" );
+var runEsLinter = require( "./frameworks/lint.js" );
 
 var runTinyTestsInServerConsole = require( "./frameworks/tinytest-on-server-console.js" );
 var runMultiFramework = require( "./frameworks/multi-framework.js" );
@@ -79,35 +79,13 @@ module.exports = function ( npmPrefix, testType, options ) {
   case "multi":
     console.log( "Running all non-experimental test frameworks..." );
     runMultiFramework( npmPrefix, options );
+    break;
 
     //==============================================================================================
   case "eslint":
     runEsLinter( options );
     break;
 
-
-    /*var exitCode = 0;
-
-    // this is basically a callback pattern of sorts
-    runNightwatch(npmPrefix, function(error, resultCode){
-      if(error){
-        console.log("Nightwatch Exit Error: " + error);
-        exitCode = 1;
-      }
-      if(typeof resultCode !== "undefined"){
-        console.log("Nightwatch Result Code: " + resultCode);
-        runTinyTestsInServerConsole(npmPrefix, function(error, data){
-          if(error){
-            console.log("TinyTest-CI Exit Error: " + error);
-            exitCode = 2;
-          }
-          if(typeof data !== "undefined"){
-            process.exit(exitCode);
-          }
-        });
-      }
-    });*/
-    break;
 
     //------------------------------------------------------------------------------------------
   default:

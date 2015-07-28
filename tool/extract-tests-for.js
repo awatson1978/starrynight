@@ -17,11 +17,12 @@ module.exports = function(secondArgument){
       });
 
       var fileText = "";
-      fileText += "exports.command = function() {\n";
+      fileText += "exports.command = function () {\n";
       fileText += "  this\n";
       ids.forEach(function(id){
         fileText += '    .verify.elementPresent("#' + id + '")\n';
       });
+      fileText += ";";
       fileText += "  return this;\n";
       fileText += "};";
 
