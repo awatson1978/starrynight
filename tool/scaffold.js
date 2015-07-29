@@ -137,6 +137,12 @@ module.exports = function(npmPrefix, arguments, options){
             console.log('tinyTestPickup.js installed successfully.');
           });
           break;
+        case "nightwatch-minimal":
+            fs.copy(npmPrefix + '/lib/node_modules/starrynight/scaffolds/sample-tests/nightwatch-minimal', './tests/nightwatch', function (error) {
+              if (error){ return console.error(error) }
+              console.log('Minimal Nightwatch validation testing framework scaffolded into project!')
+            });
+          break;
         case "nightwatch":
           console.log("Starting scaffolding of nightwatch tests...");
             if(options.boilerplate){

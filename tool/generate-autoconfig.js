@@ -15,8 +15,24 @@ const bunyan = require('bunyan');
 const log = bunyan.createLogger({name: 'starrynight'});
 log.level('warn');
 
+function writeConfigObj (autoConfigObject) {
+  log.debug('autoConfigObject', autoConfigObject);
+
+  // Write Our New Config File
+  fs.writeJson(
+    '.meteor/nightwatch.json',
+    autoConfigObject,
+    {spaces: 2},
+    function writing (error, result) {
+      if (error) { log.error(error); }
+      log.info('Writing .meteor/nightwatch.json');
+      log.debug('writeJson result was : ' + result);
+    }
+  );
+}
+
 // module.exports = function(secondArgument, thirdArgument, fourthArgument){
-module.exports = function generateNightWatchConfig(npmPrefix, options) {
+module.exports = function generateNightWatchConfig (npmPrefix, options) {
   // use current directory if --root isn't specified
   if (!options.root) {
     options.root = '.';
@@ -24,39 +40,36 @@ module.exports = function generateNightWatchConfig(npmPrefix, options) {
 
   if (options) {
     if (options.trace) { log.level(options.trace); }
-    log.error('No, not really an error but you supplied --trace=' + options.trace);
+//    log.error('No, not really an error but you supplied --trace=' + options.trace);
     // Read Our Config File Template
     fs.readJson(
       npmPrefix + '/lib/node_modules/starrynight/configs/nightwatch/autoconfig.json',
-      function updateNightWatchJson(err, autoConfigObject) {
+      function updateNightWatchJson (err, autoConfigObject) {
         if (err) { log.error(err); }
+        if (options.mnml || options.minimal) {
+          log.info('------------------------------------------');
+          log.info('Removing "custom path"  elements     .... ');
+          delete autoConfigObject.custom_commands_path;
+          delete autoConfigObject.custom_assertions_path;
+          writeConfigObj(autoConfigObject);
+        } else {
+          log.info('------------------------------------------');
+          log.info('Searching files for .test directories.... ');
+          // Search The Filesystem
+          // looking for .tests directories in the filesystem
+          // which don't get picked up by the meteor bundler
+          find.eachdir('.tests', options.root, function (testDir) {
+           // Update Our New Config Object
+            autoConfigObject.custom_commands_path.push(testDir);
+            // Test For Subdirecotries
+            find.eachdir('actions', testDir, function (actionsDir) {
+              // Update Our New Config Object
+              autoConfigObject.custom_commands_path.push(actionsDir);
+            });
+          }).end( writeConfigObj(autoConfigObject) );
+        }
 
-        log.debug('autoConfigObject', autoConfigObject);
-        log.info('Updating .meteor/nightwatch.json with file paths.');
-
-        // Search The Filesystem
-        // looking for .tests directories in the filesystem
-        // which don't get picked up by the meteor bundler
-        log.info('------------------------------------------');
-        log.info('Searching files for .test directories.... ');
-        find.eachdir('.tests', options.root, function(testDir) {
-         // Update Our New Config Object
-          autoConfigObject.custom_commands_path.push(testDir);
-          // Test For Subdirecotries
-          find.eachdir('actions', testDir, function(actionsDir) {
-            // Update Our New Config Object
-            autoConfigObject.custom_commands_path.push(actionsDir);
-          });
-        }).end(function() {
-          log.debug('autoConfigObject', autoConfigObject);
-
-          // Write Our New Config File
-          fs.writeJson('.meteor/nightwatch.json', autoConfigObject, {spaces: 2}, function writing(error, result) {
-            if (error) { log.error(error); }
-            log.info('Writing .meteor/nightwatch.json');
-            log.debug('writeJson result is : ' + result);
-          });
-        });
+        log.info('Updated .meteor/nightwatch.json.');
       }
     );
   }
