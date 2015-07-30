@@ -83,6 +83,7 @@ var extractIds = require( "../tool/extract-ids.js" );
 var extractTestsFor = require( "../tool/extract-tests-for.js" );
 var findAndReplace = require( "../tool/find-and-replace.js" );
 var generateTravis = require( "../tool/generate-travis.js" );
+var generateCI = require( "../tool/generate-ci.js" );
 var pattern = require( "../tool/pattern.js" );
 var refactor = require( "../tool/refactor.js" );
 var rename = require( "../tool/rename.js" );
@@ -340,6 +341,13 @@ npm.load( function ( error, npm ) {
   case "generate-travis":
     //auditPermissions();
     generateTravis( npmPrefix );
+    break;
+
+
+    //==============================================================================================
+  case "generate-ci":
+    //auditPermissions();
+    generateCI( npmPrefix, process.argv, options );
     break;
 
 

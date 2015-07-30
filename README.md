@@ -33,7 +33,8 @@ npm install starrynight -g
   extract-classes /path/to/<filename>
   extract-tests-for /path/to/<filename>
   generate-release-json
-  generate-travis
+  generate-travis (Deprecated. Use : generate-ci)
+  generate-ci  --provider <ciProviderName>
   compact
 ````
 

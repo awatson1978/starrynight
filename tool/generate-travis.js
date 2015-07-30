@@ -11,5 +11,6 @@ module.exports = function(npmPrefix){
       return console.error(error)
     }
     console.log('.travis.yml added to project.')
+    console.log("Note : This command is deprecated.  Please prefer 'generate-ci --provider travis'.")
   });
 }

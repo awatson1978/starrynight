@@ -17,7 +17,8 @@ module.exports = function () {
   console.log( "  extract-classes /path/to/<filename>" );
   console.log( "  extract-tests-for /path/to/<filename>" );
   console.log( "  generate-release-json" );
-  console.log( "  generate-travis" );
+  console.log( "  generate-travis (Deprecated. Use : generate-ci)");
+  console.log( "  generate-ci --provider <ciProviderName>" );
   console.log( "  generate-linters" );
   console.log( "  compact" );
 };

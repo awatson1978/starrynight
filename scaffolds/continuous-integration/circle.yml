@@ -1,0 +1,10 @@
+dependencies:
+  pre:
+    - curl https://install.meteor.com | /bin/sh
+    - meteor:
+          background: true
+    - npm install -g starrynight
+
+test:
+  post:
+    - starrynight run-tests --framework nightwatch
