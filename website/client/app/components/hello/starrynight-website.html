@@ -61,7 +61,7 @@
       </p>
       <p>
         <b>scaffold</b><br>
-        Copies parts of the Reference Scaffold into your application.  Will overwrite existing files.  Should be run from the application root, where the .meteor directory is located.
+        Copies parts of the <a href="/scaffolding" target="_blank">Reference Scaffold</a> into your application.  Will overwrite existing files.  Should be run from the application root, where the .meteor directory is located.
       </p>
       <p>
         <b>clone</b><br>
@@ -73,7 +73,7 @@
       </p>
       <p>
         <b>pattern</b><br>
-        A 'smart-clone' which looks into a github repository for directories in the Reference Scaffold, and patches those files into your app.  Overwrites existing files.
+        A 'smart-clone' which looks into a github repository for directories in the <a href="/scaffolding" target="_blank">Reference Scaffold</a>, and patches those files into your app.  Overwrites existing files.
       </p>
       <p>
         <b>rename</b><br>
@@ -108,8 +108,15 @@
         Generate a release.json file for use with `meteor publish-release` so you can publish a track.  (Advanced tool.)
       </p>
       <p>
-        <b>generate-travis</b><br>
-        Add a .travis.yml file to your application to get started with continuous integration.  Command assumes that you're using the Reference Scaffold, and your app is located in a /webapp directory.
+        <b>generate-ci</b><br>
+        Add the configuration file of a "ci" provider to your application to get started with  continuous integration.  The command assumes that you're using the <a href="/scaffolding" target="_blank">Reference Scaffold</a>, and your app is located in a /webapp directory. Currently the choices are : <ul>
+          <li>starrynight generate-ci --provider travis</li>
+          <li>starrynight generate-ci --provider circleci</li>
+        </ul>
+      </p>
+      <p>
+        <b>generate-travis (Deprecated. Use : generate-ci)</b><br>
+        <strike>Add a .travis.yml file to your application to get started with continuous integration.  Command assumes that you're using the <a href="/scaffolding" target="_blank">Reference Scaffold</a>, and your app is located in a /webapp directory.</strike>
       </p>
       <p>
         <b>generate-autoconfig</b><br>
