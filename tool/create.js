@@ -16,6 +16,11 @@ var replace = require( 'replace' );
 module.exports = function ( options ) {
   if ( options.package && options.from ) {
 
+    // our '--from' path needs to NOT have a trailing slash /
+    if (options.from.charAt(options.from.length - 1) === '/') {
+      options.from = options.from.substr(0, options.from.length - 1);
+    }
+
     // Figure out Package Directory Name
     var newPackageDir = options.package.split( ':' )[ 1 ];
     var componentDir = path.basename( options.from );
