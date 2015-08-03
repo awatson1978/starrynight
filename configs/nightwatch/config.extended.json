@@ -32,7 +32,7 @@
       "firefox_profile" : false,
       "ie_driver" : "",
       "screenshots" : {
-        "enabled" : true,
+        "enabled" : false,
         "path" : "./tests/nightwatch/screenshots"
       },
       "desiredCapabilities" : {
@@ -58,7 +58,7 @@
       "silent" : true,
       "disable_colors": false,
       "screenshots" : {
-        "enabled" : true,
+        "enabled" : false,
         "path" : "./tests/nightwatch/screenshots"
       },
       "desiredCapabilities" : {

@@ -40,7 +40,7 @@
       "firefox_profile" : false,
       "ie_driver" : "",
       "screenshots" : {
-        "enabled" : true,
+        "enabled" : false,
         "path" : "./tests/nightwatch/screenshots"
       },
       "desiredCapabilities" : {
