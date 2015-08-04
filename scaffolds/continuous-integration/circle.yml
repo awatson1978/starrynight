@@ -15,6 +15,8 @@ dependencies:
   cache_directories:
     - ~/.meteor
     - ~/node_modules
+    - ~/nvm/v0.10.33/lib/node_modules/starrynight
+    - ~/nvm/v0.10.33/bin/starrynight
 
   # Dependencies of the build run before CircleCI's inferred commands
   pre:
@@ -27,16 +29,17 @@ dependencies:
     # Now install  Starrynight
     - mkdir -p ~/.meteor
     # If Meteor is already cached, do not need to build it again.
-    - if [ ! -e ~/.meteor/meteor ]; then curl https://install.meteor.com | /bin/sh; fi
-    - npm install -g starrynight
-
-
-test:
-  # Test that replace CircleCI's inferred tests
-  override:
+    - if [ ! -e ~/.meteor/meteor ]; then curl https://install.meteor.com | /bin/sh; else echo "Meteor installation seems to be cached"; fi;
     # Starrynight tests require a running copy of a Meteor app
     #    so start it up and push it into the background
     - ~/.meteor/meteor:
           background: true
+    - if [ ! -e ~/nvm/v0.10.33/bin/starrynight ]; then npm install -g starrynight; else echo "Starrynight seems to be cached"; fi;
+    # - npm install -g starrynight
+
+
+test:
+  # Tests that replace CircleCI's inferred tests
+  override:
     # Run the Nightwatch tests of your Meteor app
     - starrynight run-tests --framework nightwatch
