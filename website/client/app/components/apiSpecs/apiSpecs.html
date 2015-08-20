@@ -1,5 +1,125 @@
 <template name="apiSpecs">
   <div id="apiSpecs">
+    <h2>TinyTest API</h2>
+    <hr>
+    <ul>
+      <li>
+        <h4 class="bold">
+          .equal ( actual, expected, message, not )
+        </h4>
+        <p>
+          Tests that two values are equal.
+        </p>
+        {{#prism language="javascript"}}
+          //test
+        {{/prism}}
+      </li>
+      <li>
+        <h4 class="bold">
+          .notEqual(actual, expected, message)
+        </h4>
+      </li>
+      <li>
+        <h4 class="bold">
+          .instanceOf(obj, class)
+        </h4>
+      </li>
+      <li>
+        <h4 class="bold">
+          .notInstanceOf(obj, class)
+        </h4>
+      </li>
+      <li>
+        <h4 class="bold">
+          .matches(actual, regexp, message)
+        </h4>
+      </li>
+      <li>
+        <h4 class="bold">
+          .notMatches(actual, regexp, message)
+        </h4>
+      </li>
+      <li>
+        <h4 class="bold">
+          .throws(f, expected)
+        </h4>
+      </li>
+      <li>
+        <h4 class="bold">
+          .isTrue(actual, msg)
+        </h4>
+      </li>
+      <li>
+        <h4 class="bold">
+          .isFalse(actual, msg)
+        </h4>
+      </li>
+      <li>
+        <h4 class="bold">
+          .isNull(actual, msg)
+        </h4>
+      </li>
+      <li>
+        <h4 class="bold">
+          .isNotNull(actual, msg)
+        </h4>
+      </li>
+      <li>
+        <h4 class="bold">
+          .isUndefined(actual, msg)
+        </h4>
+      </li>
+      <li>
+        <h4 class="bold">
+          .isNotUndefined(actual, msg)
+        </h4>
+      </li>
+      <li>
+        <h4 class="bold">
+          .isNaN(actual, msg)
+        </h4>
+      </li>
+      <li>
+        <h4 class="bold">
+          .isNotNaN(actual, msg)
+        </h4>
+      </li>
+      <li>
+        <h4 class="bold">
+          .length(obj, expected_length, msg)
+        </h4>
+      </li>
+    </ul>
+
+    <h2>LifeCycle API</h2>
+    <hr>
+    <p>
+      The following API is isomorphic to both Validation and Verification testing process.
+    </p>
+    <ul>
+      <li>
+        <h4 class="bold">
+          .before()
+        </h4>
+      </li>
+      <li>
+        <h4 class="bold">
+          .beforeEach()
+        </h4>
+      </li>
+      <li>
+        <h4 class="bold">
+          .afterEach()
+        </h4>
+      </li>
+      <li>
+        <h4 class="bold">
+          .after()
+        </h4>
+      </li>
+    </ul>
+
+
     <h2>Meteor Nightwatch API (Completed)</h2>
     <hr>
     <ul>
@@ -109,6 +229,14 @@
         </h4>
       </li>
     </ul>
+
+    <h2>Nightwatch API</h2>
+    <hr>
+    <p>
+      You'll obviously also want to refer to the <a href="http://nightwatchjs.org/api">Nightwatch API Reference</a>.
+    </p>
+
+
     <h2>Contributing</h2>
     <hr>
     <p>

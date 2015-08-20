@@ -33,7 +33,7 @@ Template.appLayout.helpers({
 
 Template.appLayout.layout = function(){
   Session.set('transparencyDivHeight', $('#innerPanel').height() + 80);
-  console.log('appWidth', Session.get('appWidth'));
+
   if(Session.get('appWidth') > 768){
     Session.set('transparencyDivLeft', (Session.get('appWidth') - 768) * 0.5);
   }else{
@@ -63,4 +63,4 @@ parseStyle = function(json){
     result = result + i + ":" + val + " ";
   });
   return result;
-}
+};

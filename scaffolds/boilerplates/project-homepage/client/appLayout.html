@@ -3,9 +3,13 @@
 </head>
 
 <body>
+  {{> appLayout }}
+</body>
+
+<template name="appLayout">
   <div class="hidden">{{resized}}</div>
 
   <div id="mainPanel" class="padded container helveticas" style="{{getStyle}} {{getOpacity}}">
       {{> mainPage}}
   </div>
-</body>
+</template>

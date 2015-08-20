@@ -51,7 +51,7 @@ module.exports = function ( options ) {
 
           // Create our new Package.js File
           var packageJsContents = '';
-          packageJsContents += "Package.describe({\n  name:'" + options.package + "',\n  version: '0.0.1',\n  sumary: '',\n  git: '',\n  documentation: 'README.md',\n});\n\n";
+          packageJsContents += "Package.describe({\n  name:'" + options.package + "',\n  version: '0.0.1',\n  summary: '',\n  git: '',\n  documentation: 'README.md',\n});\n\n";
 
           // Copy Our Component Into the New Package
           fs.copy( options.from, 'packages/' + newPackageDir + '/components/' + path.basename( options.from ), function ( error ) {
