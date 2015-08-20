@@ -140,7 +140,15 @@ module.exports = function(npmPrefix, arguments, options){
         case "nightwatch-minimal":
             fs.copy(npmPrefix + '/lib/node_modules/starrynight/scaffolds/sample-tests/nightwatch-minimal', './tests/nightwatch', function (error) {
               if (error){ return console.error(error) }
-              console.log('Minimal Nightwatch validation testing framework scaffolded into project!')
+              /*
+                  Here lies one of the ugliest hacks I have been forced to make.
+                  Why in HELL would fs.copy rename every .gitnore to .npmignore??
+              */
+              fs.rename('./tests/nightwatch/gitignore_example', './tests/nightwatch/.gitignore', function (error) {
+                if (error){ return console.error(error) }
+                console.log('Renamed gitignore_example to .gitignore!')
+              });
+              console.log('A minimal Nightwatch validation testing framework scaffolded into project!')
             });
           break;
         case "nightwatch":
