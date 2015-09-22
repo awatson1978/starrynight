@@ -39,6 +39,13 @@ module.exports = function(npmPrefix, testType, options){
       break;
 
       //------------------------------------------------------------------------------------------
+      case "simulation":
+        console.log("Simulating a framework instead of launching it.");
+        process.exit( 0 );
+        //runNightwatch(npmPrefix, options);
+      break;
+
+      //------------------------------------------------------------------------------------------
       case "jasmine":
         console.log("Launching Jasmine.  Analyzing meteor environment...");
         runJasmine(npmPrefix);

@@ -267,7 +267,7 @@
     "spaced-comment": 0, // require or disallow a space immediately following the // or /* in a comment (off by default)
     "spaced-line-comment": 0, // (deprecated) require or disallow a space immediately following the // in a line comment (off by default)
 
-    "computed-property-spacing": [ 2, "always" ],
+    "computed-property-spacing": [ 0, "always" ],
     "wrap-regex": 0, // require regex literals to be wrapped in parentheses (off by default)
 
     /////////// ECMAScript 6 ///////////

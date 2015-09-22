@@ -109,6 +109,8 @@ var generateAutoConfig = require( "../tool/generate-autoconfig.js" );
 var compactFiles = require( "../tool/compact.js" );
 
 var generateLinters = require( "../tool/generate-linters.js" );
+
+var generateFiles = require( "../tool/generate.js" );
 //==================================================================================================
 // DEBUGGING
 
@@ -337,24 +339,7 @@ npm.load( function ( error, npm ) {
     break;
 
 
-    //==============================================================================================
-  case "generate-travis":
-    //auditPermissions();
-    generateTravis( npmPrefix );
-    break;
 
-
-    //==============================================================================================
-  case "generate-ci":
-    //auditPermissions();
-    generateCI( npmPrefix, process.argv, options );
-    break;
-
-
-    //==============================================================================================
-  case "generate-release-json":
-    generateReleaseJson( npmPrefix, options );
-    break;
 
     //==============================================================================================
   case "locate-firefox":
@@ -367,6 +352,11 @@ npm.load( function ( error, npm ) {
     break;
 
     //==============================================================================================
+  case "generate-release-json":
+    generateReleaseJson( npmPrefix, options );
+    break;
+
+    //==============================================================================================
   case "generate-autoconfig":
     checkIfInAppRoot();
     generateAutoConfig( npmPrefix, options );
@@ -376,6 +366,24 @@ npm.load( function ( error, npm ) {
   case "generate-linters":
     checkIfInAppRoot();
     generateLinters( npmPrefix, options );
+    break;
+
+    //==============================================================================================
+  case "generate-ci":
+    //auditPermissions();
+    generateCI( npmPrefix, process.argv, options );
+    break;
+
+    //==============================================================================================
+  case "generate-travis":
+    //auditPermissions();
+    generateTravis( npmPrefix );
+    break;
+
+
+    //==============================================================================================
+  case "generate":
+    generateFiles( npmPrefix, options, process.argv );
     break;
 
 
