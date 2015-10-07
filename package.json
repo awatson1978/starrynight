@@ -1,7 +1,7 @@
 {
   "name": "starrynight",
   "description": "Meteor scaffolding and testing.",
-  "version": "3.5.0",
+  "version": "3.5.1",
   "author": "Abigail Watson (awatson1978@gmail.com)",
   "dependencies": {
     "nightwatch": "0.8.3",
@@ -32,7 +32,7 @@
     "phantomjs": "1.9.16"
   },
   "engines": {
-    "node": ">= 0.10.32"
+    "node": ">= 4.1.0"
   },
   "preferGlobal": "true",
   "bin": {
