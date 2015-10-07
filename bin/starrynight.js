@@ -303,7 +303,7 @@ npm.load( function ( error, npm ) {
 
     //==============================================================================================
   case "display-env":
-    displayEnv();
+    displayEnv(options);
     break;
 
 
