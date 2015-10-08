@@ -12,7 +12,7 @@
 
   "selenium" : {
     "start_process" : true,
-    "server_path" : "/home/travis/.nvm/v0.10.38/lib/node_modules/starrynight/node_modules/selenium-server-standalone-jar/jar/selenium-server-standalone-2.45.0.jar",
+    "server_path" : "${npm_config_prefix}/lib/node_modules/starrynight/node_modules/selenium-server-standalone-jar/jar/selenium-server-standalone-2.45.0.jar",
     "log_path" : "tests/nightwatch/logs",
     "host" : "127.0.0.1",
     "port" : 4444,
