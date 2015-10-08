@@ -37,21 +37,6 @@ before_install:
 
   - "export TRAVIS=true"
 
-  #- "ls -la /home/travis/.nvm/v0.10.38/lib/node_modules/"
-  #- "ls -la /home/travis/.nvm/v0.10.38/lib/node_modules/starrynight/node_modules/"
-  #- "ls -la /home/travis/.nvm/v0.10.38/lib/node_modules/starrynight/node_modules/nightwatch/"
-  #- "ls -la /home/travis/.nvm/v0.10.38/lib/node_modules/starrynight/node_modules/nightwatch/bin"
-  #- "ls -la /home/travis/.nvm/v0.10.38/lib/node_modules/starrynight/node_modules/selenium-server-standalone-jar/jar/"
-
-  #- "more /home/travis/.nvm/v0.10.38/lib/node_modules/starrynight/configs/nightwatch/travis.json"
-  #- "ls -la /home/travis/.nvm/v0.10.38/lib/node_modules/"
-
-
-  #- "ls -la /home/travis/.nvm/v0.10.38/lib/node_modules/"
-  #- "ls -la /home/travis/.nvm/v0.10.38/lib/node_modules/selenium-server/"
-  #- "ls -la /home/travis/.nvm/v0.10.38/lib/node_modules/selenium-server/lib/runner/"
-
-
 
   # fire up xvfb on port :99.0
   - "export DISPLAY=:99.0"

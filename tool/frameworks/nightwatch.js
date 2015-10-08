@@ -57,8 +57,8 @@ module.exports = function ( npmPrefix, options, port, autoclose, callback ) {
           // now that we know our preferred config file
           // lets look for over-rides config files
           if ( process.env.TRAVIS ) {
-            nightwatchCommand =
-              "/home/travis/.nvm/v0.10.38/lib/node_modules/starrynight/node_modules/nightwatch/bin/nightwatch";
+            nightwatchCommand = npmPrefix +
+              "/lib/node_modules/starrynight/node_modules/nightwatch/bin/nightwatch";
             configFileLocation = npmPrefix +
               "/lib/node_modules/starrynight/configs/nightwatch/travis.json";
           } else if ( process.env.NIGHTWATCH_CONFIG_PATH ) {
