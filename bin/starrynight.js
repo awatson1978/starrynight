@@ -70,7 +70,6 @@ var prompt = require( "prompt" );
 var ddp = require( "ddp" );
 
 
-
 //==================================================================================================
 // FILE LINKING
 
@@ -95,6 +94,8 @@ var downloadTools = require( "../tool/download-tools.js" );
 
 var createPackage = require( "../tool/create.js" );
 var publishPackage = require( "../tool/publish.js" );
+
+var getGitFromShow = require("../tool/get-git-from-show.js");
 
 // deprecated APIs
 var runFramework = require( "../tool/run-framework.js" );
@@ -390,6 +391,11 @@ npm.load( function ( error, npm ) {
     //==============================================================================================
   case "compact":
     compactFiles( options );
+    break;
+
+    //==============================================================================================
+  case "getGit":
+    getGitFromShow( options );
     break;
 
 

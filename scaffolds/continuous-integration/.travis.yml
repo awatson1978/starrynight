@@ -2,26 +2,35 @@
 language: node_js
 
 node_js:
-  - "0.10.38"
+  - "4.1"
 
 services:
   - mongodb
 
-sudo: required
+sudo: false
 
 env:
   global:
+    - CXX=g++-4.8
     - TRAVIS=true
-    - CONFIG_PREFIX=`npm config get prefix`
     - DISPLAY=:99.0
+    - CONFIG_PREFIX=`npm config get prefix`
   matrix:
-
+addons:
+  apt:
+    sources:
+    - ubuntu-toolchain-r-test
+    packages:
+    - g++-4.8
 cache:
   directories:
-    - .meteor/local/build/programs/server/assets/packages
-    - .meteor
+    #- node_modules
+    #- ~/.meteor
+    #- ~/.meteor/local/build/programs/server/assets/packages
 
 before_install:
+  # - set CONFIG_PREFIX=`npm config get prefix`
+
   # set up the node_modules dir, so we know where it is
   - "mkdir -p node_modules &"
 
@@ -38,14 +47,12 @@ before_install:
   - "curl https://install.meteor.com | /bin/sh"
 
   # give meteor a few seconds after installing
-  - "sleep 10"
+  - "sleep 5"
 
-  # setup Meteor app
-  - "cd webapp"
-  - "meteor &"
+  - "~/.meteor/meteor &"
 
   # give Meteor some time to download packages, init data, and to start
   - "sleep 60"
 
 # we're not installing starrynight globally, so we run the script from the local node_modules folder
-script: "starrynight run-tests --framework nightwatch"
+script: "starrynight run-tests --framework nightwatch --env travis"

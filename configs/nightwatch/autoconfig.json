@@ -9,7 +9,6 @@
   "output_folder" : "./tests/nightwatch/reports",
   "custom_commands_path" : [
     "./tests/nightwatch/commands",
-    "./tests/nightwatch/commands/api/entry",
     "./tests/nightwatch/commands/api/meteor",
     "./tests/nightwatch/commands/actions",
     "./tests/nightwatch/commands/components",
@@ -67,7 +66,31 @@
         "phantomjs.binary.path" : "${npm_config_prefix}/lib/node_modules/starrynight/node_modules/phantomjs/bin/phantomjs"
       }
     },
-
+    "travis" : {
+      "launch_url" : "http://localhost:3000",
+      "selenium_host" : "127.0.0.1",
+      "selenium_port" : 4444,
+      "pathname": "/wd/hub",
+      "silent" : true,
+      "disable_colors": false,
+      "firefox_profile" : false,
+      "screenshots" : {
+        "enabled" : false,
+        "path" : "./tests/nightwatch/screenshots"
+      },
+      "desiredCapabilities" : {
+        "browserName" : "firefox",
+        "javascriptEnabled": true,
+        "databaseEnabled": true,
+        "locationContextEnabled": true,
+        "applicationCacheEnabled": true,
+        "browserConnectionEnabled": true,
+        "webStorageEnabled": true,
+        "acceptSslCerts": true,
+        "rotatable": true,
+        "nativeEvents": true
+      }
+    },
 
     "unittests":{
       "selenium" : {
