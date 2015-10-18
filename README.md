@@ -59,15 +59,6 @@ $ starrynight scaffold --framework tinytest-ci
 $ starrynight run-tests --framework tinytest-ci
 ````
 
-===============================
-#### Known Errors  
-
-Please ignore the DTrace errors.  We're working to resolve this.  
-````sh
-{ [Error: Cannot find module './build/Release/DTraceProviderBindings'] code: 'MODULE_NOT_FOUND' }
-{ [Error: Cannot find module './build/default/DTraceProviderBindings'] code: 'MODULE_NOT_FOUND' }
-{ [Error: Cannot find module './build/Debug/DTraceProviderBindings'] code: 'MODULE_NOT_FOUND' }
-````
 
 ===============================
 #### Licensing
