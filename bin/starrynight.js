@@ -95,7 +95,7 @@ var downloadTools = require( "../tool/download-tools.js" );
 var createPackage = require( "../tool/create.js" );
 var publishPackage = require( "../tool/publish.js" );
 
-var getGitFromShow = require("../tool/get-git-from-show.js");
+var generateGitRepoList = require("../tool/generate-git-repo-list.js");
 
 // deprecated APIs
 var runFramework = require( "../tool/run-framework.js" );
@@ -112,6 +112,9 @@ var compactFiles = require( "../tool/compact.js" );
 var generateLinters = require( "../tool/generate-linters.js" );
 
 var generateFiles = require( "../tool/generate.js" );
+
+var fetchPackages = require("../tool/fetch.js");
+
 //==================================================================================================
 // DEBUGGING
 
@@ -394,10 +397,14 @@ npm.load( function ( error, npm ) {
     break;
 
     //==============================================================================================
-  case "getGit":
-    getGitFromShow( options );
+  case "generate-repolist":
+    generateGitRepoList( options );
     break;
 
+    //==============================================================================================
+  case "fetch":
+    fetchPackages( options );
+    break;
 
 
     //==============================================================================================
