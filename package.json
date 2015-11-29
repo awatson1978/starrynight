@@ -1,12 +1,12 @@
 {
   "name": "starrynight",
   "description": "Meteor scaffolding and testing.",
-  "version": "3.7.1",
+  "version": "3.7.0",
   "author": "Abigail Watson (awatson1978@gmail.com)",
   "dependencies": {
     "nightwatch": "0.8.5",
-    "chromedriver": "2.20.0",
-    "selenium-server-standalone-jar": "2.46.0",
+    "chromedriver": "2.19.0",
+    "selenium-server-standalone-jar": "2.45.0",
     "fs-extra": "0.18.0",
     "file-exists": "0.1.1",
     "find": "0.2.2",
