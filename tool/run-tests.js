@@ -17,6 +17,7 @@ var runPioneer = require('./frameworks/pioneer.js');
 var runJasmine = require('./frameworks/jasmine.js');
 var runCucumber = require('./frameworks/cucumber.js');
 var runMocha = require('./frameworks/mocha.js');
+var runGagarin = require('./frameworks/gagarin.js');
 
 var runTinyTestsInServerConsole = require('./frameworks/tinytest-on-server-console.js');
 var runMultiFramework = require('./frameworks/multi-framework.js');
@@ -64,6 +65,12 @@ module.exports = function(npmPrefix, testType, options){
       break;
 
       //------------------------------------------------------------------------------------------
+      case "gagarin":
+        console.log("Launching Gagarin.  Analyzing meteor environment...");
+        runGagarin(npmPrefix, options);
+      break;
+
+      //------------------------------------------------------------------------------------------
       case "pioneer":
         console.log("Launching Pioneer.  Analyzing meteor environment...");
         runPioneer(npmPrefix);
@@ -91,6 +98,7 @@ module.exports = function(npmPrefix, testType, options){
       default:
         console.log("Didn't recognize that framework.  Please select:");
         console.log('> nightwatch');
+        console.log('> gagarin');
         console.log('> tinytest-ci');
         console.log("");
       break;

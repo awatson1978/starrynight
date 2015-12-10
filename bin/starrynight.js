@@ -70,7 +70,6 @@ var prompt = require( "prompt" );
 var ddp = require( "ddp" );
 
 
-
 //==================================================================================================
 // FILE LINKING
 
@@ -96,6 +95,8 @@ var downloadTools = require( "../tool/download-tools.js" );
 var createPackage = require( "../tool/create.js" );
 var publishPackage = require( "../tool/publish.js" );
 
+var generateGitRepoList = require("../tool/generate-git-repo-list.js");
+
 // deprecated APIs
 var runFramework = require( "../tool/run-framework.js" );
 var runTests = require( "../tool/run-tests.js" );
@@ -111,6 +112,9 @@ var compactFiles = require( "../tool/compact.js" );
 var generateLinters = require( "../tool/generate-linters.js" );
 
 var generateFiles = require( "../tool/generate.js" );
+
+var fetchPackages = require("../tool/fetch.js");
+
 //==================================================================================================
 // DEBUGGING
 
@@ -392,6 +396,20 @@ npm.load( function ( error, npm ) {
     compactFiles( options );
     break;
 
+    //==============================================================================================
+  case "generate-repolist":
+    generateGitRepoList( options );
+    break;
+
+    //==============================================================================================
+  case "fetch":
+    fetchPackages( options );
+    break;
+
+  //==============================================================================================
+  case "version":
+    console.log("We should figure out how to access the package.json file...");
+    break;
 
 
     //==============================================================================================

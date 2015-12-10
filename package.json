@@ -1,11 +1,11 @@
 {
   "name": "starrynight",
   "description": "Meteor scaffolding and testing.",
-  "version": "3.5.2",
+  "version": "3.7.15",
   "author": "Abigail Watson (awatson1978@gmail.com)",
   "dependencies": {
-    "nightwatch": "0.8.3",
-    "chromedriver": "2.15.1",
+    "nightwatch": "0.8.5",
+    "chromedriver": "2.19.0",
     "selenium-server-standalone-jar": "2.45.0",
     "fs-extra": "0.18.0",
     "file-exists": "0.1.1",
@@ -28,8 +28,9 @@
     "jsdoc": "3.3.0",
     "ddp": "0.11.0",
     "locate-firefox": "0.1.1",
-    "bunyan": "1.4.0",
-    "phantomjs": "1.9.16"
+    "bunyan": "1.5.1",
+    "phantomjs": "1.9.16",
+    "gagarin": "0.4.11"
   },
   "engines": {
     "node": ">= 4.1.0"

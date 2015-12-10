@@ -11,7 +11,7 @@ Session.setDefault('appHeight', $(window).height());
 Session.setDefault('appWidth', $(window).width());
 
 Meteor.startup(function () {
-  window.addEventListener('resize', function(){
+  window.addEventListener('resize', function () {
     Session.set("resize", new Date());
     Session.set("appHeight", $(window).height());
     Session.set("appWidth", $(window).width());
@@ -41,13 +41,13 @@ var backgroundImages = [
 
 //==================================================================================================
 
-Template.appLayout.onRendered(function(){
+Template.appLayout.onRendered(function () {
   //Template.hello.layout();
   Template.appLayout.layout();
 });
 
 Template.appLayout.helpers({
-  getRandomImage: function(){
+  getRandomImage: function () {
     return Meteor.absoluteUrl() + Random.choice(backgroundImages);
   },
   resized: function () {
@@ -71,7 +71,7 @@ Template.appLayout.helpers({
 });
 
 
-Template.appLayout.layout = function(){
+Template.appLayout.layout = function () {
   Session.set('transparencyDivHeight', $('#innerPanel').height() + 80);
   //console.log('appWidth', Session.get('appWidth'));
   /*if(Session.get('appWidth') > 1636){
@@ -79,26 +79,26 @@ Template.appLayout.layout = function(){
     Session.set("sidebarLeft", ((Session.get('appWidth') - 1436) * 0.5) - 100);
   }else */
 
-  if(Session.get('appWidth') > 1168){
+  if (Session.get('appWidth') > 1168) {
     Session.set('transparencyDivLeft', (Session.get('appWidth') - 768) * 0.5);
     Session.set('sidebarLeft', (Session.get('appWidth') - 1168) * 0.5);
     Session.set("sidebarVisible", true);
-  }else if(Session.get('appWidth') > 768){
+  } else if (Session.get('appWidth') > 768) {
     Session.set('transparencyDivLeft', (Session.get('appWidth') - 768) * 0.5);
     Session.set("sidebarLeft", -200);
     Session.set("sidebarVisible", false);
     /*Session.set('sidebarLeft', (Session.get('appWidth') - 768) * 0.5);*/
-  }else{
+  } else {
     Session.set('transparencyDivLeft', 0);
     Session.set("sidebarLeft", -200);
     Session.set("sidebarVisible", false);
   }
-}
-Template.appLayout.delayedLayout = function(timeout){
-  Meteor.setTimeout(function(){
+};
+Template.appLayout.delayedLayout = function (timeout) {
+  Meteor.setTimeout(function () {
     Template.appLayout.layout();
   }, timeout);
-}
+};
 
 
 
@@ -106,11 +106,10 @@ Template.appLayout.delayedLayout = function(timeout){
 
 
 
-
-parseStyle = function(json){
+parseStyle = function (json) {
   var result = "";
-  $.each(json, function(i, val){
+  $.each(json, function (i, val) {
     result = result + i + ":" + val + " ";
   });
   return result;
-}
+};
