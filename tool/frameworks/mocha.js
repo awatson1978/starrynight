@@ -31,5 +31,4 @@ module.exports = function(npmPrefix){
       process.exit(mochaExitCode);
     }
   });
-
-}
+};

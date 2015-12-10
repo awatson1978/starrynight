@@ -32,6 +32,12 @@ module.exports = function(npmPrefix, options){
     gagarinArguments.push( process.env.PWD + options.path );
   }
 
+  if (options && options.runfrom) {
+    console.log('options.runfrom', options.runfrom);
+    console.log('process.env.PWD', process.env.PWD);
+    console.log('process.env.cwd', process.env.cwd);
+  }
+
   var gagarinEnv = _.extend( process.env, {
     npm_config_prefix: npmPrefix
   });
@@ -44,7 +50,8 @@ module.exports = function(npmPrefix, options){
 
   chromedriver.start();
   var gagarin = childProcess.spawn( gagarinCommand, gagarinArguments, {
-    env: gagarinEnv
+    env: gagarinEnv,
+    cwd: options.runfrom
   });
 
 
