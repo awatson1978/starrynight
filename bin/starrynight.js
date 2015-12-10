@@ -406,6 +406,11 @@ npm.load( function ( error, npm ) {
     fetchPackages( options );
     break;
 
+  //==============================================================================================
+  case "version":
+    console.log("We should figure out how to access the package.json file...");
+    break;
+
 
     //==============================================================================================
     // If we can't figure out what the command-line argument was, then something is incorrect. Exit.

@@ -10,6 +10,7 @@ module.exports = function(npmPrefix){
 
 
   var mocha = childProcess.spawn(mochaCommand);
+
   mocha.stdout.on('data', function(data){
     console.log(data.toString().trim());
   });
