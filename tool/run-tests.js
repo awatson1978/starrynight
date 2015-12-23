@@ -40,6 +40,12 @@ module.exports = function(npmPrefix, testType, options){
       break;
 
       //------------------------------------------------------------------------------------------
+      case "gagarin":
+        console.log("Launching Gagarin.  Analyzing meteor environment...");
+        runGagarin(npmPrefix, options);
+      break;
+
+      //------------------------------------------------------------------------------------------
       case "simulation":
         console.log("Simulating a framework instead of launching it.");
         process.exit( 0 );
@@ -64,11 +70,6 @@ module.exports = function(npmPrefix, testType, options){
         runMocha(npmPrefix);
       break;
 
-      //------------------------------------------------------------------------------------------
-      case "gagarin":
-        console.log("Launching Gagarin.  Analyzing meteor environment...");
-        runGagarin(npmPrefix, options);
-      break;
 
       //------------------------------------------------------------------------------------------
       case "pioneer":
@@ -152,9 +153,23 @@ module.exports = function(npmPrefix, testType, options){
 
       //------------------------------------------------------------------------------------------
       case "validation":
-        console.log("Launching Pioneer to run acceptance tests.  Check http://localhost:3000");
-        runNightwatch(npmPrefix);
+        console.log("Launching Nightwatch to run validation tests.");
+        runNightwatch( npmPrefix, options );
       break;
+      //------------------------------------------------------------------------------------------
+      case "verification":
+        console.log("Launching Gagarin to run verification tests.");
+        options.webdriver = "http://localhost:9515";
+        runGagarin(npmPrefix, options);
+      break;
+      //------------------------------------------------------------------------------------------
+      case "package-verification":
+        console.log("Launching Pioneer to run acceptance tests.");
+        options.webdriver = "http://localhost:9515";
+        options.path = "/packages/*/tests/gagarin/**/*.js";
+        runGagarin(npmPrefix, options);
+      break;
+
 
       //------------------------------------------------------------------------------------------
       case "all":
@@ -165,7 +180,7 @@ module.exports = function(npmPrefix, testType, options){
 
       //------------------------------------------------------------------------------------------
       default:
-        console.log('No testing framework specified.  Please select:')
+        console.log('No testing framework specified.  Please select:');
         console.log('> package-tests');
         console.log('> package-unit');
         console.log('> unit');
@@ -176,7 +191,5 @@ module.exports = function(npmPrefix, testType, options){
       break;
     }
   }
-
-
 
 }

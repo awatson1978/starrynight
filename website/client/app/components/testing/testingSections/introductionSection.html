@@ -25,39 +25,39 @@
       <br><br>
       <b>Note:  these testing modes are not entirely implemented yet.</b>
     </p>
-    <div class="gray left-padded">
-      <p>
+    <div class="left-padded">
+      <!-- <p class="gray">
         <b>all</b><br>
         Alias for running both validation and verification tests.
-      </p>
+      </p> -->
       <p>
         <b>validation</b><br>
-        Also known as black-box or acceptance testing.  Alias for running both client-validation and package-validation tests.
+        Also known as black-box or acceptance testing.  Uses the Nightwatch framework.
       </p>
       <p>
         <b>verification</b><br>
-        Also known as unit-testing or integration testing.  Runs client, package, and server unit tests using TinyTest, Mocha, and Nightwatch.
+        Also known as unit-testing or integration testing.  Uses the Gagarin framework.
       </p>
       <p>
         <b>package-verification</b><br>
-        Unit testing of Meteor packages using TinyTest.
+        Integration testing of Meteor packages using Gagarin.
       </p>
-      <p>
+      <!-- <p class="gray">
         <b>package-validation</b><br>
         Acceptance testing of Meteor packages using an automated browser controlled by Selenium.
       </p>
-      <p>
+      <p class="gray">
         <b>server-verification</b><br>
         Unit testing of Meteor server code using Mocha syntax.
       </p>
-      <p>
+      <p class="gray">
         <b>client-verification</b><br>
         Unit testing of Meteor client code using Nightwatch and Chai syntax.
       </p>
-      <p>
+      <p class="gray">
         <b>client-validation</b><br>
         Acceptance testing of Meteor client code using an automated browser controlled by Selenium.
-      </p>
+      </p> -->
     </div>
   </section>
 </template>
