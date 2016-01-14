@@ -17,12 +17,12 @@ module.exports = function () {
   console.log( "  extract-classes /path/to/<filename>" );
   console.log( "  extract-tests-for /path/to/<filename>" );
   console.log( "  generate --default --travis --circle --linters --autoconfig --release");
-  // console.log( "  generate --default --devops --travis --circle --linters --autoconfig --release --kadira --analytics --env");
   console.log( "  generate-release-json" );
   console.log( "  generate-autoconfig" );
   console.log( "  generate-ci <ciProviderName>" );
   console.log( "  generate-linters" );
+  console.log( "  fetch" );
+  console.log( "  compact" );
   // console.log( "  validate --app --packages --all" );
   // console.log( "  verify --app --packages --all" );
-  console.log( "  compact" );
 };
