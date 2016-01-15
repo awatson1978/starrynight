@@ -367,6 +367,12 @@ npm.load( function ( error, npm ) {
     break;
 
     //==============================================================================================
+  case "autoconfig":
+    checkIfInAppRoot();
+    generateAutoConfig( npmPrefix, options );
+    break;
+
+    //==============================================================================================
   case "generate-linters":
     checkIfInAppRoot();
     generateLinters( npmPrefix, options );
