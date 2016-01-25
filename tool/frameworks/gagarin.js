@@ -3,6 +3,7 @@ var childProcess = require( "child_process" );
 var chromedriver = require( "chromedriver" );
 var _ = require( "underscore" );
 var fs = require( "fs-extra" );
+var path = require( "path" );
 
 module.exports = function(npmPrefix, options){
   var testCommand = "gagarin";
@@ -29,7 +30,7 @@ module.exports = function(npmPrefix, options){
     if (options.debug) {
       console.log('process.env.pwd + options.path', process.env.PWD + options.path);
     }
-    gagarinArguments.push( process.env.PWD + options.path );
+    gagarinArguments.push( path.join( process.env.PWD, options.path ) );
   }
 
   if (options && options.runfrom) {
