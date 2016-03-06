@@ -67,27 +67,28 @@ module.exports = function ( npmPrefix, options, port, autoclose, callback ) {
 
           if ( options.debug ) {
             console.log( "configFileLocation", configFileLocation );
+            console.log( "options", options );
           }
 
 
           var nightwatchArguments = [];
 
-          if ( options && options.tags ) {
+          if ( options && options.tag ) {
             nightwatchArguments.push( "--tag" );
-            nightwatchArguments.push( options.tags );
+            nightwatchArguments.push( options.tag );
           }
           if ( options && options.skiptags ) {
             nightwatchArguments.push( "--skiptags" );
             nightwatchArguments.push( options.skiptags );
           }
 
-          if ( options && options.tinytests ) {
-            nightwatchArguments.push( "--tag" );
-            nightwatchArguments.push( "tinytests" );
-          } else {
-            nightwatchArguments.push( "--skiptags" );
-            nightwatchArguments.push( "tinytests" );
-          }
+          // if ( options && options.tinytests ) {
+          //   nightwatchArguments.push( "--tag" );
+          //   nightwatchArguments.push( "tinytests" );
+          // } else {
+          //   nightwatchArguments.push( "--skiptags" );
+          //   nightwatchArguments.push( "tinytests" );
+          // }
 
           if ( options && options.test ) {
             nightwatchArguments.push( "--test" );
