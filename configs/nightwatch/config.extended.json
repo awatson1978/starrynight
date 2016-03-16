@@ -117,7 +117,14 @@
         "phantomjs.binary.path" : "${npm_config_prefix}/lib/node_modules/starrynight/node_modules/phantomjs/bin/phantomjs"
       }
     },
-
+    
+    "firefox" : {
+      "desiredCapabilities" : {
+        "browserName" : "firefox",
+        "javascriptEnabled" : true,
+        "acceptSslCerts" : true
+      }
+    },
 
     "unittests":{
       "selenium" : {

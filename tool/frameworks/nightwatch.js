@@ -46,7 +46,7 @@ module.exports = function ( npmPrefix, options, port, autoclose, callback ) {
       fs.readJson( ".meteor/nightwatch.json", function ( err, autoConfigObject ) {
         if ( err ) {
           console.log( "[error] .meteor/nightwatch.json not available" );
-          console.log( "[error] Try running 'starrynight generate-autoconfig'" );
+          console.log( "[error] Try running 'starrynight generate --autoconfig'" );
 
           configFileLocation = npmPrefix +
             "/lib/node_modules/starrynight/configs/nightwatch/config.json";
@@ -67,27 +67,28 @@ module.exports = function ( npmPrefix, options, port, autoclose, callback ) {
 
           if ( options.debug ) {
             console.log( "configFileLocation", configFileLocation );
+            console.log( "options", options );
           }
 
 
           var nightwatchArguments = [];
 
-          if ( options && options.tags ) {
+          if ( options && options.tag ) {
             nightwatchArguments.push( "--tag" );
-            nightwatchArguments.push( options.tags );
+            nightwatchArguments.push( options.tag );
           }
           if ( options && options.skiptags ) {
             nightwatchArguments.push( "--skiptags" );
             nightwatchArguments.push( options.skiptags );
           }
 
-          if ( options && options.tinytests ) {
-            nightwatchArguments.push( "--tag" );
-            nightwatchArguments.push( "tinytests" );
-          } else {
-            nightwatchArguments.push( "--skiptags" );
-            nightwatchArguments.push( "tinytests" );
-          }
+          // if ( options && options.tinytests ) {
+          //   nightwatchArguments.push( "--tag" );
+          //   nightwatchArguments.push( "tinytests" );
+          // } else {
+          //   nightwatchArguments.push( "--skiptags" );
+          //   nightwatchArguments.push( "tinytests" );
+          // }
 
           if ( options && options.test ) {
             nightwatchArguments.push( "--test" );

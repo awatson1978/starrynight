@@ -115,19 +115,17 @@
         </ul>
       </p>
       <p>
-        <b>generate-travis (Deprecated. Use : generate-ci)</b><br>
-        <strike>Add a .travis.yml file to your application to get started with continuous integration.  Command assumes that you're using the <a href="/scaffolding" target="_blank">Reference Scaffold</a>, and your app is located in a /webapp directory.</strike>
-      </p>
-      <p>
-        <b>generate-autoconfig</b><br>
+        <b>autoconfig</b><br>
         Generates the <b>.meteor/nightwatch.json</b> config file for Nightwatch to use.  Parses the application and searches for .test directories, which allows you to keep tests with their associated components.
       </p>
       <p>
         <b>compact</b><br>
         Recursively searches for <b>.meteor/local/build</b> and <b>screenshot</b> directories which it will then delete to save space on your diskdrive.  Can be run across repositories.  Use the <b>--scan</b> flag to nondestructively scan.
       </p>
-
-
+      <p>
+        <b>fetch</b><br>
+        Fetches packages directly from GitHub, bypassing the Atmosphere package server.  Alias for the <a href="https://www.npmjs.com/package/mgp">mgp</a> utility.  You will need to specify a <b>git-packages.json</b> file.
+      </p>
       <!-- <hr>
       <p>
         <b>clean</b><br>
@@ -143,7 +141,18 @@
       </p>
       -->
     </div>
-
+    <h2>Deprecated Commands</h2>
+    <hr>
+    <div class="horizontally-padded">
+      <p class="gray">
+        <b>generate-travis (Deprecated. Use : generate-ci)</b><br>
+        Add a .travis.yml file to your application to get started with continuous integration.  Command assumes that you're using the <a href="/scaffolding" target="_blank">Reference Scaffold</a>, and your app is located in a /webapp directory.
+      </p>
+      <p class="gray">
+        <b>generate-autoconfig</b><br>
+        Generates the <b>.meteor/nightwatch.json</b> config file for Nightwatch to use.  Parses the application and searches for .test directories, which allows you to keep tests with their associated components.
+      </p>
+    </div>
 
 
     <h2>Generic Flags</h2>

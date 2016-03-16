@@ -1,9 +1,9 @@
 {
   "starrynight": {
-    "version": "3.2.65"
+    "version": "3.7.0"
   },
   "nightwatch": {
-    "version": "0.7.6"
+    "version": "0.8.6"
   },
   "src_folders" : ["./tests/nightwatch/walkthroughs"],
   "output_folder" : "./tests/nightwatch/reports",
@@ -91,7 +91,34 @@
         "nativeEvents": true
       }
     },
-
+    "travischrome" : {
+      "launch_url" : "http://localhost:3000",
+      "selenium_host" : "127.0.0.1",
+      "selenium_port" : 4444,
+      "pathname": "/wd/hub",
+      "silent" : true,
+      "disable_colors": false,
+      "firefox_profile" : false,
+      "screenshots" : {
+        "enabled" : false,
+        "path" : "./tests/nightwatch/screenshots"
+      },
+      "desiredCapabilities" : {
+        "browserName" : "chrome",
+        "javascriptEnabled": true,
+        "databaseEnabled": true,
+        "locationContextEnabled": true,
+        "applicationCacheEnabled": true,
+        "browserConnectionEnabled": true,
+        "webStorageEnabled": true,
+        "acceptSslCerts": true,
+        "rotatable": true,
+        "nativeEvents": true,
+        "chromeOptions": {
+          "args": ["--no-sandbox"]
+        }
+      }
+    },
     "unittests":{
       "selenium" : {
         "start_process" : false,

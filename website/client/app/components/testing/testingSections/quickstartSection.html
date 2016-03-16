@@ -11,29 +11,43 @@
       # add .meteor/nightwatch.json to our application
       $ starrynight generate-autoconfig
 
-      # add acceptance tests to your application (using the nightwatch framework)
+      # add acceptance tests to your application (using the Nightwatch framework)
       $ starrynight scaffold --framework nightwatch
 
       # run your validation tests using NightWatch
       $ starrynight run-tests --framework nightwatch
+
+      # run your application verification tests using Gagarin
+      $ starrynight run-tests --framework gagarin --webdriver http://localhost:9515
+
+      # run your package verification tests using Gagarin
+      $ starrynight run-tests --framework gagarin --webdriver http://localhost:9515 --path /packages/*/tests/gagarin/**/*.js
     {{/prism}}
 
 
     <h2 id="supportedFrameworks">Supported Frameworks</h2>
     <hr>
     <p>
-      StarryNight is a general-purpose node utility that can support any number of testing frameworks.  If you can run it from node, we can accept a pull-request and add it into StarryNight.  That being said, the primary interest is in having an integrated, isomorphic API, and we've been concentrating heavily on merging Nightwatch with SpaceJam/mUnint (to the point that they're not even listed anymore, because they've been fully integrated).
+      StarryNight is a general-purpose node utility that can support any number of testing frameworks.  If you can run it from node, we can accept a pull-request and add it into StarryNight.  That being said, the primary interest is in having an integrated, isomorphic API, which nowdays means support Chai and Mocha syntax to some extent.
     </p>
     <div class="left-padded">
       <!-- <p>
         Supports package testing via TinyTest framework; and acceptance testing and unit testing via the Nightwatch testing framework.  Here's the quick-and-simple way of getting started.
       </p> -->
       <p>
-        <b>nightwatch</b><br>
-        Node based library for managing Selenium servers.  Supports acceptance testing, unit testing, screenshots, tagging, and many more advanced features.
+        <b><a href="https://github.com/awatson1978/starrynight/blob/master/tool/frameworks/nightwatch.js">nightwatch</a></b><br>
+        Acceptance testing framework for UI testing.  Supports method chaining, custom commands and assertions, workflow pipelining, screenshots, tagging, and many more advanced features.
       </p>
       <p>
-        <b>tinytest-ci</b><br>
+        <b><a href="https://github.com/awatson1978/starrynight/blob/master/tool/frameworks/gagarin.js">gagarin</a></b><br>
+        Integration testing framework.  Launches instances of Meteor and coordinates tests running in client and server contexts.
+      </p>
+      <p>
+        <b><a href="https://github.com/awatson1978/starrynight/blob/master/tool/frameworks/spacejam.js">spacejam</a></b><br>
+        Package testing framework that extends TinyTest with chai assertions and a command line option.  A little inconsistent with launching, so it's remaining in experimental status for the time being.
+      </p>
+      <p>
+        <b><a href="https://github.com/awatson1978/starrynight/blob/master/tool/frameworks/tinytest-on-server-console.js">tinytest-ci</a></b><br>
         Meteor's built in test framework for testing isopacks. Tests on both client and server.  Runs in a web-browser with user interface.
       </p>
       <!-- <p>
@@ -42,25 +56,14 @@
       </p> -->
       <span class="gray">
         <p>
-          <b>multi</b><br>
-          Experimental framework that runs both Nightwatch and TinyTest-CI in a single run.
-        </p>
-        <p>
-          <b>e2e</b><br>
+          <b><a href="https://github.com/awatson1978/starrynight/blob/master/tool/frameworks/end-to-end.js">e2e</a></b><br>
           Experimental framework based on mocha which supports testing OAuth functionality.  <a href="https://github.com/meteor/e2e">Originally written by the MDG</a>, you might want to take a look at the <a href="https://github.com/awatson1978/e2e/tree/community-use">community use fork</a> for experimenting in your own apps.
-        </p>
-        <p>
-          <b>velocity</b><br>
-          Experimental community developed framework with package extensions.  Some architecture and performance problems.  APIs may not be suitable for clinical, corporate or institutional environments.  (Will accept pull-requests on this; but is rather low priority.)
         </p>
       </span>
 
 
       <!-- <span class="gray">
-        <p>
-          <b>spacejam</b><br>
-          Package testing framework that extends TinyTest with chai assertions and a command line option.  A little inconsistent with launching, so it's remaining in experimental status for the time being.
-        </p>
+
         <p>
           <b>mocha</b><br>
           Unit/Integration testing framework for Node.  Framework launches, but cannot find config file and/or test files, so remaining in experimental status.
