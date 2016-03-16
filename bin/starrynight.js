@@ -89,6 +89,8 @@ var rename = require( "../tool/rename.js" );
 var sample = require( "../tool/sample.js" );
 var scaffold = require( "../tool/scaffold.js" );
 var generateReleaseJson = require( "../tool/generate-release-json.js" );
+var generateApplicationJson = require( "../tool/generate-application-json.js" );
+
 var extractTools = require( "../tool/extract-tools.js" );
 var downloadTools = require( "../tool/download-tools.js" );
 
@@ -361,6 +363,11 @@ npm.load( function ( error, npm ) {
     break;
 
     //==============================================================================================
+  case "generate-application-json":
+    generateApplicationJson( npmPrefix, options );
+    break;
+
+    //==============================================================================================
   case "generate-autoconfig":
     checkIfInAppRoot();
     generateAutoConfig( npmPrefix, options );
@@ -436,5 +443,5 @@ npm.load( function ( error, npm ) {
 // HELPER FUNCTIONS
 
 checkIfInAppRoot = function () {
-  console.log( "This command should be run in the root of an application." );
+  //console.log( "This command should be run in the root of an application." );
 };
