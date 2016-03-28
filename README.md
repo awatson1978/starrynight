@@ -7,10 +7,7 @@ Scaffolding and testing tool for creating HIPAA and FDA compliant Meteor apps.
 
 StarryNight is a command line tool for use in scaffolding and testing Meteor applications. It's similar to tools like 'rails generate', 'spacejam', and 'mrt'. It's a direct result of 2 years of working on the Meteor Cookbook.
 
-===============================
-#### Learn More
-
-http://starrynight.meteor.com
+**New Location:  Please note that we've moved to [starrynight.meteorapp.com](starrynight.meteorapp.com)**
 
 ===============================
 #### Installation  
