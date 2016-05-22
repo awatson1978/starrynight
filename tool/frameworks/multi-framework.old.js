@@ -64,7 +64,7 @@ module.exports = function (npmPrefix, options, callback) {
     process.env.URL = "http://localhost:10015/"
 
 
-    var phantomjs = spawn(npmPrefix + '/lib/node_modules/starrynight/node_modules/phantomjs/bin/phantomjs', [npmPrefix + '/lib/node_modules/starrynight/configs/tinytest/phantom_runner.js']);
+    var phantomjs = spawn(npmPrefix + '/lib/node_modules/starrynight/node_modules/phantomjs-prebuilt/bin/phantomjs', [npmPrefix + '/lib/node_modules/starrynight/configs/tinytest/phantom_runner.js']);
 
     phantomjs.stdout.on('data', function startTesting(data){
       var data = data.toString().trim();

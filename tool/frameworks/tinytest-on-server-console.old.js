@@ -53,7 +53,7 @@ module.exports = function(npmPrefix, callback){
 
 
 
-    var phantomjs = spawn(npmPrefix + '/lib/node_modules/starrynight/node_modules/phantomjs/bin/phantomjs', [npmPrefix + '/lib/node_modules/starrynight/configs/tinytest/phantom_runner.js']);
+    var phantomjs = spawn(npmPrefix + '/lib/node_modules/starrynight/node_modules/phantomjs-prebuilt/bin/phantomjs', [npmPrefix + '/lib/node_modules/starrynight/configs/tinytest/phantom_runner.js']);
     //phantomjs.stdout.pipe(process.stdout);
     //phantomjs.stderr.pipe(process.stderr);
 

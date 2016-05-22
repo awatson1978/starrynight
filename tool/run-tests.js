@@ -164,7 +164,7 @@ module.exports = function(npmPrefix, testType, options){
       break;
       //------------------------------------------------------------------------------------------
       case "package-verification":
-        console.log("Launching Pioneer to run acceptance tests.");
+        console.log("Launching Gagarin to run verification tests.");
         options.webdriver = "http://localhost:9515";
         options.path = "/packages/*/tests/gagarin/**/*.js";
         runGagarin(npmPrefix, options);
