@@ -8,6 +8,7 @@
     "tests/nightwatch/commands/actions"
   ],
   "custom_assertions_path" : "./tests/nightwatch/assertions",
+  "page_objects_path": "./tests/nightwatch/pages",
   "globals_path" : "./tests/nightwatch/globals.json",
 
   "selenium" : {

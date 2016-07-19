@@ -48,7 +48,7 @@ module.exports = function ( npmPrefix, testType, options ) {
     //------------------------------------------------------------------------------------------
   case "spacejam":
     console.log( "Launching SpaceJam.  Analyzing meteor environment..." );
-    runSpaceJam();
+    runSpaceJam(npmPrefix, options);
     break;
 
     //------------------------------------------------------------------------------------------

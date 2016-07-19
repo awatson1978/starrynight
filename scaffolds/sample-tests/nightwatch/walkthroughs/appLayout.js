@@ -8,7 +8,6 @@ module.exports = {
       .resizeWindow(1024, 768)
       .verify.elementPresent("body")
 
-
       .end();
   }
 };

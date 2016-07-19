@@ -6,12 +6,12 @@ module.exports = function(npmPrefix, options){
     console.log(stdout);
   });*/
 
-  var testCommand = "mocha";
+  var testCommand = "chimp";
   // var mochaCommand = npmPrefix + '/lib/node_modules/starrynight/node_modules/mocha/bin/mocha';
-  var spaceJamCommand = npmPrefix + '/lib/node_modules/spacejam/bin/spacejam';
+  var spaceJamCommand = npmPrefix + '/lib/node_modules/chimp/bin/chimp';
   var spaceJamExitCode = 0;
 
-  var spacejam = childProcess.spawn(spaceJamCommand, ['--driver-package=practicalmeteor:mocha-console-runner']);
+  var spacejam = childProcess.spawn(spaceJamCommand, ['']);
   spacejam.stdout.on('data', function(data){
     console.log(data.toString().trim());
 

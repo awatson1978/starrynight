@@ -55,26 +55,26 @@ module.exports = function(npmPrefix, testType, options){
       //------------------------------------------------------------------------------------------
       case "jasmine":
         console.log("Launching Jasmine.  Analyzing meteor environment...");
-        runJasmine(npmPrefix);
+        runJasmine(npmPrefix, options);
       break;
 
       //------------------------------------------------------------------------------------------
       case "spacejam":
         console.log("Launching SpaceJam.  Analyzing meteor environment...");
-        runSpaceJam();
+        runSpaceJam(npmPrefix, options);
       break;
 
       //------------------------------------------------------------------------------------------
       case "mocha":
         console.log("Launching Mocha.  Analyzing meteor environment...");
-        runMocha(npmPrefix);
+        runMocha(npmPrefix, options);
       break;
 
 
       //------------------------------------------------------------------------------------------
       case "pioneer":
         console.log("Launching Pioneer.  Analyzing meteor environment...");
-        runPioneer(npmPrefix);
+        runPioneer(npmPrefix, options);
       break;
 
       //------------------------------------------------------------------------------------------
@@ -136,7 +136,7 @@ module.exports = function(npmPrefix, testType, options){
       //------------------------------------------------------------------------------------------
       case "package-unit":
         console.log("Launching SpaceJam to unit/integration test packages with chai.  Check http://localhost:3000");
-        runSpaceJam();
+        runSpaceJam(npmPrefix, options);
       break;
 
       //------------------------------------------------------------------------------------------
