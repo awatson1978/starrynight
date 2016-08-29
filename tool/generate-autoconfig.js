@@ -39,12 +39,12 @@ module.exports = function generateNightWatchConfig (npmPrefix, options) {
           delete autoConfigObject.custom_assertions_path;
 
           fs.writeJson(
-            '.meteor/nightwatch.json',
+            '.meteor/starrynight.json',
             autoConfigObject,
             {spaces: 2},
             function writing (error, result) {
               if (error) { log.error(error); }
-              log.info('Writing .meteor/nightwatch.json');
+              log.info('Writing .meteor/starrynight.json');
               log.debug('writeJson result was : ' + result);
             }
           );
@@ -96,12 +96,12 @@ module.exports = function generateNightWatchConfig (npmPrefix, options) {
 
               // Write Our New Config File
               fs.writeJson(
-                '.meteor/nightwatch.json',
+                '.meteor/starrynight.json',
                 autoConfigObject,
                 {spaces: 2},
                 function writing (error, result) {
                   if (error) { log.error(error); }
-                  log.info('Writing .meteor/nightwatch.json');
+                  log.info('Writing .meteor/starrynight.json');
                   log.debug('writeJson result was : ' + result);
                 }
               );
@@ -117,8 +117,8 @@ module.exports = function generateNightWatchConfig (npmPrefix, options) {
 
         }
 
-        //log.info('Updated .meteor/nightwatch.json.');
-        console.log('Updated .meteor/nightwatch.json.');
+        //log.info('Updated .meteor/starrynight.json.');
+        console.log('Updated .meteor/starrynight.json.');
       }
     );
   }

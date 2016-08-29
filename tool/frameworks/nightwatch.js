@@ -42,18 +42,18 @@ module.exports = function ( npmPrefix, options, port, autoclose, callback ) {
       nightwatchCommand = npmPrefix +
         "/lib/node_modules/starrynight/node_modules/nightwatch/bin/nightwatch";
 
-      // we"d like to use the .meteor/nightwatch.json file if possible
-      fs.readJson( ".meteor/nightwatch.json", function ( err, autoConfigObject ) {
+      // we"d like to use the .meteor/starrynight.json file if possible
+      fs.readJson( ".meteor/starrynight.json", function ( err, autoConfigObject ) {
         if ( err ) {
-          console.log( "[error] .meteor/nightwatch.json not available" );
+          console.log( "[error] .meteor/starrynight.json not available" );
           console.log( "[error] Try running  'starrynight scaffold --framework nightwatch'" );
           console.log( "[error] and then run 'starrynight generate --autoconfig'" );
 
           configFileLocation = npmPrefix +
             "/lib/node_modules/starrynight/configs/nightwatch/config.json";
         } else {
-          console.log( "Found .meteor/nightwatch.json" );
-          configFileLocation = ".meteor/nightwatch.json";
+          console.log( "Found .meteor/starrynight.json" );
+          configFileLocation = ".meteor/starrynight.json";
 
           // now that we know our preferred config file
           // lets look for over-rides config files

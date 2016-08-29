@@ -47,7 +47,7 @@ npm install starrynight -g
 # fetch files for local development (as definined in .git-packages.json)
 $ starrynight fetch
 
-# add .meteor/nightwatch.json to our application
+# add .meteor/starrynight.json to our application
 $ starrynight autoconfig
 
 # run your application validation tests using NightWatch

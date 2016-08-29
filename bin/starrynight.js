@@ -175,6 +175,8 @@ npm.load( function ( error, npm ) {
   case "":
     console.log( "" );
     console.log( "Welcome to the StarryNight." );
+    console.log( "Please note that as of v3.10.0, the .meteor/nightwatch.json config file is deprecated" );
+    console.log( "Please use the .meteor/starrynight.json file instead." );
     console.log( "Use --help for more info." );
     break;
 
@@ -421,12 +423,14 @@ npm.load( function ( error, npm ) {
 
   //==============================================================================================
   case "version":
-    console.log("We should figure out how to access the package.json file...");
+    fs.readJson( npmPrefix + "/lib/node_modules/starrynight/package.json", function ( errer, data ) {
+      console.log(data.version);
+    });
     break;
 
 
-    //==============================================================================================
-    // If we can't figure out what the command-line argument was, then something is incorrect. Exit.
+  //==============================================================================================
+  // If we can't figure out what the command-line argument was, then something is incorrect. Exit.
   default:
     console.log( "Didn't understand that command.  Use --help for information." );
 
