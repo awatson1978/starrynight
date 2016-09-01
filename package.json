@@ -33,7 +33,8 @@
     "gagarin": "0.4.12",
     "mgp": "1.3.0",
     "npm": "3.9.2",
-    "spacejam": "1.6.0"
+    "spacejam": "1.6.0",
+    "path-exists": "3.0.0"
   },
   "engines": {
     "node": ">= 4.1.0"

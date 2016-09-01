@@ -46,8 +46,8 @@ module.exports = function ( npmPrefix, options, port, autoclose, callback ) {
       fs.readJson( ".meteor/starrynight.json", function ( err, autoConfigObject ) {
         if ( err ) {
           console.log( "[error] .meteor/starrynight.json not available" );
-          console.log( "[error] Try running  'starrynight scaffold --framework nightwatch'" );
-          console.log( "[error] and then run 'starrynight generate --autoconfig'" );
+          console.log( "[error] Try running 'starrynight autoconfig'" );
+          // console.log( "[error] Try running  'starrynight scaffold --framework nightwatch'" );
 
           configFileLocation = npmPrefix +
             "/lib/node_modules/starrynight/configs/nightwatch/config.json";

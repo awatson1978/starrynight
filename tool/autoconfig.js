@@ -17,7 +17,7 @@ log.level('warn');
 
 
 // module.exports = function(secondArgument, thirdArgument, fourthArgument){
-module.exports = function generateNightWatchConfig (npmPrefix, options) {
+module.exports = function autoconfigureStarrynight (npmPrefix, options) {
   // use current directory if --root isn't specified
   if (!options.root) {
     options.root = '.';
@@ -26,9 +26,17 @@ module.exports = function generateNightWatchConfig (npmPrefix, options) {
   if (options) {
     if (options.trace) { log.level(options.trace); }
 
+    // Choose a config file.
+    var configFile;
+    if (options.nightwatch) {
+      configFile = npmPrefix + '/lib/node_modules/starrynight/configs/nightwatch/nightwatch.json';
+    } else {
+      configFile = npmPrefix + '/lib/node_modules/starrynight/configs/nightwatch/starrynight.json';
+    }
+
     // Read Our Config File Template
     fs.readJson(
-      npmPrefix + '/lib/node_modules/starrynight/configs/nightwatch/autoconfig.json',
+      configFile,
       function updateNightWatchJson (err, autoConfigObject) {
         if (err) { log.error(err); }
         if (options.mnml || options.minimal) {

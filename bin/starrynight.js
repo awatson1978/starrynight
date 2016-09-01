@@ -107,7 +107,7 @@ var locateFireFox = require( "../tool/locate-firefox.js" );
 
 var findTestDirs = require( "../tool/find-test-dirs.js" );
 
-var generateAutoConfig = require( "../tool/generate-autoconfig.js" );
+var generateAutoConfig = require( "../tool/autoconfig.js" );
 
 var compactFiles = require( "../tool/compact.js" );
 
@@ -116,6 +116,8 @@ var generateLinters = require( "../tool/generate-linters.js" );
 var generateFiles = require( "../tool/generate.js" );
 
 var fetchPackages = require("../tool/fetch.js");
+
+const pathExists = require('path-exists');
 
 //==================================================================================================
 // DEBUGGING
@@ -174,10 +176,31 @@ npm.load( function ( error, npm ) {
     //==============================================================================================
   case "":
     console.log( "" );
-    console.log( "Welcome to the StarryNight." );
-    console.log( "Please note that as of v3.10.0, the .meteor/nightwatch.json config file is deprecated" );
-    console.log( "Please use the .meteor/starrynight.json file instead." );
-    console.log( "Use --help for more info." );
+    console.log( "Welcome to StarryNight." );
+    fs.readJson( npmPrefix + "/lib/node_modules/starrynight/package.json", function ( errer, data ) {
+      console.log("version: " + data.version);
+      console.log( "" );
+
+      pathExists('.meteor').then(exists => {
+        if (exists) {
+          fs.readJson( ".meteor/starrynight.json", function ( errer, data ) {
+            if (data) {
+              console.log('.meteor/starrynight.json found.  Loading....');
+            } else {
+              console.log( "Warning:  As of v3.10.0, the .meteor/nightwatch.json config file is deprecated." );
+              console.log( "Warning:  Please move your .meteor/nightwatch.json to .meteor/starrynight.json" );
+              console.log( "" );
+            }
+          });
+        } else {
+          console.log("Are you sure you're in the right directory?");
+          console.log("Starrynight should typically be run in the root of your Meteor app.");
+          console.log( "" );
+        }
+      });
+
+    });
+
     break;
 
 
@@ -205,7 +228,6 @@ npm.load( function ( error, npm ) {
 
     //==============================================================================================
   case "run-tests":
-    checkIfInAppRoot();
     runTests( npmPrefix, secondArgument, options );
     break;
 
@@ -218,7 +240,6 @@ npm.load( function ( error, npm ) {
 
     //==============================================================================================
   case "run-framework":
-    checkIfInAppRoot();
     runFramework( npmPrefix, secondArgument, options );
     break;
 
@@ -258,7 +279,6 @@ npm.load( function ( error, npm ) {
     // in other words, it's a 'smart clone'
 
   case "pattern":
-    checkIfInAppRoot();
     pattern( options );
     break;
 
@@ -275,7 +295,6 @@ npm.load( function ( error, npm ) {
   case "find-and-replace":
     // find-and-replace --from <originalTerm> --to <newTerm> -root <directoryRoot>
 
-    checkIfInAppRoot();
     auditPermissions();
     findAndReplace( options );
     break;
@@ -287,7 +306,6 @@ npm.load( function ( error, npm ) {
     // starrynight -refactor originalTerm newTerm directoryRoot
     // starrynight -refactor secondArgument thirdArgument fourthArgument
 
-    checkIfInAppRoot();
     auditPermissions();
     findAndReplace( options );
     auditPermissions();
@@ -298,7 +316,6 @@ npm.load( function ( error, npm ) {
 
     //==============================================================================================
   case "audit-permissions":
-    checkIfInAppRoot();
     auditPermissions();
     break;
 
@@ -329,14 +346,12 @@ npm.load( function ( error, npm ) {
 
     //==============================================================================================
   case "extract-ids":
-    checkIfInAppRoot();
     extractIds( secondArgument );
     break;
 
 
     //==============================================================================================
   case "extract-classes":
-    checkIfInAppRoot();
     extractClasses( secondArgument );
     break;
 
@@ -371,19 +386,16 @@ npm.load( function ( error, npm ) {
 
     //==============================================================================================
   case "generate-autoconfig":
-    checkIfInAppRoot();
     generateAutoConfig( npmPrefix, options );
     break;
 
     //==============================================================================================
   case "autoconfig":
-    checkIfInAppRoot();
     generateAutoConfig( npmPrefix, options );
     break;
 
     //==============================================================================================
   case "generate-linters":
-    checkIfInAppRoot();
     generateLinters( npmPrefix, options );
     break;
 
@@ -440,12 +452,3 @@ npm.load( function ( error, npm ) {
 
   }
 } );
-
-
-
-//**************************************************************************************************
-// HELPER FUNCTIONS
-
-checkIfInAppRoot = function () {
-  //console.log( "This command should be run in the root of an application." );
-};
