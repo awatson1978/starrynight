@@ -1,0 +1,799 @@
+<template name="nightwatchTutorial">
+  <div id="nightwatchTutorial" class="padded page">
+    <article id="installationAndUsage">
+        <h2>Installation & Usage</h2>
+        <hr>
+        <p>
+          To get Nightwatch working, you'll need a local copy of selenium which is a command-and-control server which manages automated browser instances. You'll also need a web browser which selenium can control, such as chromedriver or phantomjs.
+        </p>
+        <p>
+          Add the following devDependencies to your package.json:
+        </p>
+        {{#prism language="js"}}
+        {
+          "devDependencies": {
+            "nightwatch": "0.9.8",
+            "selenium-server-standalone-jar": "2.45.0",
+            "chromedriver": "2.19.0",
+            "phantomjs-prebuilt": "2.1.12"
+          }
+        }
+        {{/prism}}
+
+        <p>
+          Then install all the depndencies.
+        </p>
+
+        {{#prism language="bash"}}
+        cd myapp
+        meteor npm install
+        {{/prism}}
+
+        <p>
+          You should then be able to run Nightwatch with the following commands:
+        </p>
+
+        {{#prism language="bash"}}
+          nightwatch -c .meteor/nightwatch.json
+          nightwatch -c .meteor/nightwatch.json --env phantom
+        {{/prism}}
+
+        <p>
+          If you haven't written any tests, or set up your folder structure yet, you may get some errors.
+        </p>
+    </article>
+
+    <article id="configuration">
+        <h2>Configuration</h2>
+        <hr>
+        <p>
+          The main reason that Nightwatch is so powerful, is because of it's excellent configuration file. Unlike most other testing frameworks, Nightwatch is fully configurable and customizable to different environments and technology stacks.  The following configuration file is for Meteor v1.3 and later, and supports two environments... a default environment which launches the chromedriver browser, and a phantom environment which runs the tests in a headless environment.
+        </p>
+
+        <h4>.meteor/nightwatch.json</h4>
+        {{#prism language="js"}}
+          {
+            "nightwatch": {
+              "version": "0.9.8"
+            },
+            "src_folders": [
+              "./tests/nightwatch/walkthroughs"
+            ],
+            "custom_commands_path": [
+              "./tests/nightwatch/commands"
+            ],
+            "custom_assertions_path": [
+              "./tests/nightwatch/assertions"
+            ],
+            "output_folder": "./tests/nightwatch/reports",
+            "page_objects_path": "./tests/nightwatch/pages",
+            "globals_path": "./tests/nightwatch/globals.json",
+            "selenium": {
+              "start_process": true,
+              "server_path": "./node_modules/starrynight/node_modules/selenium-server-standalone-jar/jar/selenium-server-standalone-2.45.0.jar",
+              "log_path": "tests/nightwatch/logs",
+              "host": "127.0.0.1",
+              "port": 4444,
+              "cli_args": {
+                "webdriver.chrome.driver": "./node_modules/starrynight/node_modules/chromedriver/bin/chromedriver"
+              }
+            },
+            "test_settings": {
+              "default": {
+                "launch_url": "http://localhost:5000",
+                "selenium_host": "127.0.0.1",
+                "selenium_port": 4444,
+                "pathname": "/wd/hub",
+                "silent": true,
+                "disable_colors": false,
+                "firefox_profile": false,
+                "ie_driver": "",
+                "screenshots": {
+                  "enabled": false,
+                  "path": "./tests/nightwatch/screenshots"
+                },
+                "desiredCapabilities": {
+                  "browserName": "chrome",
+                  "javascriptEnabled": true,
+                  "acceptSslCerts": true,
+                  "loggingPrefs": {
+                    "browser": "ALL"
+                  }
+                },
+                "exclude": "./tests/nightwatch/unittests/*",
+                "persist_globals": true,
+                "detailed_output": false
+              },
+              "phantom": {
+                "desiredCapabilities": {
+                  "browserName": "phantomjs",
+                  "javascriptEnabled": true,
+                  "databaseEnabled": false,
+                  "locationContextEnabled": false,
+                  "applicationCacheEnabled": false,
+                  "browserConnectionEnabled": false,
+                  "webStorageEnabled": false,
+                  "acceptSslCerts": true,
+                  "rotatable": false,
+                  "nativeEvents": false,
+                  "phantomjs.binary.path": "./node_modules/starrynight/node_modules/phantomjs-prebuilt/bin/phantomjs"
+                }
+              },
+              "unittests": {
+                "selenium": {
+                  "start_process": false,
+                  "start_session": false
+                },
+                "filter": "./tests/nightwatch/unittests/*",
+                "exclude": ""
+              }
+            }
+          }
+        {{/prism}}
+    </article>
+
+    <article id="folderStructure">
+        <h2>Folder Structure</h2>
+        <hr>
+        <p>
+          A basic Nightwatch installation for Meteor will have the following directories and files installed.
+        </p>
+        {{#prism language="bash"}}
+          /myapp
+          /myapp/.meteor/nightwatch.json
+          /client/main.html
+          /client/main.js
+          /client/main.css
+          /tests
+          /tests/nightwatch
+          /tests/nightwatch/assertions
+          /tests/nightwatch/commands
+          /tests/nightwatch/data
+          /tests/nightwatch/logs
+          /tests/nightwatch/pages
+          /tests/nightwatch/reports
+          /tests/nightwatch/screenshots
+          /tests/nightwatch/walkthroughs
+          /tests/nightwatch/walkthroughs/critical_path.js
+          /tests/nightwatch/globals.json
+        {{/prism}}
+    </article>
+
+
+    <article id="launchScripts">
+        <h2>Setting up launch scripts</h2>
+        <hr>
+        <p>
+          In the root of your application should be a package.json file, where you can define scripts and devDependencies.
+        </p>
+        {{#prism language="js"}}
+          {
+            "name": "myapp",
+            "version": "1.0.0",
+            "scripts": {
+              "start": "meteor --settings settings-development.json",
+              "nightwatch": "nightwatch -c .meteor/nightwatch.json",
+              "phantom": "nightwatch -c .meteor/nightwatch.json --env phantom",
+            }
+          }
+        {{/prism}}
+        <p>
+          You will then be able to launch nightwatch with the following commands:
+        </p>
+        {{#prism language="bash"}}
+          meteor npm run-script nightwatch
+          meteor npm run-script phantom
+        {{/prism}}
+        <p>
+          In this example, it would almost be easier to simply run nightwatch -c .meteor/nightwatch.json. However, with more complex commands, with complex environment variables, options, and settings, this becomes a very useful way to specify devops scripts for a team.
+        </p>
+    </article>
+
+
+    <article id="folderStructure">
+        <h2>Data Driven Testing</h2>
+        <hr>
+        <p>
+          Nightwatch accepts a second globals.json configuration file which injects data into the test runner itself, very similar to how Meteor.settings makes data from the command line available throughout the app.
+        </p>
+        <h4>globals.json</h4>
+        {{#prism language="bash"}}
+          {
+            "default" : {
+              "url" : "http://localhost:3000",
+              "user": {
+                "name": "Jane Doe",
+                "username" : "janedoe",
+                "password" : "janedoe123",
+                "email" : "janedoe@test.org",
+                "userId": null
+              }
+            },
+            "circle" : {
+              "url" : "http://localhost:3000",
+              "user": {
+                "name": "Jane Doe",
+                "username" : "janedoe",
+                "password" : "janedoe123",
+                "email" : "janedoe@test.org"
+                "userId": null
+              }
+            },
+            "galaxy" : {
+              "url" : "http://myapp.meteorapp.com",
+              "user": {
+                "name": "Jane Doe",
+                "username" : "janedoe",
+                "password" : "janedoe123",
+                "email" : "janedoe@test.org"
+                "userId": null
+              }
+            }
+          }
+        {{/prism}}
+        <p>
+          You can then write your tests that aren't hardcoded with specific users, passwords, search inputs, etc.
+        </p>
+        {{#prism language="bash"}}
+          module.exports = {
+            "Login App" : function (client) {
+              client
+                .url(client.globals.url)
+                .login(client.globals.user.email, client.globals.user.password)
+                .end();
+            }
+          };
+        {{/prism}}
+    </article>
+
+
+    <article id="appSurfaceArea">
+        <h2>App Surface Area</h2>
+        <hr>
+        <p>
+          At it's most basic level, acceptance testing is essentially black-box testing, which is fundamentally concerned with testing inputs and outputs of a closed system. As such, there are three essential features to acceptance testing: locating a resource, reading data, and writing data. When it comes to browsers and webapps, these three features basically boil down to the following:
+        </p>
+        <ol>
+          <li>Load a webpage or application view</li>
+          <li>Inspect user interface elements (i.e. DOM)</li>
+          <li>Trigger an event / simulate a user interaction</li>
+        </ol>
+        {{#prism language="bash"}}
+          module.exports = {
+            "Hello World" : function (client) {
+              client
+                // the location of our Meteor app
+                .url("http://localhost:3000")
+
+                // the size of the viewport
+                .resizeWindow(1024, 768)
+
+                // test app output
+                .verify.elementPresent('h1')
+                .verify.containsText('h1', "Welcome to Meteor!")
+                .verify.containsText('p', "You've pressed the button 0 times")
+                .verify.elementPresent('button')
+
+                // simulate user input
+                .click('button').pause(500)
+
+                // test app output again, to make sure input worked
+                .verify.containsText('p', "button 1 times")
+
+                // saving a copy of our viewport pixel grid
+                .saveScreenshot('tests/nightwatch/screenshots/homepage.png')
+                .end();
+            }
+          };
+        {{/prism}}
+    </article>
+
+
+
+
+    <article id="customCommands">
+        <h2>Custom Commands</h2>
+        <hr>
+        <p>
+          Nightwatch supports creating custom commands that can simulating keystrokes, mouse clicks, and other inputs. A custom command can be chained with other Nightwatch commands, like so:
+        </p>
+        {{#prism language="bash"}}
+          module.exports = {
+            "Login App" : function (client) {
+              client
+                .url("http://localhost:3000")
+                .login("janedoe@somewhere.com", "janedoe123")
+                .end();
+            }
+          };
+        {{/prism}}
+
+        <p>
+          To enable this, define a command in <code>./tests/nightwatch/commands/login</code> like so:
+        </p>
+        {{#prism language="bash"}}
+          exports.command = function(username, password) {
+
+            this
+              .verify.elementPresent('#login')
+
+                // we clear the input in case there's any data remaining from previous visits
+                .clearValue("#emailInput")
+                .clearValue("#passwordInput")
+
+                // we simulate key presses
+                .setValue("#emailInput", username)
+                .setValue("#passwordInput", password)
+
+              // and we simulate a mouse click
+              .click("#signInToAppButton").pause(1000)
+
+            return this; // allows the command to be chained.
+          };
+        {{/prism}}
+
+        <p>
+          To make this all work, you will need to add id attributes to your login page. At some level, it will need to roughly look something like the following:
+        </p>
+        {{#prism language="bash"}}
+            <div id="login">
+              <input id="emailInput" name="email" type="email" />
+              <input id="passwordInput" name="password" type="password" />
+              <button id="#signInToAppButton">Sign In</button>
+            </div>
+        {{/prism}}
+    </article>
+
+
+
+    <article id="pageObjects">
+        <h2>Components & Page Objects</h2>
+        <hr>
+        <p>
+          Page Objects are similar to Custom Commands; except they are collections of custom commands that are associated with a specific UI component. This works extremely well with modern component based design, such as in React.
+        </p>
+        {{#prism language="bash"}}
+          module.exports = {
+            url: 'http://localhost:3000/login',
+            commands: [{
+            login: function(email, password) {
+              return this
+                .clearValue('input[name="emailAddress"]')
+                .clearValue('input[name="password"]')
+
+                .setValue('input[name="emailAddress"]', email)
+                .setValue('input[name="password"]', password)
+
+                .verify.elementPresent('#loginButton')
+                .click("#loginButton");
+            },
+            clear: function() {
+              return this
+                .waitForElementVisible('@emailInput')
+                .clearValue('@emailInput')
+                .clearValue('@passInput')
+                .waitForElementVisible('@loginButton')
+                .click('@loginButton')
+            },
+            checkElementsRendered: function(){
+              return this
+                .verify.elementPresent("#loginPage")
+                .verify.elementPresent('input[name="emailAddress"]')
+                .verify.elementPresent('input[name="password"]')
+            },
+            pause: function(time, client) {
+              client.pause(time);
+              return this;
+            },
+            saveScreenshot: function(path, client){
+              client.saveScreenshot(path);
+              return this;
+            }
+          }],
+            elements: {
+              emailInput: {
+                selector: 'input[name=email]'
+              },
+              passInput: {
+                selector: 'input[name=password]'
+              },
+              loginButton: {
+                selector: 'button[type=submit]'
+              }
+            }
+          };
+        {{/prism}}
+        <p>
+          The only caveat with using the PageObject pattern in testing components, is that the implementation breaks the method chaining flow that the native Nightwatch verify.elementPresent provides. Instead, you'll need to assign the page object to a variable, and instantiate a new method chain for each page. A reasonable price to pay for a consistent and reliable pattern for testing code reuse.
+        </p>
+        {{#prism language="bash"}}
+          module.exports = {
+            tags: ['accounts', 'passwords', 'users', 'entry'],
+            'User can sign up.': function (client) {
+
+              const signupPage = client.page.signupPage();
+              const indexPage = client.page.indexPage();
+
+              client.page.signupPage()
+                .navigate()
+                .checkElementsRendered()
+                .signup('Alice', 'Doe', 'alice@test.org', 'alicedoe')
+                .pause(1500, client);
+
+              indexPage.expect.element('#indexPage').to.be.present;
+              indexPage.expect.element('#authenticatedUsername').text.to.contain('Alice Doe');
+            },
+          }
+        {{/prism}}
+    </article>
+
+
+
+
+    <article id="formsAndInputs">
+        <h2>Forms and Input Types</h2>
+        <hr>
+        <p>
+          Nightwatch can be fickle with forms.  Particularly with radio buttons, checkboxes, datetime selectors, and file upload inputs.  Generally speaking, anything that a person can do, Nightwatch can do also.... but sometimes it requires very specific syntax.
+        </p>
+        {{#prism language="bash"}}
+          <form id="myform">
+            <input type="file" id="fileUpload">
+            <input type="text" name="first_name">
+            <input type="text" name="last_name">
+
+            <input type="date" name="dob_month">
+            <input type="date" name="dob_day">
+            <input type="date" name="dob_year">
+
+            <input type="radio" name="gender" value="M">
+            <input type="radio" name="gender" value="F">
+            <input type="radio" name="gender" value="O">
+
+            <input type="select" name="hs_graduation_year">
+            <input type="text" name="city">
+            <input type="select" name="state">
+
+            <input type="submit" name="submit" value="Submit">
+        </form>
+        {{/prism}}
+        <p>
+          Your tests will then need to use setValue() and resolve the path to the local file asset.
+        </p>
+        {{#prism language="js"}}
+          module.exports = {
+            "Upload Study" : function (client) {
+              console.log(require('path').resolve(__dirname +  '/../data' ));
+
+              var stringArray = "Chicago";
+
+              client
+                .url(client.globals.url)
+                .verify.elementPresent("form#myform")
+
+                // input[type="file"]
+                .verify.elementPresent("input#fileUpload")
+                .setValue('input#fileUpload', require('path').resolve(__dirname + '/../data/IM-0001-1001.dcm'))
+
+                // input[type="text"]
+                .setValue('input[name="first_name"]', 'First')
+                .setValue('input[name="last_name"]', 'Last')
+
+                // input[type="date"]
+                .click('select[name="dob_month"] option[value="3"]')
+                .click('select[name="dob_day"] option[value="18"]')
+                .click('select[name="dob_year"] option[value="1987"]')
+
+                // input[type="radio"]
+                .click('input[name="gender"][value="M"]')
+
+                // input[type="number"]
+                .click('select[name="hs_graduation_year"] option[value="2002"]')
+
+                // input[type="text"]
+                // sometimes Nightwatch will send text faster than the browser can handle
+                // which will cause skipping of letters.  In such cases, we need to slow
+                // Nightwatch down; which we do by splitting our input into an array
+                // and adding short 50ms pauses between each letter
+                for(var i=0; i &#60; userIdArray.length; i++) {
+                  client.setValue('input[name="city"]', stringArray[i]).pause(50)
+                }
+
+                // input[type="select"]
+                // after an array input above, we need to resume our method chain...
+                client.click('select[name="state"] option[value="CA"]')
+
+                // input[type="number"]
+                .setValue('input[name="zip"]', '01234')
+
+                //input [ type="submit" ]
+                .click('button[type="submit"]')
+                .end();
+            }
+          };
+        {{/prism}}
+    </article>
+
+
+
+    <article id="inspectingMeteorObjects">
+        <h2>Inspecting Meteor Objects on the Client</h2>
+        <hr>
+        <p>
+          Since Nightwatch has access to the browser console, it's possible to inspect client side objects using the .execute() API. In the following example, we're checking the Session object for a particular session variable. First, we begin by creating the file  ./tests/nightwatch/api/meteor/checkSession, where we will keep the following command:
+        </p>
+        {{#prism language="js"}}
+          // syncrhonous version; only works for checking javascript objects on client
+          exports.command = function(sessionVarName, expectedValue) {
+            var client = this;
+            this
+              .execute(function(data){
+                return Session.get(data);
+              }, [sessionVarName], function(result){
+                client.assert.ok(result.value);
+                if(expectedValue){
+                  client.assert.equal(result.value, expectedValue);
+                }
+              })
+              return this;
+          };
+        {{/prism}}
+        <p>
+          We can then chain it like so:
+        </p>
+        {{#prism language="js"}}
+          module.exports = {
+            "Check Client Session" : function (client) {
+              client
+                .url("http://localhost:3000")
+                .checkSession("currentUser", "Jane Doe")
+                .end();
+            }
+          };
+        {{/prism}}
+    </article>
+
+
+    <article id="browserStack">
+        <h2>BrowserStack</h2>
+        <hr>
+        <p>
+          BrowserStack concerns itself with cross-browser testing, using a device cloud. They literally make it their business to buy one of pretty much every consumer laptop, tablet, and phone; and connect each device to their network in such a way that we can run Selenium scripts on each device.
+        </p>
+        {{#prism language="js"}}
+          {
+            "selenium" : {
+              "start_process" : false,
+              "host" : "hub.browserstack.com",
+              "port" : 80,
+            },
+
+            "test_settings" : {
+              "default" : {
+                "launch_url" : "http://hub.browserstack.com",
+                "selenium_port"  : 80,
+                "selenium_host"  : "hub.browserstack.com",
+                "silent": true,
+                "screenshots" : {
+                  "enabled" : false,
+                  "path" : "",
+                },
+                "desiredCapabilities": {
+                  "browserName": "firefox",
+                  "javascriptEnabled": true,
+                  "acceptSslCerts": true,
+                  "browserstack.user": "USERNAME",
+                  "browserstack.key": "KEY"
+                }
+              }
+            }
+          }
+        {{/prism}}
+    </article>
+
+    <article id="travis">
+        <h2>Travis</h2>
+        <hr>
+        <p>
+          Travis is the original Continuous Integration service that became popular in the Meteor community. It's solid and reliable, has long had a open-source hosting tier, and has run hundreds of thousands of Nightwatch tests over the years.
+        </p>
+
+        <h4>.travis.yml</h4>
+        {{#prism language="bash"}}
+          # this travis.yml file is for the leaderboard-nightwatch example, when run standalone
+          language: node_js
+
+          node_js:
+            - "0.10.38"
+
+          services:
+            - mongodb
+
+          sudo: required
+
+          env:
+            global:
+              - TRAVIS=true
+              - CONFIG_PREFIX=`npm config get prefix`
+              - DISPLAY=:99.0
+              - NODE_ENV=`travis`
+            matrix:
+
+          cache:
+            directories:
+              - .meteor/local/build/programs/server/assets/packages
+              - .meteor
+
+          before_install:
+            # set up the node_modules dir, so we know where it is
+            - "mkdir -p node_modules &"
+
+            # install nightwatch, selenium, , so we can launch nightwatch and selenium
+            - "meteor npm install nightwatch selenium-server-standalone-jar chromedriver"
+
+            # fire up xvfb on port :99.0
+            - "sh -e /etc/init.d/xvfb start"
+
+            # set the xvfb screen size to 1280x1024x16
+            - "/sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -ac -screen 0 1280x1024x16"
+
+            # install meteor
+            - "curl https://install.meteor.com | /bin/sh"
+
+            # give meteor a few seconds after installing
+            - "sleep 10"
+
+            # setup Meteor app
+            - "cd webapp"
+            - "meteor &"
+
+            # give Meteor some time to download packages, init data, and to start
+            - "sleep 60"
+
+          # then run nightwatch using the chromedriver
+          script: "nightwatch -c .meteor/nightwatch.json"
+
+        {{/prism}}
+    </article>
+    <article id="saucelabs">
+        <h2>SauceLabs</h2>
+        <hr>
+        <p>
+          SauceLabs is an Automated Testing Platform for the enterprise. It supports both continuous integration, cross browser testing, and a mobile device cloud. Costs are higher than with Travis, Circle, or BrowserStack, hwoever.
+        </p>
+        {{#prism language="js"}}
+          {
+            "selenium" : {
+              "start_process" : false,
+              "host" : "ondemand.saucelabs.com",
+              "port" : 80,
+            },
+            "test_settings" : {
+              "chrome_saucelabs": {
+                "selenium_host": "ondemand.saucelabs.com",
+                "selenium_port": 80,
+                "username": "${SAUCE_USERNAME}",
+                "access_key": "${SAUCE_ACCESS_KEY}",
+                "use_ssl": false,
+                "silent": true,
+                "output": true,
+                "screenshots": {
+                  "enabled": false,
+                  "on_failure": true,
+                  "path": ""
+                },
+                "desiredCapabilities": {
+                  "name": "test-example",
+                  "browserName": "chrome"
+                },
+                "globals": {
+                  "myGlobal": "some_sauce_global"
+                }
+              },
+            }
+          }
+        {{/prism}}
+    </article>
+
+
+    <article id="circle">
+        <h2>Circle</h2>
+        <hr>
+        <p>
+          Circle is the newer Continuous Integration service that's become popular among Meteorites. It's got all of the latest bells and whistles, as far as continuous integration goes. The following script supports many new features, including:
+        </p>
+        <ol>
+          <li>screenshots</li>
+          <li>artifacts</li>
+          <li>git submodules</li>
+          <li>environment detection</li>
+          <li>directory caching</li>
+          <li>parallelism optimization</li>
+          <li>npm scripts</li>
+          <li>continuous deployment</li>
+          <li>webhooks</li>
+        </ol>
+        <h4>.circle.yml</h4>
+        {{#prism language="bash"}}
+          ## Customize the test machine
+          machine:
+
+            # Timezone
+            timezone:
+              America/Los_Angeles # Set the timezone
+
+            # Add some environment variables
+            environment:
+              CIRCLE_ENV: test
+              CXX: g++-4.8
+              DISPLAY: :99.0
+              NPM_PREFIX: /home/ubuntu/nvm/v0.10.33
+              INITIALIZE: true
+              NODE_ENV: circle
+
+
+          ## Customize checkout
+          checkout:
+           post:
+             #- git submodule sync
+             #- git submodule update --init --recursive # use submodules
+
+          general:
+            build_dir: webapp
+            artifacts:
+              - "./tests/nightwatch/screenshots" # relative to the build directory
+
+          ## Customize dependencies
+          dependencies:
+            cache_directories:
+              - "~/.meteor" # relative to the user's home directory
+              - ~/nvm/v0.10.33/lib/node_modules/starrynight
+              - ~/nvm/v0.10.33/bin/starrynight
+
+            pre:
+              # Install Starrynight unless it is cached
+              - if [ ! -e ~/nvm/v0.10.33/bin/starrynight ]; then npm install -g starrynight; else echo "Starrynight seems to be cached"; fi;
+              # Install  Meteor
+              - mkdir -p ${HOME}/.meteor
+              # If Meteor is already cached, do not need to build it again.
+              - if [ ! -e ${HOME}/.meteor/meteor ]; then curl https://install.meteor.com | /bin/sh; else echo "Meteor seems to be cached"; fi;
+              # Link the meteor executable into /usr/bin
+              - sudo ln -s $HOME/.meteor/meteor /usr/bin/meteor
+              # Check if the helloworld directory already exists, if it doesn't, create the helloworld app
+              # The following doesn't work, because it should be checking ${HOME}/active-entry/helloworld
+              # - if [ ! -e ${HOME}/helloworld ]; then meteor create --release METEOR@1.1.0.3 helloworld; else echo "helloworld app seems to be cached"; fi;
+
+            override:
+              #- meteor list
+
+          ## Customize test commands
+          test:
+            pre:
+              - meteor update --release METEOR@1.3.3
+              - meteor npm install --save jquery bootstrap react react-dom react-router react-bootstrap react-komposer
+              - cat .meteor/nightwatch.json
+              - meteor:
+                    background: true
+              - sleep 60
+            override:
+              - meteor npm run-script nightwatch
+
+
+          ## Customize deployment commands
+          #deployment:
+          #  production:
+          #    branch: master
+          #    commands:
+          #      - printf "Meteor username\n Meteor password\n" | meteor deploy myapp.meteor.com
+
+          ## Custom notifications
+          #notify:
+            #webhooks:
+              # A list of hashes representing hooks. Only the url field is supported.
+              #- url: https://someurl.com/hooks/circle
+        {{/prism}}
+    </article>
+
+
+  </div>
+</template>
