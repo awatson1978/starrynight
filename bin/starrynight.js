@@ -185,7 +185,8 @@ npm.load( function ( error, npm ) {
         if (exists) {
           fs.readJson( ".meteor/starrynight.json", function ( errer, data ) {
             if (data) {
-              console.log('.meteor/starrynight.json found.  Loading....');
+              // console.log('.meteor/starrynight.json found.  Loading....');
+              console.log( "No command choosen.  Use --help for a list of available commands." );
             } else {
               console.log( "Warning:  As of v3.10.0, the .meteor/nightwatch.json config file is deprecated." );
               console.log( "Warning:  Please move your .meteor/nightwatch.json to .meteor/starrynight.json" );

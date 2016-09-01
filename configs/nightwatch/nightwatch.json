@@ -50,7 +50,7 @@
       },
       "exclude": "./tests/nightwatch/unittests/*",
       "persist_globals": true,
-      "detailed_output": false
+      "detailed_output": true
     },
     "phantom": {
       "desiredCapabilities": {

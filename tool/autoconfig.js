@@ -28,10 +28,13 @@ module.exports = function autoconfigureStarrynight (npmPrefix, options) {
 
     // Choose a config file.
     var configFile;
+    var destinationPath;
     if (options.nightwatch) {
       configFile = npmPrefix + '/lib/node_modules/starrynight/configs/nightwatch/nightwatch.json';
+      destinationPath = '.meteor/nightwatch.json';
     } else {
       configFile = npmPrefix + '/lib/node_modules/starrynight/configs/nightwatch/starrynight.json';
+      destinationPath = '.meteor/starrynight.json';
     }
 
     // Read Our Config File Template
@@ -43,16 +46,17 @@ module.exports = function autoconfigureStarrynight (npmPrefix, options) {
           log.info('------------------------------------------');
           log.info('Removing "custom path"  elements     .... ');
 
+          // a minimal installation doesn't parse through the filesystem to find commands and assertions
           delete autoConfigObject.custom_commands_path;
           delete autoConfigObject.custom_assertions_path;
 
           fs.writeJson(
-            '.meteor/starrynight.json',
+            destinationPath,
             autoConfigObject,
             {spaces: 2},
             function writing (error, result) {
               if (error) { log.error(error); }
-              log.info('Writing .meteor/starrynight.json');
+              log.info('Writing ' + destinationPath);
               log.debug('writeJson result was : ' + result);
             }
           );
@@ -104,29 +108,21 @@ module.exports = function autoconfigureStarrynight (npmPrefix, options) {
 
               // Write Our New Config File
               fs.writeJson(
-                '.meteor/starrynight.json',
+                destinationPath,
                 autoConfigObject,
                 {spaces: 2},
                 function writing (error, result) {
                   if (error) { log.error(error); }
-                  log.info('Writing .meteor/starrynight.json');
+                  log.info('Writing ' + destinationPath);
                   log.debug('writeJson result was : ' + result);
                 }
               );
             });
-
-
           });
-
-
-
-
-
-
         }
 
-        //log.info('Updated .meteor/starrynight.json.');
-        console.log('Updated .meteor/starrynight.json.');
+        console.log('Updated ' + destinationPath);
+        console.log("");
       }
     );
   }
