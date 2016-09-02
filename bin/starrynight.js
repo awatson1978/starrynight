@@ -117,7 +117,7 @@ var generateFiles = require( "../tool/generate.js" );
 
 var fetchPackages = require("../tool/fetch.js");
 
-const pathExists = require('path-exists');
+const directoryExists = require('directory-exists');
 
 //==================================================================================================
 // DEBUGGING
@@ -181,24 +181,23 @@ npm.load( function ( error, npm ) {
       console.log("version: " + data.version);
       console.log( "" );
 
-      pathExists('.meteor').then(function(exists){
-        if (exists) {
-          fs.readJson( ".meteor/starrynight.json", function ( errer, data ) {
-            if (data) {
-              // console.log('.meteor/starrynight.json found.  Loading....');
-              console.log( "No command choosen.  Use --help for a list of available commands." );
-            } else {
-              console.log( "Warning:  As of v3.10.0, the .meteor/nightwatch.json config file is deprecated." );
-              console.log( "Warning:  Please move your .meteor/nightwatch.json to .meteor/starrynight.json" );
-              console.log( "" );
-            }
-          });
-        } else {
-          console.log("Are you sure you're in the right directory?");
-          console.log("Starrynight should typically be run in the root of your Meteor app.");
-          console.log( "" );
-        }
-      });
+      if (directoryExists.sync('.meteor')) {
+        fs.readJson( ".meteor/starrynight.json", function ( errer, data ) {
+          if (data) {
+            // console.log('.meteor/starrynight.json found.  Loading....');
+            console.log( "No command choosen.  Use --help for a list of available commands." );
+          } else {
+            console.log( "Warning:  As of v3.10.0, the .meteor/nightwatch.json config file is deprecated." );
+            console.log( "Warning:  Please move your .meteor/nightwatch.json to .meteor/starrynight.json" );
+            console.log( "" );
+          }
+        });
+      } else {
+        console.log("Are you sure you're in the right directory?");
+        console.log("Starrynight should typically be run in the root of your Meteor app.");
+        console.log( "" );
+      }
+
     });
 
     break;
