@@ -181,7 +181,7 @@ npm.load( function ( error, npm ) {
       console.log("version: " + data.version);
       console.log( "" );
 
-      pathExists('.meteor').then(exists => {
+      pathExists('.meteor').then(function(exists){
         if (exists) {
           fs.readJson( ".meteor/starrynight.json", function ( errer, data ) {
             if (data) {
@@ -199,7 +199,6 @@ npm.load( function ( error, npm ) {
           console.log( "" );
         }
       });
-
     });
 
     break;
